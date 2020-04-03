@@ -1,0 +1,61 @@
+474: ['inset_dev']
+478: ['inset_dev']
+502: ['inset_dev']
+482: ['inset_dev']
+497: ['inset_dev']
+496: ['inset_dev']
+492: ['inset_dev']
+488: ['inset_dev']
+483: ['inset_dev']
+477: ['inset_test']
+486: ['inset_test']
+494: ['inset_test']
+500: ['inset_test']
+503: ['inset_test']
+501: ['inset_test']
+
+set: inset_dev
+474: ['p231_F', 'p261_F', 'p259_M']
+
+set: inset_dev
+478: ['p264_F', 'p236_F', 'p259_M']
+
+set: inset_dev
+502: ['p239_F']
+
+set: inset_dev
+482: ['p239_F', 'p236_F']
+
+set: inset_dev
+497: ['p239_F']
+
+set: inset_dev
+496: ['p250_F']
+
+set: inset_dev
+492: ['p250_F']
+
+set: inset_dev
+488: ['p250_F', 'p236_F']
+
+set: inset_dev
+483: ['p236_F']
+
+set: inset_test
+477: ['p264_F', 'p239_F', 'p247_M']
+
+set: inset_test
+486: ['p264_F', 'p239_F', 'p250_F']
+
+set: inset_test
+494: ['p250_F']
+
+set: inset_test
+500: ['p236_F']
+
+set: inset_test
+503: ['p236_F']
+
+set: inset_test
+501: ['p236_F']
+

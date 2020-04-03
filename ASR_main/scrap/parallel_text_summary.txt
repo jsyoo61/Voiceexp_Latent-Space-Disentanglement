@@ -1,0 +1,126 @@
+001, Word_count:3, Transcript:Please call Stella.  
+inset_dev: ['p351_F', 'p343_F', 'p308_F', 'p305_F', 'p301_F', 'p295_F', 'p294_F', 'p293_F', 'p288_F', 'p268_F', 'p248_F', 'p239_F', 'p225_F', 'p364_M', 'p360_M', 'p345_M', 'p292_M', 'p286_M', 'p260_M', 'p258_M', 'p252_M']
+inset_test: ['p341_F', 'p340_F', 'p323_F', 'p317_F', 'p314_F', 'p313_F', 'p310_F', 'p307_F', 'p306_F', 'p300_F', 'p269_F', 'p264_F', 'p240_F', 'p233_F', 'p231_F', 'p230_F', 'p228_F', 'p334_M', 'p316_M', 'p304_M', 'p275_M', 'p256_M', 'p255_M', 'p254_M']
+outset_dev: ['p339_F', 'p297_F', 'p311_M', 'p243_M']
+outset_test: ['p251_M']
+
+003, Word_count:20, Transcript:Six spoons of fresh snow peas, five thick slabs of blue cheese, and maybe a snack for her brother Bob.  
+inset_dev: ['p340_F', 'p301_F', 'p294_F', 'p276_F', 'p266_F', 'p244_F', 'p233_F', 'p347_M', 'p287_M', 'p281_M', 'p263_M', 'p256_M', 'p247_M', 'p227_M']
+inset_test: ['p351_F', 'p305_F', 'p299_F', 'p288_F', 'p265_F', 'p262_F', 'p257_F', 'p250_F', 'p248_F', 'p239_F', 'p230_F', 'p229_F', 'p363_M', 'p334_M', 'p316_M', 'p304_M', 'p286_M', 'p285_M', 'p278_M', 'p260_M', 'p259_M', 'p246_M', 'p226_M']
+outset_dev: ['p339_F', 'p311_M']
+outset_test: ['p361_F', 'p251_M']
+
+004, Word_count:15, Transcript:We also need a small plastic snake and a big toy frog for the kids.  
+inset_dev: ['p362_F', 'p343_F', 'p341_F', 'p305_F', 'p301_F', 'p288_F', 'p276_F', 'p269_F', 'p261_F', 'p249_F', 'p236_F', 'p233_F', 'p229_F', 'p225_F', 'p326_M', 'p275_M', 'p274_M', 'p270_M', 'p255_M', 'p226_M']
+inset_test: ['p336_F', 'p329_F', 'p314_F', 'p295_F', 'p265_F', 'p250_F', 'p231_F', 'p376_M', 'p364_M', 'p363_M', 'p345_M', 'p334_M', 'p304_M', 'p302_M', 'p287_M', 'p285_M', 'p284_M', 'p281_M', 'p278_M', 'p263_M', 'p256_M', 'p246_M', 'p245_M', 'p237_M', 'p232_M', 'p227_M']
+outset_dev: ['p297_F', 'p311_M']
+outset_test: ['p361_F', 'p243_M']
+
+005, Word_count:20, Transcript:She can scoop these things into three red bags, and we will go meet her Wednesday at the train station. 
+inset_dev: ['p343_F', 'p336_F', 'p333_F', 'p318_F', 'p310_F', 'p308_F', 'p301_F', 'p299_F', 'p267_F', 'p250_F', 'p244_F', 'p238_F', 'p228_F', 'p334_M', 'p316_M', 'p298_M', 'p287_M', 'p272_M', 'p263_M', 'p260_M', 'p255_M', 'p254_M', 'p241_M']
+inset_test: ['p330_F', 'p323_F', 'p307_F', 'p306_F', 'p305_F', 'p293_F', 'p282_F', 'p276_F', 'p269_F', 'p266_F', 'p248_F', 'p236_F', 'p231_F', 'p374_M', 'p363_M', 'p304_M', 'p302_M', 'p286_M', 'p278_M', 'p259_M', 'p252_M']
+outset_dev: ['p279_M']
+outset_test: ['p361_F', 'p339_F', 'p273_M', 'p251_M', 'p243_M']
+
+006, Word_count:17, Transcript:When the sunlight strikes raindrops in the air, they act as a prism and form a rainbow.
+inset_dev: ['p362_F', 'p351_F', 'p343_F', 'p340_F', 'p318_F', 'p314_F', 'p313_F', 'p300_F', 'p295_F', 'p266_F', 'p265_F', 'p261_F', 'p249_F', 'p238_F', 'p236_F', 'p233_F', 'p231_F', 'p228_F', 'p225_F', 'p376_M', 'p347_M', 'p316_M', 'p284_M', 'p272_M', 'p252_M', 'p246_M', 'p237_M']
+inset_test: ['p341_F', 'p336_F', 'p330_F', 'p323_F', 'p317_F', 'p312_F', 'p306_F', 'p301_F', 'p299_F', 'p294_F', 'p293_F', 'p288_F', 'p269_F', 'p264_F', 'p248_F', 'p244_F', 'p240_F', 'p234_F', 'p230_F', 'p374_M', 'p363_M', 'p360_M', 'p334_M', 'p326_M', 'p304_M', 'p285_M', 'p256_M', 'p247_M', 'p241_M', 'p232_M', 'p227_M', 'p226_M']
+outset_dev: ['p273_M']
+outset_test: ['p311_M', 'p279_M', 'p243_M']
+
+007, Word_count:12, Transcript:The rainbow is a division of white light into many beautiful colors. 
+inset_dev: ['p362_F', 'p351_F', 'p333_F', 'p307_F', 'p305_F', 'p299_F', 'p295_F', 'p288_F', 'p283_F', 'p282_F', 'p269_F', 'p268_F', 'p266_F', 'p262_F', 'p261_F', 'p249_F', 'p248_F', 'p236_F', 'p233_F', 'p230_F', 'p376_M', 'p360_M', 'p334_M', 'p304_M', 'p285_M', 'p284_M', 'p278_M', 'p272_M', 'p260_M', 'p256_M', 'p255_M', 'p247_M', 'p245_M', 'p226_M']
+inset_test: ['p336_F', 'p310_F', 'p308_F', 'p306_F', 'p301_F', 'p277_F', 'p276_F', 'p267_F', 'p250_F', 'p240_F', 'p239_F', 'p238_F', 'p374_M', 'p364_M', 'p363_M', 'p316_M', 'p298_M', 'p275_M', 'p274_M', 'p263_M', 'p259_M', 'p254_M', 'p232_M']
+outset_dev: ['p297_F', 'p251_M']
+outset_test: ['p279_M']
+
+008, Word_count:22, Transcript:These take the shape of a long round arch, with its path high above, and its two ends apparently beyond the horizon. 
+inset_dev: ['p336_F', 'p329_F', 'p323_F', 'p317_F', 'p314_F', 'p308_F', 'p303_F', 'p300_F', 'p288_F', 'p277_F', 'p264_F', 'p261_F', 'p239_F', 'p234_F', 'p230_F', 'p225_F', 'p374_M', 'p347_M', 'p287_M', 'p281_M', 'p278_M', 'p270_M', 'p263_M', 'p259_M', 'p254_M', 'p245_M', 'p226_M']
+inset_test: ['p362_F', 'p351_F', 'p330_F', 'p313_F', 'p312_F', 'p306_F', 'p305_F', 'p301_F', 'p293_F', 'p282_F', 'p265_F', 'p244_F', 'p231_F', 'p228_F', 'p376_M', 'p364_M', 'p304_M', 'p284_M', 'p274_M', 'p271_M', 'p256_M', 'p255_M', 'p237_M']
+outset_dev: ['p279_M', 'p251_M']
+outset_test: ['p311_M']
+
+009, Word_count:14, Transcript:There is , according to legend, a boiling pot of gold at one end. 
+inset_dev: ['p351_F', 'p336_F', 'p333_F', 'p330_F', 'p310_F', 'p308_F', 'p303_F', 'p299_F', 'p295_F', 'p288_F', 'p283_F', 'p282_F', 'p267_F', 'p262_F', 'p250_F', 'p249_F', 'p248_F', 'p244_F', 'p239_F', 'p364_M', 'p334_M', 'p302_M', 'p287_M', 'p275_M', 'p272_M', 'p256_M', 'p245_M', 'p227_M']
+inset_test: ['p341_F', 'p318_F', 'p314_F', 'p306_F', 'p301_F', 'p294_F', 'p276_F', 'p269_F', 'p257_F', 'p253_F', 'p233_F', 'p231_F', 'p225_F', 'p360_M', 'p326_M', 'p316_M', 'p304_M', 'p286_M', 'p284_M', 'p281_M', 'p263_M', 'p247_M', 'p246_M']
+outset_dev: ['p339_F', 'p311_M']
+outset_test: ['p297_F', 'p251_M', 'p243_M']
+
+010, Word_count:8, Transcript:People look, but no one ever finds it. 
+inset_dev: ['p351_F', 'p340_F', 'p335_F', 'p329_F', 'p312_F', 'p310_F', 'p294_F', 'p288_F', 'p265_F', 'p264_F', 'p250_F', 'p240_F', 'p239_F', 'p374_M', 'p304_M', 'p298_M', 'p284_M', 'p275_M', 'p259_M', 'p241_M', 'p237_M', 'p232_M', 'p227_M']
+inset_test: ['p336_F', 'p333_F', 'p330_F', 'p323_F', 'p318_F', 'p307_F', 'p306_F', 'p303_F', 'p300_F', 'p295_F', 'p293_F', 'p283_F', 'p277_F', 'p266_F', 'p261_F', 'p249_F', 'p244_F', 'p231_F', 'p230_F', 'p225_F', 'p360_M', 'p347_M', 'p345_M', 'p326_M', 'p287_M', 'p281_M', 'p271_M', 'p270_M', 'p256_M']
+outset_dev: ['p339_F', 'p251_M', 'p243_M']
+outset_test: ['p297_F', 'p273_M']
+
+011, Word_count:26, Transcript:When a man looks for something beyond his reach, his friends say he is looking for the pot of gold at the end of the rainbow. 
+inset_dev: ['p335_F', 'p329_F', 'p312_F', 'p282_F', 'p276_F', 'p257_F', 'p244_F', 'p240_F', 'p238_F', 'p229_F', 'p360_M', 'p316_M', 'p302_M', 'p287_M', 'p278_M', 'p272_M', 'p271_M', 'p259_M']
+inset_test: ['p323_F', 'p313_F', 'p300_F', 'p283_F', 'p268_F', 'p267_F', 'p266_F', 'p262_F', 'p261_F', 'p253_F', 'p233_F', 'p228_F', 'p364_M', 'p334_M', 'p304_M', 'p286_M', 'p285_M', 'p284_M']
+outset_dev: ['p311_M']
+outset_test: ['p361_F', 'p251_M', 'p243_M']
+
+012, Word_count:11, Transcript:Throughout the centuries people have explained the rainbow in various ways. 
+inset_dev: ['p351_F', 'p310_F', 'p305_F', 'p295_F', 'p293_F', 'p268_F', 'p267_F', 'p265_F', 'p264_F', 'p261_F', 'p249_F', 'p248_F', 'p240_F', 'p238_F', 'p234_F', 'p360_M', 'p347_M', 'p285_M', 'p281_M', 'p275_M', 'p272_M', 'p260_M', 'p255_M', 'p247_M']
+inset_test: ['p341_F', 'p340_F', 'p333_F', 'p323_F', 'p314_F', 'p303_F', 'p301_F', 'p288_F', 'p283_F', 'p277_F', 'p269_F', 'p262_F', 'p239_F', 'p229_F', 'p376_M', 'p374_M', 'p363_M', 'p345_M', 'p326_M', 'p304_M', 'p284_M', 'p278_M', 'p270_M', 'p263_M', 'p256_M', 'p252_M', 'p245_M', 'p241_M', 'p227_M', 'p226_M']
+outset_dev: ['p311_M']
+outset_test: ['p273_M', 'p251_M']
+
+013, Word_count:10, Transcript:Some have accepted it as a miracle without physical explanation. 
+inset_dev: ['p341_F', 'p333_F', 'p306_F', 'p305_F', 'p303_F', 'p293_F', 'p288_F', 'p277_F', 'p268_F', 'p266_F', 'p261_F', 'p239_F', 'p238_F', 'p231_F', 'p363_M', 'p281_M', 'p263_M', 'p260_M', 'p259_M', 'p258_M', 'p226_M']
+inset_test: ['p362_F', 'p351_F', 'p343_F', 'p336_F', 'p312_F', 'p307_F', 'p301_F', 'p299_F', 'p295_F', 'p283_F', 'p282_F', 'p276_F', 'p267_F', 'p265_F', 'p262_F', 'p253_F', 'p250_F', 'p248_F', 'p234_F', 'p374_M', 'p360_M', 'p326_M', 'p298_M', 'p286_M', 'p274_M', 'p252_M', 'p246_M', 'p237_M', 'p227_M']
+outset_dev: ['p361_F', 'p311_M', 'p251_M']
+outset_test: ['p279_M', 'p273_M']
+
+014, Word_count:15, Transcript:To the Hebrews it was a token that there would be no more universal floods.
+inset_dev: ['p362_F', 'p333_F', 'p329_F', 'p313_F', 'p308_F', 'p299_F', 'p295_F', 'p294_F', 'p277_F', 'p268_F', 'p266_F', 'p249_F', 'p234_F', 'p231_F', 'p376_M', 'p374_M', 'p363_M', 'p286_M', 'p285_M', 'p274_M', 'p254_M', 'p247_M']
+inset_test: ['p351_F', 'p318_F', 'p314_F', 'p310_F', 'p303_F', 'p283_F', 'p282_F', 'p269_F', 'p264_F', 'p262_F', 'p257_F', 'p248_F', 'p244_F', 'p240_F', 'p239_F', 'p233_F', 'p230_F', 'p364_M', 'p360_M', 'p347_M', 'p334_M', 'p298_M', 'p281_M', 'p272_M', 'p263_M', 'p258_M', 'p252_M', 'p232_M', 'p226_M']
+outset_dev: ['p339_F', 'p297_F', 'p311_M', 'p251_M']
+outset_test: ['p279_M', 'p273_M']
+
+015, Word_count:19, Transcript:The Greeks used to imagine that it was a sign from the gods to foretell war on heavy rain.
+inset_dev: ['p341_F', 'p340_F', 'p329_F', 'p323_F', 'p314_F', 'p300_F', 'p295_F', 'p283_F', 'p253_F', 'p250_F', 'p239_F', 'p236_F', 'p231_F', 'p228_F', 'p360_M', 'p347_M', 'p345_M', 'p302_M', 'p285_M', 'p281_M', 'p272_M', 'p270_M', 'p258_M', 'p255_M', 'p252_M', 'p237_M', 'p232_M', 'p227_M', 'p226_M']
+inset_test: ['p343_F', 'p333_F', 'p312_F', 'p307_F', 'p306_F', 'p303_F', 'p299_F', 'p294_F', 'p268_F', 'p267_F', 'p244_F', 'p240_F', 'p238_F', 'p234_F', 'p364_M', 'p334_M', 'p298_M', 'p286_M', 'p271_M', 'p259_M', 'p256_M']
+outset_dev: ['p361_F', 'p279_M', 'p243_M']
+outset_test: ['p339_F', 'p297_F']
+
+017, Word_count:8, Transcript:Others have tried to explain the phenomenon physically. 
+inset_dev: ['p362_F', 'p341_F', 'p340_F', 'p336_F', 'p333_F', 'p330_F', 'p329_F', 'p317_F', 'p313_F', 'p310_F', 'p288_F', 'p283_F', 'p267_F', 'p261_F', 'p248_F', 'p231_F', 'p229_F', 'p364_M', 'p360_M', 'p326_M', 'p316_M', 'p292_M', 'p286_M', 'p274_M', 'p263_M', 'p260_M', 'p259_M', 'p256_M', 'p226_M']
+inset_test: ['p351_F', 'p323_F', 'p305_F', 'p303_F', 'p282_F', 'p262_F', 'p257_F', 'p249_F', 'p244_F', 'p239_F', 'p238_F', 'p233_F', 'p347_M', 'p345_M', 'p287_M', 'p278_M', 'p270_M', 'p254_M', 'p246_M', 'p227_M']
+outset_dev: ['p361_F', 'p251_M']
+outset_test: ['p339_F', 'p279_M']
+
+018, Word_count:16, Transcript:Aristotle thought that the rainbow was caused by reflection of the sun's rays by the rain. 
+inset_dev: ['p336_F', 'p333_F', 'p314_F', 'p310_F', 'p307_F', 'p305_F', 'p288_F', 'p282_F', 'p264_F', 'p262_F', 'p261_F', 'p257_F', 'p250_F', 'p249_F', 'p239_F', 'p234_F', 'p233_F', 'p230_F', 'p225_F', 'p363_M', 'p287_M', 'p281_M', 'p275_M', 'p263_M', 'p256_M', 'p241_M']
+inset_test: ['p351_F', 'p318_F', 'p317_F', 'p308_F', 'p306_F', 'p295_F', 'p294_F', 'p267_F', 'p240_F', 'p238_F', 'p236_F', 'p376_M', 'p302_M', 'p284_M', 'p259_M', 'p254_M', 'p247_M', 'p245_M']
+outset_dev: ['p361_F']
+outset_test: ['p339_F', 'p297_F', 'p279_M', 'p243_M']
+
+019, Word_count:19, Transcript:Since then physicists have found that it is not reflection, but refraction by the raindrops which causes the rainbows.
+inset_dev: ['p343_F', 'p341_F', 'p333_F', 'p314_F', 'p308_F', 'p277_F', 'p267_F', 'p266_F', 'p239_F', 'p364_M', 'p334_M', 'p316_M', 'p298_M', 'p287_M', 'p281_M', 'p246_M', 'p237_M', 'p226_M']
+inset_test: ['p351_F', 'p335_F', 'p312_F', 'p310_F', 'p307_F', 'p300_F', 'p283_F', 'p276_F', 'p264_F', 'p257_F', 'p238_F', 'p233_F', 'p228_F', 'p376_M', 'p345_M', 'p326_M', 'p285_M', 'p284_M', 'p274_M', 'p272_M', 'p259_M', 'p258_M', 'p255_M', 'p247_M']
+outset_dev: ['p251_M']
+outset_test: ['p361_F']
+
+020, Word_count:9, Transcript:Many complicated ideas about the rainbow have been formed. 
+inset_dev: ['p362_F', 'p343_F', 'p329_F', 'p314_F', 'p306_F', 'p288_F', 'p277_F', 'p266_F', 'p250_F', 'p240_F', 'p234_F', 'p229_F', 'p225_F', 'p316_M', 'p298_M', 'p292_M', 'p284_M', 'p274_M', 'p245_M']
+inset_test: ['p351_F', 'p341_F', 'p336_F', 'p323_F', 'p310_F', 'p308_F', 'p269_F', 'p268_F', 'p264_F', 'p262_F', 'p249_F', 'p238_F', 'p233_F', 'p231_F', 'p374_M', 'p363_M', 'p360_M', 'p347_M', 'p304_M', 'p302_M', 'p286_M', 'p281_M', 'p275_M', 'p272_M', 'p255_M', 'p252_M', 'p247_M', 'p246_M', 'p232_M', 'p227_M']
+outset_dev: ['p339_F', 'p311_M']
+outset_test: ['p279_M', 'p251_M', 'p243_M']
+
+021, Word_count:28, Transcript:The difference in the rainbow depends considerably upon the size of the drops, and the width of the colored band increases as the size of the drop increases. 
+inset_dev: ['p343_F', 'p323_F', 'p317_F', 'p312_F', 'p300_F', 'p277_F', 'p269_F', 'p250_F', 'p240_F', 'p230_F', 'p364_M', 'p347_M', 'p298_M', 'p274_M', 'p270_M', 'p255_M', 'p245_M', 'p227_M', 'p226_M']
+inset_test: ['p362_F', 'p340_F', 'p329_F', 'p308_F', 'p306_F', 'p293_F', 'p283_F', 'p276_F', 'p262_F', 'p261_F', 'p253_F', 'p248_F', 'p236_F', 'p234_F', 'p231_F', 'p374_M', 'p326_M', 'p316_M', 'p285_M', 'p271_M', 'p260_M', 'p259_M', 'p256_M', 'p247_M', 'p241_M']
+outset_dev: ['p361_F', 'p297_F']
+outset_test: ['p339_F']
+
+023, Word_count:36, Transcript:If the red of the second bow falls upon the green of the first, the result is to give a bow with an abnormally wide yellow band, since red and green light when mixed form yellow.
+inset_dev: ['p333_F', 'p329_F', 'p318_F', 'p317_F', 'p314_F', 'p313_F', 'p312_F', 'p306_F', 'p262_F', 'p250_F', 'p249_F', 'p234_F', 'p376_M', 'p374_M', 'p364_M', 'p360_M', 'p285_M', 'p284_M', 'p281_M', 'p274_M', 'p272_M', 'p270_M', 'p259_M', 'p258_M', 'p255_M', 'p254_M']
+inset_test: ['p362_F', 'p330_F', 'p323_F', 'p310_F', 'p276_F', 'p269_F', 'p266_F', 'p265_F', 'p253_F', 'p248_F', 'p240_F', 'p239_F', 'p238_F', 'p230_F', 'p347_M', 'p304_M', 'p302_M', 'p292_M', 'p278_M', 'p271_M', 'p247_M', 'p227_M']
+outset_dev: ['p361_F', 'p279_M']
+outset_test: ['p297_F', 'p251_M']
+
+024, Word_count:21, Transcript:This is a very common type of bow, one showing mainly red and yellow, with little or no green or blue.
+inset_dev: ['p340_F', 'p333_F', 'p310_F', 'p308_F', 'p303_F', 'p300_F', 'p282_F', 'p267_F', 'p257_F', 'p240_F', 'p236_F', 'p230_F', 'p376_M', 'p374_M', 'p363_M', 'p304_M', 'p292_M', 'p287_M', 'p278_M', 'p275_M', 'p259_M', 'p256_M', 'p254_M', 'p247_M', 'p237_M', 'p227_M']
+inset_test: ['p351_F', 'p318_F', 'p314_F', 'p305_F', 'p294_F', 'p283_F', 'p277_F', 'p266_F', 'p265_F', 'p250_F', 'p244_F', 'p239_F', 'p334_M', 'p326_M', 'p302_M', 'p286_M', 'p285_M', 'p284_M', 'p274_M', 'p263_M', 'p245_M', 'p226_M']
+outset_dev: ['p339_F', 'p297_F', 'p273_M']
+outset_test: ['p251_M']
+

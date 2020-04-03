@@ -1,0 +1,27 @@
+1. preprocess에서 전처리를 함. 각 폴더안에 각 화자의 음성 파일이 담긴 폴더를 생성해야 함. evaluation, training 모두 진행
+
+evaluation에서는 training에서 진행한 각 화자의 f0 값 등을 뽑아오기 위해 evaluation폴더에 vcc2018_training/processed폴더를 복사
+
+ex) [training] python3 preprocess.py
+    [evaluation] python3 preprocess_eval.py
+
+2. 앞서 전처리한 데이터를 ASR_main 폴더에 복사함(processed, processed_eval)
+
+3. main.py 를 실행하면 학습이 진행됨
+
+4. 학습이 끝난 후 음성 변환 및 GV, MCD, MSD 값을 자동으로 뽑고 싶을 경우 auto_train.sh를 실행하면 모든 과정이 한번에 실행됨
+
+5. auto_train.sh가 끝나면 GV, MCD, MSD 값들이 저장되며, sort_GV_M_F.py,sort_MCD_M_F.py,sort_MSD_M_F.py를 통해 각각의 성별 변환에 따라 전체 평균 및 전체 표준편차를 구해줌
+
+
+##########
+
+[각 파일 설명]
+processed_ppgs_train: ppg를 뽑은 데이터에 대한 training set
+processed_ppgs_test: ppg를 뽑은 데이터에 대한 test set
+main.py: 코드를 실행하기 위한 main 코드
+solver_multi_decoder.py: 학습을 위한 코드
+model.py: 각각의 모델(encoder, decoder 등)에 대한 코드
+speech_tools: 전처리 및 mini_batch를 가져오기 위한 코드
+calculate_*_vawgan.py: 객관적 평가 실험을 위한 GV,MCD,MSD 코드
+convert_stored.py: 미리 전처리한 파일 및 학습된 모델을 가지고 음성 변환하기 위한 코드
