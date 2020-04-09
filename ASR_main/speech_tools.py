@@ -413,7 +413,7 @@ def sample_train_data(dataset_A, dataset_B,ppgset_A,ppgset_B, n_frames=128):
 
         data_B = dataset_B[idx_B]
         data_ppg_B = ppgset_B[idx_B]
-        frames_B_total = data_ppg_B.shape[1]
+        frames_B_total = data_B.shape[1]
         frames_B_ppg_total = data_ppg_B.shape[0]
         #print(min([frames_B_total,frames_B_ppg_total]))
         assert min([frames_B_total,frames_B_ppg_total]) >= n_frames

@@ -336,14 +336,12 @@ class ACLayer(nn.Module):
         h4_gated = self.conv4_gated_bn(self.conv4_gated(h3))
         h4 = h4_ * self.conv4_sigmoid(h4_gated)
 
-
         h5 = self.conv_classify(h4)
         h5 = self.conv_softmax(h5)
         prod_logit = torch.prod(h5, dim=-1, keepdim=False)
         logits = prod_logit.view(prod_logit.size()[0], self.label_num)
 
         return prod_logit,logits
-
 
 class Discriminator(nn.Module):
     def __init__(self, label_num = 100):

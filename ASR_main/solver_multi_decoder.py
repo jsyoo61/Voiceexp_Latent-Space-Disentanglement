@@ -1,4 +1,4 @@
-p.printimport os
+import os
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -44,7 +44,7 @@ def clf_CrossEnt_loss(self, logits, y_true):
     loss = criterion(logits, y_true)
     return loss
 
-y_true = torch.tensor([0,1,2,3])
+y_true = torch.tensor([1,1,2,3])
 logits = torch.tensor([1,0,0.5,0,0, 0,3, 0.5, 0,0, 0, 1, 2, 1,0, 0, 1, 1, 3,0]).view(4,5)
 logits_cat = torch.softmax(logits, dim=1)
 
@@ -102,7 +102,7 @@ help(np.atleast_1d)
 
 
 class Solver(object):
-    def __init__(self, num_speakers = 100, log_dir='./log/'):
+    def __init__(self, num_speakers = 100, log_dir='./log/', new = True):
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.num_speakers = num_speakers
@@ -113,7 +113,37 @@ class Solver(object):
         # Hyperparameters
         self.n_training_frames = 128
 
+        self.create_env(self, exp_dir, new)
         self.build_model()
+
+    def create_env(self, exp_name = None, new = True):
+        '''
+        Creates all "static directories" required for experiment.
+        And stores them in "self.dirs"(dict)
+
+        Store everything in: exp/exp_name/ == exp_dir
+        including log, model, validation etc
+        '''
+        self.dirs = dict()
+        # 1] Set up Experiment directory
+        exp_dir_0 = 'exp/'
+        if exp_name == None:
+            exp_name = time.strftime('%m%d_%H%M%S')
+        exp_dir = os.path.join(exp_dir_0, exp_name)
+        if new == True:
+            assert not os.path.isdir(exp_dir), 'New experiment, but exp_dir with same name exists'
+            os.makedirs(exp_dir)
+        self.dirs['exp'] = exp_dir
+
+        # 2] Model parameter directory
+        model_dir = os.path.join(exp_dir, 'model/')
+        os.makedirs(model_dir, exist_ok=True)
+        self.dirs['model'] = model_dir
+
+        # 3] Validation
+        self.dirs['validation_wav'] = "../../corpus/inset/inset_dev/"
+        self.dirs['validation_pathlist'] = 'filelist/in_dev.lst'
+        self.dirs['validation_data'] = 'processed_validation/'
 
     def build_model(self):
 
@@ -148,8 +178,6 @@ class Solver(object):
             all_model = {
                 'encoder': self.Encoder.state_dict(),
                 'decoder': self.Decoder.state_dict(),
-
-                'patch_discriminator': self.PatchDiscriminator.state_dict(),
             }
         else:
             all_model['encoder'] = self.Encoder.state_dict()
@@ -197,22 +225,18 @@ class Solver(object):
 
     def grad_reset(self):
         self.ac_optimizer.zero_grad()
-        self.dis_optimizer.zero_grad()
         self.vae_optimizer.zero_grad()
         self.asr_optimizer.zero_grad()
         self.clf_optimizer.zero_grad()
 
     def test_step(self, x, c_src,c_trg,trg_speaker_num, gen=False):
         self.set_eval(trg_speaker_num)
-
         # Encoder
         mu_en,lv_en = self.Encoder(x,c_src)
         z = self.reparameterize(mu_en,lv_en)
         # Decoder
         xt_mu,xt_lv = self.Decoder[trg_speaker_num](mu_en, c_trg)
-        x_tilde = self.reparameterize(xt_mu,xt_lv)
-        if gen:
-            print("add generator")
+        # x_tilde = self.reparameterize(xt_mu,xt_lv)
         return xt_mu.detach().cpu().numpy()
 
     def reparameterize(self, mu, logvar):
@@ -447,7 +471,7 @@ class Solver(object):
         AC_target =  self.CrossEnt_loss(trg_t_label, c_trg)
         return AC_source,AC_target
 
-    def AC_F_step(self, x_src,x_trg,ppg_src,ppg_target,label_src,label_trg,batch_size):
+    def AC_F_step(self, x_src, x_trg, label_src, label_trg, batch_size):
         '''Get Full Auxiliary Classifier loss
         x_src - Auxiliary Classifier - loss
         x_trg - Auxiliary Classifier - loss
@@ -485,12 +509,9 @@ class Solver(object):
         mcd = (10.0 / np.log(10)) * np.sqrt(2)* distance / len(path)
         return mcd, msd
 
-    def train(self, batch_size, train_data_dir = 'processed/', mode='train', exp_name=None, new = True):
+    def train(self, batch_size, lambda, train_data_dir = 'processed/', exp_name=None, new = True):
         # 0. Creating experiment environment
-        '''
-        Store everything in: exp_dir_0/exp_name/ == exp_dir
-        including log, model, validation etc
-        '''
+
         # 1] Set up Experiment directory
         exp_dir_0 = 'exp/'
         if exp_name == None:
@@ -546,22 +567,16 @@ trg_speaker
                         ppg_A_dir = os.path.join(ppg_dir, src_speaker)
                         ppg_B_dir = os.path.join(ppg_dir, trg_speaker)
 
-                        file_list_A, coded_sps_norm_A, coded_sps_mean_A, coded_sps_std_A, log_f0s_mean_A, log_f0s_std_A = load_pickle(train_data_A_dir)
-                        file_list_B, coded_sps_norm_B, coded_sps_mean_B, coded_sps_std_B, log_f0s_mean_B, log_f0s_std_B = load_pickle(train_data_B_dir)
+                        _, coded_sps_norm_A, coded_sps_mean_A, coded_sps_std_A, log_f0s_mean_A, log_f0s_std_A = load_pickle(train_data_A_dir)
+                        _, coded_sps_norm_B, coded_sps_mean_B, coded_sps_std_B, log_f0s_mean_B, log_f0s_std_B = load_pickle(train_data_B_dir)
                         ppg_A = sort_load(ppg_A_dir) # [ppg, ppg, ...], ppg.shape == (n, 144)
                         ppg_B = sort_load(ppg_B_dir)
 p=ppg_A[0]
 p.shape
-help(p.argmax)
-p.argmax(axis = 1).shape
-p.argmax(axis=1)[:]
-coded_sps_norm_A[0].shape
-
-                        # ppg_A = transpose_in_list(ppg_A) # ppg.shape == (144, n)
-                        # ppg_B = transpose_in_list(ppg_B)
+for p, c in zip(ppg_A, coded_sps_norm_A):
+    print(p.shape, c.shape)
 
                         dataset_A, dataset_B, ppgset_A, ppgset_B = sample_train_data(dataset_A=coded_sps_norm_A, dataset_B=coded_sps_norm_B, ppgset_A=ppg_A, ppgset_B=ppg_B, n_frames=self.n_training_frames)
-
                         num_data = dataset_A.shape[0]
 
                         dataset_A = np.expand_dims(dataset_A, axis=1)
@@ -616,8 +631,8 @@ coded_sps_norm_A[0].shape
                                 trg_KLD, trg_same_loss_rec, _= self.vae_step(x_batch_B, x_batch_A, j, j, batch_size)
 
                                 ###AC F step
-                                AC_real_src, AC_cross_src = self.AC_F_step(x_batch_A,x_batch_B,ppg_batch_A,ppg_batch_B,i,j,batch_size)
-                                AC_real_trg, AC_cross_trg = self.AC_F_step(x_batch_B,x_batch_A,ppg_batch_B,ppg_batch_A,j,i,batch_size)
+                                AC_real_src, AC_cross_src = self.AC_F_step(x_batch_A,x_batch_B,i,j,batch_size)
+                                AC_real_trg, AC_cross_trg = self.AC_F_step(x_batch_B,x_batch_A,j,i,batch_size)
 
                                 ###clf asr step
                                 clf_loss_A, asr_loss_A = self.clf_asr_step(x_batch_A,x_batch_B,i,j,batch_size)
@@ -650,35 +665,21 @@ coded_sps_norm_A[0].shape
 
                 # Save model
                 if (ep) % 50 ==0:
-                    model_save_dir = "/VAE_all"+model_name
-                    os.makedirs(model_save_dir, exist_ok=True)
                     p.print("Model Save Epoch {}".format(ep))
-                    self.save_model(model_save_dir, ep)
+                    self.save_model(self.dirs['model_dir'], ep)
 
                 # Validation
                 if (ep) % 50 ==0:
-
                     validation_results = pd.DataFrame(columns = ['mcd', 'msd', 'gv'])
-                    validation_result_output_dir = os.path.join(exp_dir, 'validation_{}'.format(ep))
-                    validation_pathlist = read(validation_pathlist_dir).splitlines()
-                    validation_log_dir = "MCD_result_vae_epoch_"+ str(ep) +".txt"
-validation_log_dir = 'test_log.txt'
+                    validation_result_output_dir = os.path.join(self.dirs['exp_dir'], 'validation_{}.p'.format(ep))
+                    validation_pathlist = read(self.dirs['validation_pathlist']).splitlines()
+                    validation_log_dir = os.path.join(self.dirs['exp_dir'], "validation_{}.txt".format(ep))
                     validation_log = open(validation_log_dir, 'a')
 
-                    validation_log.write('mode: %s\n'%(mode))
                     validation_log.write('epoch_{}\n'.format(ep))
 
                     for validation_path in validation_pathlist:
 validation_path = validation_pathlist[0]
-s = pd.Series([1,2,3], index = validation_results.columns,name = '12')
-s
-pd.Series([1,2,3],columns=validation_results.columns)
-validation_path
-validation_results = validation_results.append(s)
-validation_results.append()
-validation_results.append(pd.DataFrame([[1,2,3]]), ignore_index=True)
-validation_results
-
 
                         # Specify conversion details
                         conversion_path_sex, filename_src, filename_trg = validation_path.split()
@@ -697,9 +698,11 @@ validation_results
                         # Load data
                         coded_sps_norm_A, coded_sps_mean_A, coded_sps_std_A, log_f0s_mean_A, log_f0s_std_A = load_pickle(os.path.join(train_data_A_dir, 'cache{}.p'.format(num_mcep)))
                         coded_sps_norm_B, coded_sps_mean_B, coded_sps_std_B, log_f0s_mean_B, log_f0s_std_B = load_pickle(os.path.join(train_data_B_dir, 'cache{}.p'.format(num_mcep)))
-                        coded_sp, ap, f0 = load_pickle(data_A_dir)
+                        coded_sp, ap, f0 = load_pickle(data_A_dir) # coded_sp.shape: (T, 36)
+                        coded_sp_trg, _, _ = load_pickle(data_B_dir)
 
                         # Prepare input
+                        coded_sp = coded_sp.T
                         coded_sp_norm = (coded_sp - coded_sps_mean_A) / coded_sps_std_A
                         coded_sp_norm = np.expand_dims(coded_sp_norm, axis=0)
                         coded_sp_norm = np.expand_dims(coded_sp_norm, axis=0)
@@ -729,214 +732,11 @@ validation_results
                         coded_sp_converted = coded_sp_converted.T
                         coded_sp_converted = np.ascontiguousarray(coded_sp_converted)
 
-                        # Preprocess target wav
-                        wav_trg, _ = librosa.load(cur_wav_file_loc, sr = sr, mono = True)
-                        _, _, _, _,mfcc_target = world_decompose(wav = wav_trg, fs = sr, frame_period = frame_period)
+                        mcd, msd, gv = self.performance_measure(coded_sp_target, conded_sp_converted, sr=sr, frame_period=frame_period)
 
-                        mcd, msd, gv = self.performance_measure(mfcc_target, conded_sp_converted, sr=sr, frame_period=frame_period)
-
-                        validation_result = pd.Series([mcd, msd, gv], index = validation_results.columns, name = validation_path)
-                        validation_results = validation_results.append(validation_result)
-
-                        validation_log.write(validation_path + str(mcd) + '\n')
-                    save_pickle(validation_result, )
-                    p.print("Epoch {} : Validation Process Complete.".format(ep))
-                    self.set_train()
-
-        if mode == 'ASR_TIMIT_GAN':
-            os.makedirs("./VAEGAN_all"+model_name, exist_ok=True)
-            for ep in range(1, 200 + 1):
-
-                np.random.seed()
-                for i, src_speaker in enumerate(speaker_list):
-                    for j, trg_speaker in enumerate(speaker_list):
-
-                        # Load train data, and PPG
-                        # Source: A, Target: B
-                        train_data_A_dir = os.path.join(train_data_dir, src_speaker, 'cache{}.p'.format(num_mcep))
-                        train_data_B_dir = os.path.join(train_data_dir, trg_speaker, 'cache{}.p'.format(num_mcep))
-                        ppg_A_dir = os.path.join(ppg_dir, src_speaker)
-                        ppg_B_dir = os.path.join(ppg_dir, trg_speaker)
-
-                        file_list_A, coded_sps_norm_A, coded_sps_mean_A, coded_sps_std_A, log_f0s_mean_A, log_f0s_std_A = load_pickle(train_data_A_dir)
-                        file_list_B, coded_sps_norm_B, coded_sps_mean_B, coded_sps_std_B, log_f0s_mean_B, log_f0s_std_B = load_pickle(train_data_B_dir)
-                        ppg_A = sort_load(ppg_A_dir) # [ppg, ppg, ...], ppg.shape == (n, 144)
-                        ppg_B = sort_load(ppg_B_dir)
-                        ppg_A = transpose_in_list(ppg_A) # ppg.shape == (144, n)
-                        ppg_B = transpose_in_list(ppg_B)
-
-                        dataset_A = np.expand_dims(dataset_A, axis=1)
-                        dataset_A = torch.from_numpy(dataset_A).to(self.device, dtype=torch.float)
-                        dataset_B = np.expand_dims(dataset_B, axis=1)
-                        dataset_B = torch.from_numpy(dataset_B).to(self.device, dtype=torch.float)
-                        ppgset_A = np.expand_dims(ppgset_A, axis=1)
-                        ppgset_A = torch.from_numpy(ppgset_A).to(self.device, dtype=torch.float)
-                        ppgset_B = np.expand_dims(ppgset_B, axis=1)
-                        ppgset_B = torch.from_numpy(ppgset_B).to(self.device, dtype=torch.float)
-
-                        for iteration in range(81//batch_size):
-                            start = iteration * batch_size
-                            end = (iteration+1) * batch_size
-
-                            x_batch_A = dataset_A[start:end]
-                            x_batch_B = dataset_B[start:end]
-                            ppg_batch_A = ppgset_A[start:end]
-                            ppg_batch_B = ppgset_B[start:end]
-
-                            if ((iteration+1)%5)!=0:
-                                # Update Speaker Clssifier (CLF) module
-                                self.grad_reset()
-                                clf_loss_A = self.clf_step(x_batch_A, i, batch_size)
-                                clf_loss_B = self.clf_step(x_batch_B, j, batch_size)
-                                CLF_loss = clf_loss_A + clf_loss_B
-                                loss = CLF_loss
-                                loss.backward()
-                                self.clf_optimizer.step()
-
-                                # Update Discriminator module
-                                self.grad_reset()
-                                convert_KLD, convert_rec,src_to_trg_x_tilde = self.vae_step(x_batch_A,x_batch_B,i,j,batch_size)
-                                trg_w_dis = self.patch_step(x_batch_B, src_to_trg_x_tilde,j, is_dis=True)
-                                trg_adv_loss = trg_w_dis
-                                adv_loss =  (trg_adv_loss)
-                                adv_loss.backward()
-                                self.dis_optimizer.step()
-
-                                for p in self.Discriminator.parameters():
-                                        p.data.clamp_(-0.01, 0.01)
-
-                            elif ((iteration+1)%5)==0 and ep>10:
-                                # Update Automatic Speach Recognizer (ASR) module
-                                self.grad_reset()
-                                asr_loss_A = self.asr_step(x_batch_A, i, batch_size)
-                                asr_loss_B = self.asr_step(x_batch_B, j, batch_size)
-                                asr_loss = asr_loss_A + asr_loss_B
-                                loss = asr_loss
-                                loss.backward()
-                                self.asr_optimizer.step()
-
-                                # Update Auxiliary Classifier (AC) module
-                                self.grad_reset()
-                                AC_source,AC_target = self.AC_step(x_batch_A,x_batch_B,i,j,batch_size)
-                                AC_t_loss = AC_source+AC_target
-                                AC_t_loss.backward()
-                                self.ac_optimizer.step()
-
-                                ###VAE step
-                                self.grad_reset()
-                                src_KLD, src_same_loss_rec, _ = self.vae_step(x_batch_A,x_batch_B,i,i,batch_size)
-                                trg_KLD, trg_same_loss_rec, _ = self.vae_step(x_batch_B,x_batch_A,j,j,batch_size)
-
-                                ###AC F step
-                                AC_real_src,AC_cross_src = self.AC_F_step(x_batch_A,x_batch_B,ppg_batch_A,ppg_batch_B,i,j,batch_size)
-                                AC_real_trg,AC_cross_trg = self.AC_F_step(x_batch_B,x_batch_A,ppg_batch_B,ppg_batch_A,j,i,batch_size)
-
-                                ###clf asr step
-                                clf_loss_A,asr_loss_A = self.clf_asr_step(x_batch_A,x_batch_B,i,j,batch_size)
-                                clf_loss_B,asr_loss_B = self.clf_asr_step(x_batch_B,x_batch_A,j,i,batch_size)
-                                CLF_loss = (clf_loss_A + clf_loss_B)/2.0
-                                ASR_loss = (asr_loss_A + asr_loss_B)/2.0
-
-                                ###Cycle step
-                                src_cyc_KLD, src_cyc_loss_rec= self.cycle_step(x_batch_A,x_batch_B,ppg_batch_A,ppg_batch_B,i,j,batch_size)
-                                trg_cyc_KLD, trg_cyc_loss_rec= self.cycle_step(x_batch_B,x_batch_A,ppg_batch_B,ppg_batch_A,j,i,batch_size)
-
-                                ###Semantic step
-                                src_semloss = self.sem_step(x_batch_A,x_batch_B,ppg_batch_A,ppg_batch_B,i,j,batch_size)
-                                trg_semloss = self.sem_step(x_batch_B,x_batch_A,ppg_batch_B,ppg_batch_A,j,i,batch_size)
-
-                                ###Patch step (Discriminator)
-                                convert_KLD, convert_rec,src_to_trg_x_tilde = self.vae_step(x_batch_A,x_batch_B,i,j,batch_size)
-                                trg_loss_adv = self.patch_step(x_batch_B, src_to_trg_x_tilde,j, is_dis=False)
-
-                                AC_f_loss = (AC_real_src+AC_real_trg+AC_cross_src+AC_cross_trg)/4.0
-                                Sem_loss = (src_semloss+trg_semloss)/2.0
-                                Cycle_KLD_loss = (src_cyc_KLD + trg_cyc_KLD)/2.0
-                                Cycle_rec_loss = (src_cyc_loss_rec + trg_cyc_loss_rec)/2.0
-                                KLD_loss = (src_KLD+trg_KLD)
-                                Rec_loss = (src_same_loss_rec+trg_same_loss_rec)
-                                loss = Rec_loss + KLD_loss + Cycle_KLD_loss + Cycle_rec_loss + AC_f_loss + Sem_loss - CLF_loss + trg_loss_adv #+ASR_loss
-                                loss.backward()
-                                self.vae_optimizer.step()
-
-                if ep>10:
-                    p.print("Epoch : {}, Recon Loss : {:.3f},  KLD Loss : {:.3f}, Dis Loss : {:.3f},  GEN Loss : {:.3f}, AC t Loss : {:.3f}, AC f Loss : {:.3f}".format(ep,Rec_loss,KLD_loss,adv_loss,trg_loss_adv,AC_t_loss,AC_cross_trg))
-                else:
-                    p.print("Epoch : {} Dis Loss : {}".format(ep,adv_loss))
-
-                # Save model
-                if (ep) % 50 ==0:
-                    p.print("Model Save Epoch {}".format(ep))
-                    self.save_model("VAEGAN_all"+model_name, ep)
-
-                # Validation
-                if (ep) % 50 ==0:
-validation_log_dir = 'test_log.txt'
-                    wav_source_dir = "../../corpus/inset/inset_dev/"
-                    validation_pathlist_dir = 'filelist/in_dev.lst'
-                    validation_data_dir = 'processed_validation/'
-                    validation_pathlist = read(validation_pathlist_dir).splitlines()
-                    validation_log_dir = "MCD_result_vae_epoch_"+ str(ep) +".txt"
-                    validation_log = open(validation_log_dir, 'a')
-
-                    validation_log.write('mode: %s\n'%(mode))
-                    validation_log.write('epoch_{}\n'.format(ep))
-
-                    for validation_path in validation_pathlist:
-validation_path = validation_pathlist[0]
-
-                        # Specify conversion details
-                        conversion_path_sex, filename_src, filename_trg = validation_path.split()
-                        src_speaker = filename_src.split('_')[0]
-                        trg_speaker = filename_trg.split('_')[0]
-                        label_src = speaker_list.index(src_speaker)
-                        label_trg = speaker_list.index(trg_speaker)
-                        wav_trg_dir = os.path.join(wav_source_dir, trg_speaker, filename_trg+'.wav')
-
-                        # Define datapath
-                        data_A_dir = os.path.join(validation_data_dir, src_speaker, '{}.p'.format(filename_src))
-                        data_B_dir = os.path.join(validation_data_dir, trc_speaker, '{}.p'.format(filename_trg))
-                        train_data_A_dir = os.path.join(train_data_dir, src_speaker, 'cache{}.p'.format(num_mcep))
-                        train_data_B_dir = os.path.join(train_data_dir, trg_speaker, 'cache{}.p'.format(num_mcep))
-
-                        # Load data
-                        coded_sps_norm_A, coded_sps_mean_A, coded_sps_std_A, log_f0s_mean_A, log_f0s_std_A = load_pickle(os.path.join(train_data_A_dir, 'cache{}.p'.format(num_mcep)))
-                        coded_sps_norm_B, coded_sps_mean_B, coded_sps_std_B, log_f0s_mean_B, log_f0s_std_B = load_pickle(os.path.join(train_data_B_dir, 'cache{}.p'.format(num_mcep)))
-                        coded_sp, ap, f0 = load_pickle(data_A_dir)
-
-                        # Prepare input
-                        coded_sp_norm = (coded_sp - coded_sps_mean_A) / coded_sps_std_A
-                        coded_sp_norm = np.expand_dims(coded_sp_norm, axis=0)
-                        coded_sp_norm = np.expand_dims(coded_sp_norm, axis=0)
-                        coded_sp_norm = torch.from_numpy(coded_sp_norm).to(self.device, dtype=torch.float)
-
-                        c_src = self.generate_label(label_src,1)
-                        c_trg = self.generate_label(label_trg,1)
-                        c_src = self.label2onehot(c_src).to(self.device, dtype=torch.float)
-                        c_trg = self.label2onehot(c_trg).to(self.device, dtype=torch.float)
-
-                        # Convert
-                        coded_sp_converted_norm = self.test_step(coded_sp_norm, c_src, c_trg, label_trg)
-
-                        # Post-process output
-                        coded_sp_converted_norm = np.squeeze(coded_sp_converted_norm, axis=0)
-                        coded_sp_converted_norm = np.squeeze(coded_sp_converted_norm, axis=0)
-
-                        # Additional conversions
-                        f0_converted = pitch_conversion(f0=f0, mean_log_src=log_f0s_mean_A, std_log_src=log_f0s_std_A, mean_log_target=log_f0s_mean_B, std_log_target=log_f0s_std_B)
-
-                        # if coded_sp_converted_norm.shape[1] > len(f0):
-                        #     print('shape not coherent?? file:%s'%(filename_src))
-                        #     coded_sp_converted_norm = coded_sp_converted_norm[:, :-1]
-                        coded_sp_converted = coded_sp_converted_norm * coded_sps_std_B + coded_sps_mean_B
-
-                        coded_sp_converted = coded_sp_converted.T
-                        coded_sp_converted = np.ascontiguousarray(coded_sp_converted)
-
-                        wav_trg, _ = librosa.load(cur_wav_file_loc, sr = sr, mono = True)
-                        mcd = self.MCD(wav_trg, conded_sp_converted, sr=sr, frame_period=frame_period)
-
-                        validation_log.write(validation_path + str(mcd) + '\n')
+                        validation_results.loc[validation_path] = mcd, msd, gv
+                        validation_log.write(validation_path + str(mcd) + ' ' + str(msd) + ' ' + str(gv) + '\n')
+                    save_pickle(validation_result, validation_result_output_dir)
                     p.print("Epoch {} : Validation Process Complete.".format(ep))
                     self.set_train()
 
