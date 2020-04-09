@@ -1,9 +1,3 @@
-import torch
-from torch import optim
-from torch.autograd import Variable
-import numpy as np
-import pickle
-
 from solver_multi_decoder import Solver
 import argparse
 
@@ -19,6 +13,6 @@ if __name__ == '__main__':
     print(torch.__version__)
     solver = Solver()
 
-    solver.train(batch_size = 8, exp_dir = args.dataset_path, mode='ASR_TIMIT',model_iter=str(args.model_iter))
+    solver.train(batch_size = 8, exp_dir = args.dataset_path, mode='ASR_TIMIT')
 
-    solver.train(batch_size = 8, exp_dir = args.dataset_path, mode='ASR_TIMIT_GAN',model_iter=str(args.model_iter))
+    # solver.train(batch_size = 8, exp_dir = args.dataset_path, mode='ASR_TIMIT_GAN')

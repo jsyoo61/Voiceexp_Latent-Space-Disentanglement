@@ -8,18 +8,6 @@ import os
 import pysptk
 import time
 
-def load_ppg(data_dir):
-    '''sort and load ppg '''
-    file_list = sorted(os.listdir(data_dir))
-    loaded_ppg = list()
-
-    for file in file_list:
-        data_dir_1 = os.path.join(data_dir, file)
-        ppg = load_pickle(data_dir_1)
-        loaded_ppg.append(ppg)
-
-    return loaded_ppg
-
 def match_frames(coded_sps, ppgs):
 
     matched_coded_sps = list()
@@ -28,7 +16,6 @@ def match_frames(coded_sps, ppgs):
         pass
 
     return matched_coded_sps, matched_ppgs
-
 
 def world_decompose(wav, fs, frame_period = 5.0, num_mcep=36):
 
@@ -414,7 +401,7 @@ def sample_train_data(dataset_A, dataset_B,ppgset_A,ppgset_B, n_frames=128):
         data_A = dataset_A[idx_A]
         data_ppg_A = ppgset_A[idx_A]
         frames_A_total = data_A.shape[1]
-        frames_A_ppg_total = data_ppg_A.shape[1]
+        frames_A_ppg_total = data_ppg_A.shape[0]
         #print(frames_A_total)
         #print(frames_A_ppg_total)
         #print(min([frames_A_total,frames_A_ppg_total]))
@@ -422,18 +409,18 @@ def sample_train_data(dataset_A, dataset_B,ppgset_A,ppgset_B, n_frames=128):
         start_A = np.random.randint(min([frames_A_total,frames_A_ppg_total]) - n_frames + 1)
         end_A = start_A + n_frames
         train_data_A.append(data_A[:, start_A:end_A])
-        train_data_ppg_A.append(data_ppg_A[:, start_A:end_A])
+        train_data_ppg_A.append(data_ppg_A[start_A:end_A])
 
         data_B = dataset_B[idx_B]
         data_ppg_B = ppgset_B[idx_B]
         frames_B_total = data_ppg_B.shape[1]
-        frames_B_ppg_total = data_ppg_B.shape[1]
+        frames_B_ppg_total = data_ppg_B.shape[0]
         #print(min([frames_B_total,frames_B_ppg_total]))
         assert min([frames_B_total,frames_B_ppg_total]) >= n_frames
         start_B = np.random.randint(min([frames_B_total,frames_B_ppg_total]) - n_frames + 1)
         end_B = start_B + n_frames
         train_data_B.append(data_B[:, start_B:end_B])
-        train_data_ppg_B.append(data_ppg_B[:, start_B:end_B])
+        train_data_ppg_B.append(data_ppg_B[start_B:end_B])
         #print(np.shape(data_B))#data_B
     #print(len(train_data_A))
     #print(len(train_data_B))
