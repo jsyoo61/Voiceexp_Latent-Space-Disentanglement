@@ -660,25 +660,16 @@ coded_sps_norm_A[0].shape
 
                     validation_results = pd.DataFrame(columns = ['mcd', 'msd', 'gv'])
                     validation_result_output_dir = os.path.join(exp_dir, 'validation_{}'.format(ep))
-                    validation_pathlist = read(validation_pathlist_dir).splitlines()
                     validation_log_dir = "MCD_result_vae_epoch_"+ str(ep) +".txt"
 validation_log_dir = 'test_log.txt'
                     validation_log = open(validation_log_dir, 'a')
 
                     validation_log.write('mode: %s\n'%(mode))
                     validation_log.write('epoch_{}\n'.format(ep))
+                    validation_pathlist = read(validation_pathlist_dir).splitlines()
 
                     for validation_path in validation_pathlist:
 validation_path = validation_pathlist[0]
-s = pd.Series([1,2,3], index = validation_results.columns,name = '12')
-s
-pd.Series([1,2,3],columns=validation_results.columns)
-validation_path
-validation_results = validation_results.append(s)
-validation_results.append()
-validation_results.append(pd.DataFrame([[1,2,3]]), ignore_index=True)
-validation_results
-
 
                         # Specify conversion details
                         conversion_path_sex, filename_src, filename_trg = validation_path.split()
@@ -738,8 +729,8 @@ validation_results
                         validation_result = pd.Series([mcd, msd, gv], index = validation_results.columns, name = validation_path)
                         validation_results = validation_results.append(validation_result)
 
-                        validation_log.write(validation_path + str(mcd) + '\n')
-                    save_pickle(validation_result, )
+                        validation_log.write(validation_path + str(mcd) + ' ' + str(msd) + ' ' + str(gv) + '\n')
+                    save_pickle(validation_result, validation_result_output_dir)
                     p.print("Epoch {} : Validation Process Complete.".format(ep))
                     self.set_train()
 
