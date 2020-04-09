@@ -677,6 +677,7 @@ for p, c in zip(ppg_A, coded_sps_norm_A):
                     validation_log = open(validation_log_dir, 'a')
 
                     validation_log.write('epoch_{}\n'.format(ep))
+                    validation_pathlist = read(validation_pathlist_dir).splitlines()
 
                     for validation_path in validation_pathlist:
 validation_path = validation_pathlist[0]
