@@ -1,0 +1,1713 @@
+Start Training with the following setting:
+torch version: 1.4.0
+train_data_dir: processed/
+model_dir: exp/0.01/model/
+num_speakers: 4
+training parameters:
+{'n_train_frames': 128, 'iter_per_ep': 4, 'start_epoch': 1, 'n_epoch': 100, 'batch_size': 8}
+lambd: {'SI': 0, 'LI': 0, 'SC': 0, 'CC': 0, 'AC': 0}
+model optimizer configurations:
+VAE: {'lr': 0.01, 'betas': (0.9, 0.999), 'eps': 1e-08, 'weight_decay': 0, 'amsgrad': False}
+SC: {'lr': 0.0002, 'betas': (0.5, 0.999), 'eps': 1e-08, 'weight_decay': 0, 'amsgrad': False}
+ASR: {'lr': 1e-05, 'betas': (0.5, 0.999), 'eps': 1e-08, 'weight_decay': 0, 'amsgrad': False}
+AC: {'lr': 5e-05, 'betas': (0.5, 0.999), 'eps': 1e-08, 'weight_decay': 0, 'amsgrad': False}
+Epoch:1
+Time elapsed this epoch: 0.0m : 3.2218s
+Mean
+      MDVAE
+0  3.384697
+Std
+      MDVAE
+0  0.564116
+Saving Model, epoch: 1
+Time elapsed for testing: 0.0m : 42.909s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  7.007775  6.425846  0.000483
+Std
+        mcd       msd        gv
+0  1.040687  0.311809  0.000972
+Epoch:2
+Time elapsed this epoch: 0.0m : 3.2984s
+Mean
+    MDVAE
+0  4.9603
+Std
+      MDVAE
+0  1.670305
+Saving Model, epoch: 2
+Time elapsed for testing: 0.0m : 42.495s
+Validation Complete.
+Mean
+       mcd       msd        gv
+0  6.98168  6.559558  0.000032
+Std
+        mcd      msd        gv
+0  1.059963  0.27233  0.000042
+Epoch:3
+Time elapsed this epoch: 0.0m : 3.2761s
+Mean
+      MDVAE
+0  3.414333
+Std
+      MDVAE
+0  0.569411
+Saving Model, epoch: 3
+Time elapsed for testing: 0.0m : 42.224s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.984135  6.633249  0.000037
+Std
+        mcd       msd        gv
+0  1.064928  0.277739  0.000085
+Epoch:4
+Time elapsed this epoch: 0.0m : 3.2613s
+Mean
+      MDVAE
+0  2.964574
+Std
+      MDVAE
+0  0.073664
+Saving Model, epoch: 4
+Time elapsed for testing: 0.0m : 43.187s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.989228  6.651988  0.000024
+Std
+        mcd      msd        gv
+0  1.062254  0.27688  0.000041
+Epoch:5
+Time elapsed this epoch: 0.0m : 3.3886s
+Mean
+      MDVAE
+0  3.014246
+Std
+      MDVAE
+0  0.114136
+Saving Model, epoch: 5
+Time elapsed for testing: 0.0m : 43.077s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.985372  6.675274  0.000013
+Std
+        mcd       msd        gv
+0  1.065927  0.273975  0.000011
+Epoch:6
+Time elapsed this epoch: 0.0m : 3.398s
+Mean
+      MDVAE
+0  3.049772
+Std
+     MDVAE
+0  0.12057
+Saving Model, epoch: 6
+Time elapsed for testing: 0.0m : 43.415s
+Validation Complete.
+Mean
+        mcd       msd       gv
+0  6.993652  6.665623  0.00002
+Std
+        mcd       msd        gv
+0  1.061125  0.290072  0.000023
+Epoch:7
+Time elapsed this epoch: 0.0m : 3.3629s
+Mean
+      MDVAE
+0  3.166791
+Std
+      MDVAE
+0  0.275647
+Saving Model, epoch: 7
+Time elapsed for testing: 0.0m : 43.077s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.997226  6.642499  0.000022
+Std
+        mcd       msd        gv
+0  1.051705  0.282714  0.000024
+Epoch:8
+Time elapsed this epoch: 0.0m : 3.3267s
+Mean
+      MDVAE
+0  3.218029
+Std
+     MDVAE
+0  0.22862
+Saving Model, epoch: 8
+Time elapsed for testing: 0.0m : 42.716s
+Validation Complete.
+Mean
+        mcd     msd        gv
+0  6.918021  6.6015  0.000604
+Std
+        mcd       msd        gv
+0  1.058549  0.299807  0.000634
+Epoch:9
+Time elapsed this epoch: 0.0m : 3.3778s
+Mean
+      MDVAE
+0  3.382866
+Std
+      MDVAE
+0  0.475429
+Saving Model, epoch: 9
+Time elapsed for testing: 0.0m : 43.203s
+Validation Complete.
+Mean
+       mcd       msd        gv
+0  6.66439  6.518354  0.026011
+Std
+        mcd       msd        gv
+0  1.005342  0.319396  0.017555
+Epoch:10
+Time elapsed this epoch: 0.0m : 3.3645s
+Mean
+      MDVAE
+0  3.459422
+Std
+     MDVAE
+0  0.40447
+Saving Model, epoch: 10
+Time elapsed for testing: 0.0m : 42.502s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.707483  6.697765  0.022592
+Std
+        mcd       msd        gv
+0  0.974648  0.332341  0.015073
+Epoch:11
+Time elapsed this epoch: 0.0m : 3.3904s
+Mean
+      MDVAE
+0  3.454491
+Std
+      MDVAE
+0  0.540466
+Saving Model, epoch: 11
+Time elapsed for testing: 0.0m : 42.913s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.531006  6.685009  0.058322
+Std
+        mcd       msd        gv
+0  1.036223  0.344348  0.038354
+Epoch:12
+Time elapsed this epoch: 0.0m : 3.3545s
+Mean
+      MDVAE
+0  3.241638
+Std
+      MDVAE
+0  0.377556
+Saving Model, epoch: 12
+Time elapsed for testing: 0.0m : 42.989s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.401657  6.679305  0.048415
+Std
+        mcd       msd        gv
+0  0.962868  0.318036  0.015451
+Epoch:13
+Time elapsed this epoch: 0.0m : 3.5241s
+Mean
+      MDVAE
+0  3.116174
+Std
+      MDVAE
+0  0.221862
+Saving Model, epoch: 13
+Time elapsed for testing: 0.0m : 42.964s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.485014  6.670625  0.037117
+Std
+        mcd       msd        gv
+0  0.942285  0.315218  0.027827
+Epoch:14
+Time elapsed this epoch: 0.0m : 3.4908s
+Mean
+      MDVAE
+0  3.048115
+Std
+      MDVAE
+0  0.153975
+Saving Model, epoch: 14
+Time elapsed for testing: 0.0m : 43.094s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.654182  6.694624  0.030607
+Std
+        mcd       msd        gv
+0  1.015254  0.330452  0.009868
+Epoch:15
+Time elapsed this epoch: 0.0m : 3.3237s
+Mean
+      MDVAE
+0  3.096967
+Std
+      MDVAE
+0  0.187548
+Saving Model, epoch: 15
+Time elapsed for testing: 0.0m : 42.968s
+Validation Complete.
+Mean
+       mcd       msd        gv
+0  6.55087  6.738581  0.025971
+Std
+        mcd       msd        gv
+0  1.187625  0.312981  0.021476
+Epoch:16
+Time elapsed this epoch: 0.0m : 3.4122s
+Mean
+      MDVAE
+0  3.179546
+Std
+      MDVAE
+0  0.259049
+Saving Model, epoch: 16
+Time elapsed for testing: 0.0m : 42.898s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.530634  6.674392  0.048295
+Std
+        mcd       msd       gv
+0  0.924286  0.333157  0.01759
+Epoch:17
+Time elapsed this epoch: 0.0m : 3.4202s
+Mean
+      MDVAE
+0  3.172844
+Std
+      MDVAE
+0  0.244908
+Saving Model, epoch: 17
+Time elapsed for testing: 0.0m : 42.881s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.869064  6.629674  0.026528
+Std
+        mcd       msd        gv
+0  1.015278  0.335666  0.024045
+Epoch:18
+Time elapsed this epoch: 0.0m : 3.3324s
+Mean
+      MDVAE
+0  3.376977
+Std
+      MDVAE
+0  0.413119
+Saving Model, epoch: 18
+Time elapsed for testing: 0.0m : 42.896s
+Validation Complete.
+Mean
+       mcd     msd        gv
+0  6.49189  6.6747  0.054868
+Std
+        mcd       msd       gv
+0  0.981533  0.323247  0.02038
+Epoch:19
+Time elapsed this epoch: 0.0m : 3.3595s
+Mean
+      MDVAE
+0  3.349338
+Std
+      MDVAE
+0  0.387032
+Saving Model, epoch: 19
+Time elapsed for testing: 0.0m : 43.423s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.418311  6.676249  0.043872
+Std
+        mcd       msd        gv
+0  0.945624  0.326854  0.016992
+Epoch:20
+Time elapsed this epoch: 0.0m : 3.4215s
+Mean
+      MDVAE
+0  3.373639
+Std
+     MDVAE
+0  0.37866
+Saving Model, epoch: 20
+Time elapsed for testing: 0.0m : 42.887s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.741897  6.605965  0.035349
+Std
+        mcd       msd        gv
+0  0.995757  0.328634  0.021647
+Epoch:21
+Time elapsed this epoch: 0.0m : 3.4604s
+Mean
+      MDVAE
+0  3.280906
+Std
+     MDVAE
+0  0.33424
+Saving Model, epoch: 21
+Time elapsed for testing: 0.0m : 43.111s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.302302  6.666793  0.047963
+Std
+        mcd       msd        gv
+0  1.027966  0.309267  0.014115
+Epoch:22
+Time elapsed this epoch: 0.0m : 3.3544s
+Mean
+      MDVAE
+0  3.199833
+Std
+      MDVAE
+0  0.293213
+Saving Model, epoch: 22
+Time elapsed for testing: 0.0m : 42.277s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.202332  6.674474  0.079793
+Std
+        mcd       msd       gv
+0  0.947944  0.332883  0.02807
+Epoch:23
+Time elapsed this epoch: 0.0m : 3.3601s
+Mean
+      MDVAE
+0  3.199741
+Std
+      MDVAE
+0  0.258163
+Saving Model, epoch: 23
+Time elapsed for testing: 0.0m : 43.125s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.706382  6.620231  0.030498
+Std
+        mcd       msd        gv
+0  1.208391  0.316823  0.022833
+Epoch:24
+Time elapsed this epoch: 0.0m : 3.3963s
+Mean
+      MDVAE
+0  3.262374
+Std
+      MDVAE
+0  0.320635
+Saving Model, epoch: 24
+Time elapsed for testing: 0.0m : 42.986s
+Validation Complete.
+Mean
+        mcd      msd        gv
+0  6.688178  6.65691  0.037133
+Std
+        mcd       msd        gv
+0  1.067281  0.330032  0.024528
+Epoch:25
+Time elapsed this epoch: 0.0m : 3.3346s
+Mean
+      MDVAE
+0  3.264645
+Std
+      MDVAE
+0  0.368979
+Saving Model, epoch: 25
+Time elapsed for testing: 0.0m : 43.309s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.516944  6.628978  0.055525
+Std
+        mcd       msd        gv
+0  0.864374  0.300336  0.024255
+Epoch:26
+Time elapsed this epoch: 0.0m : 3.3613s
+Mean
+      MDVAE
+0  3.112338
+Std
+     MDVAE
+0  0.21593
+Saving Model, epoch: 26
+Time elapsed for testing: 0.0m : 42.703s
+Validation Complete.
+Mean
+        mcd       msd       gv
+0  6.383727  6.658989  0.05805
+Std
+        mcd       msd        gv
+0  0.874143  0.331181  0.030062
+Epoch:27
+Time elapsed this epoch: 0.0m : 3.4534s
+Mean
+      MDVAE
+0  3.139674
+Std
+      MDVAE
+0  0.231042
+Saving Model, epoch: 27
+Time elapsed for testing: 0.0m : 43.172s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.283684  6.653231  0.065761
+Std
+        mcd      msd        gv
+0  0.922103  0.31245  0.027991
+Epoch:28
+Time elapsed this epoch: 0.0m : 3.5078s
+Mean
+      MDVAE
+0  3.227836
+Std
+      MDVAE
+0  0.301014
+Saving Model, epoch: 28
+Time elapsed for testing: 0.0m : 42.847s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.271551  6.625949  0.054921
+Std
+        mcd       msd        gv
+0  0.958006  0.327011  0.018162
+Epoch:29
+Time elapsed this epoch: 0.0m : 3.3745s
+Mean
+      MDVAE
+0  3.202584
+Std
+      MDVAE
+0  0.296773
+Saving Model, epoch: 29
+Time elapsed for testing: 0.0m : 42.768s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.655153  6.626066  0.040658
+Std
+        mcd       msd        gv
+0  1.038658  0.340321  0.028996
+Epoch:30
+Time elapsed this epoch: 0.0m : 3.4248s
+Mean
+      MDVAE
+0  3.339425
+Std
+      MDVAE
+0  0.537394
+Saving Model, epoch: 30
+Time elapsed for testing: 0.0m : 43.07s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.378476  6.668294  0.051751
+Std
+        mcd       msd       gv
+0  0.997725  0.316459  0.01844
+Epoch:31
+Time elapsed this epoch: 0.0m : 3.4632s
+Mean
+      MDVAE
+0  3.471382
+Std
+      MDVAE
+0  0.465634
+Saving Model, epoch: 31
+Time elapsed for testing: 0.0m : 42.789s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.579141  6.641709  0.056215
+Std
+        mcd       msd       gv
+0  0.941648  0.339378  0.02323
+Epoch:32
+Time elapsed this epoch: 0.0m : 3.4358s
+Mean
+      MDVAE
+0  3.591259
+Std
+      MDVAE
+0  0.635763
+Saving Model, epoch: 32
+Time elapsed for testing: 0.0m : 42.779s
+Validation Complete.
+Mean
+       mcd       msd        gv
+0  6.40826  6.639838  0.051107
+Std
+        mcd       msd        gv
+0  1.010856  0.304588  0.024273
+Epoch:33
+Time elapsed this epoch: 0.0m : 3.3621s
+Mean
+      MDVAE
+0  3.540872
+Std
+      MDVAE
+0  0.519848
+Saving Model, epoch: 33
+Time elapsed for testing: 0.0m : 43.266s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.672932  6.626287  0.036564
+Std
+        mcd       msd        gv
+0  0.948685  0.338936  0.017922
+Epoch:34
+Time elapsed this epoch: 0.0m : 3.3677s
+Mean
+      MDVAE
+0  3.396913
+Std
+     MDVAE
+0  0.55789
+Saving Model, epoch: 34
+Time elapsed for testing: 0.0m : 43.351s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.360078  6.671167  0.072342
+Std
+        mcd       msd        gv
+0  0.927856  0.338968  0.026637
+Epoch:35
+Time elapsed this epoch: 0.0m : 3.3394s
+Mean
+      MDVAE
+0  3.106867
+Std
+      MDVAE
+0  0.227969
+Saving Model, epoch: 35
+Time elapsed for testing: 0.0m : 43.195s
+Validation Complete.
+Mean
+        mcd       msd       gv
+0  6.575689  6.635377  0.03761
+Std
+        mcd       msd        gv
+0  0.969796  0.356041  0.011351
+Epoch:36
+Time elapsed this epoch: 0.0m : 3.3266s
+Mean
+      MDVAE
+0  2.981926
+Std
+     MDVAE
+0  0.13209
+Saving Model, epoch: 36
+Time elapsed for testing: 0.0m : 42.544s
+Validation Complete.
+Mean
+        mcd       msd       gv
+0  6.430968  6.624547  0.06161
+Std
+        mcd       msd        gv
+0  0.850823  0.353114  0.022124
+Epoch:37
+Time elapsed this epoch: 0.0m : 3.3429s
+Mean
+      MDVAE
+0  2.960908
+Std
+      MDVAE
+0  0.123401
+Saving Model, epoch: 37
+Time elapsed for testing: 0.0m : 43.047s
+Validation Complete.
+Mean
+      mcd       msd        gv
+0  6.3719  6.637412  0.056453
+Std
+        mcd       msd        gv
+0  0.952875  0.351116  0.023767
+Epoch:38
+Time elapsed this epoch: 0.0m : 3.3425s
+Mean
+      MDVAE
+0  2.981428
+Std
+      MDVAE
+0  0.136276
+Saving Model, epoch: 38
+Time elapsed for testing: 0.0m : 42.856s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.551459  6.589876  0.052541
+Std
+        mcd       msd        gv
+0  1.040011  0.358585  0.031027
+Epoch:39
+Time elapsed this epoch: 0.0m : 3.3189s
+Mean
+      MDVAE
+0  3.101394
+Std
+      MDVAE
+0  0.237479
+Saving Model, epoch: 39
+Time elapsed for testing: 0.0m : 43.465s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.671819  6.653211  0.034867
+Std
+        mcd       msd       gv
+0  1.121172  0.330808  0.02715
+Epoch:40
+Time elapsed this epoch: 0.0m : 3.3298s
+Mean
+      MDVAE
+0  3.192688
+Std
+      MDVAE
+0  0.310761
+Saving Model, epoch: 40
+Time elapsed for testing: 0.0m : 42.661s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.393615  6.686747  0.048735
+Std
+        mcd       msd        gv
+0  0.984167  0.327085  0.027753
+Epoch:41
+Time elapsed this epoch: 0.0m : 3.4544s
+Mean
+      MDVAE
+0  3.290715
+Std
+      MDVAE
+0  0.340506
+Saving Model, epoch: 41
+Time elapsed for testing: 0.0m : 42.715s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.198967  6.642894  0.072577
+Std
+        mcd       msd        gv
+0  0.863302  0.325694  0.014686
+Epoch:42
+Time elapsed this epoch: 0.0m : 3.2935s
+Mean
+      MDVAE
+0  3.309914
+Std
+      MDVAE
+0  0.371589
+Saving Model, epoch: 42
+Time elapsed for testing: 0.0m : 42.672s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.288798  6.650289  0.069763
+Std
+        mcd       msd        gv
+0  0.861275  0.346314  0.032026
+Epoch:43
+Time elapsed this epoch: 0.0m : 3.3227s
+Mean
+      MDVAE
+0  3.353092
+Std
+      MDVAE
+0  0.418251
+Saving Model, epoch: 43
+Time elapsed for testing: 0.0m : 42.798s
+Validation Complete.
+Mean
+        mcd       msd       gv
+0  6.125011  6.695872  0.06779
+Std
+        mcd       msd        gv
+0  0.875225  0.324371  0.012816
+Epoch:44
+Time elapsed this epoch: 0.0m : 3.2932s
+Mean
+      MDVAE
+0  3.338063
+Std
+     MDVAE
+0  0.38573
+Saving Model, epoch: 44
+Time elapsed for testing: 0.0m : 43.24s
+Validation Complete.
+Mean
+       mcd       msd        gv
+0  6.53623  6.570358  0.044172
+Std
+        mcd     msd        gv
+0  1.015083  0.3522  0.023244
+Epoch:45
+Time elapsed this epoch: 0.0m : 3.3352s
+Mean
+      MDVAE
+0  3.316265
+Std
+     MDVAE
+0  0.38499
+Saving Model, epoch: 45
+Time elapsed for testing: 0.0m : 42.477s
+Validation Complete.
+Mean
+        mcd      msd        gv
+0  6.192006  6.68834  0.067387
+Std
+        mcd       msd        gv
+0  0.895885  0.333949  0.013917
+Epoch:46
+Time elapsed this epoch: 0.0m : 3.4332s
+Mean
+      MDVAE
+0  3.285986
+Std
+      MDVAE
+0  0.492673
+Saving Model, epoch: 46
+Time elapsed for testing: 0.0m : 42.597s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.448694  6.607498  0.050161
+Std
+       mcd       msd        gv
+0  0.92884  0.342245  0.022787
+Epoch:47
+Time elapsed this epoch: 0.0m : 3.3976s
+Mean
+      MDVAE
+0  3.110883
+Std
+      MDVAE
+0  0.284288
+Saving Model, epoch: 47
+Time elapsed for testing: 0.0m : 43.26s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.434034  6.724933  0.039087
+Std
+        mcd       msd        gv
+0  1.024992  0.326214  0.024974
+Epoch:48
+Time elapsed this epoch: 0.0m : 3.3887s
+Mean
+      MDVAE
+0  3.090886
+Std
+      MDVAE
+0  0.253569
+Saving Model, epoch: 48
+Time elapsed for testing: 0.0m : 43.14s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.659293  6.534489  0.041503
+Std
+        mcd       msd        gv
+0  1.080003  0.357386  0.024598
+Epoch:49
+Time elapsed this epoch: 0.0m : 3.4684s
+Mean
+     MDVAE
+0  3.14236
+Std
+      MDVAE
+0  0.281292
+Saving Model, epoch: 49
+Time elapsed for testing: 0.0m : 43.123s
+Validation Complete.
+Mean
+       mcd       msd       gv
+0  6.31755  6.650973  0.05603
+Std
+        mcd       msd        gv
+0  0.822003  0.339968  0.027038
+Epoch:50
+Time elapsed this epoch: 0.0m : 3.3445s
+Mean
+      MDVAE
+0  3.167771
+Std
+     MDVAE
+0  0.25737
+Saving Model, epoch: 50
+Time elapsed for testing: 0.0m : 43.225s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.325452  6.586826  0.056557
+Std
+        mcd       msd        gv
+0  0.855218  0.357004  0.028501
+Epoch:51
+Time elapsed this epoch: 0.0m : 3.3254s
+Mean
+      MDVAE
+0  3.292906
+Std
+      MDVAE
+0  0.360554
+Saving Model, epoch: 51
+Time elapsed for testing: 0.0m : 42.952s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.541503  6.675811  0.052963
+Std
+        mcd       msd       gv
+0  0.983844  0.341652  0.02863
+Epoch:52
+Time elapsed this epoch: 0.0m : 3.3472s
+Mean
+     MDVAE
+0  3.44324
+Std
+      MDVAE
+0  0.485125
+Saving Model, epoch: 52
+Time elapsed for testing: 0.0m : 43.15s
+Validation Complete.
+Mean
+        mcd       msd       gv
+0  6.341764  6.698122  0.04413
+Std
+        mcd       msd        gv
+0  0.999098  0.333003  0.024307
+Epoch:53
+Time elapsed this epoch: 0.0m : 3.3592s
+Mean
+      MDVAE
+0  3.299966
+Std
+      MDVAE
+0  0.337389
+Saving Model, epoch: 53
+Time elapsed for testing: 0.0m : 42.869s
+Validation Complete.
+Mean
+       mcd       msd        gv
+0  6.44034  6.596632  0.048782
+Std
+        mcd       msd        gv
+0  0.946705  0.368666  0.020305
+Epoch:54
+Time elapsed this epoch: 0.0m : 3.3279s
+Mean
+      MDVAE
+0  3.152663
+Std
+      MDVAE
+0  0.295945
+Saving Model, epoch: 54
+Time elapsed for testing: 0.0m : 43.202s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.222312  6.683102  0.068075
+Std
+       mcd       msd        gv
+0  0.83526  0.338795  0.010483
+Epoch:55
+Time elapsed this epoch: 0.0m : 3.442s
+Mean
+      MDVAE
+0  3.216973
+Std
+      MDVAE
+0  0.312736
+Saving Model, epoch: 55
+Time elapsed for testing: 0.0m : 43.011s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.332672  6.619006  0.058268
+Std
+        mcd       msd        gv
+0  0.894355  0.347337  0.013862
+Epoch:56
+Time elapsed this epoch: 0.0m : 3.3402s
+Mean
+      MDVAE
+0  3.203802
+Std
+      MDVAE
+0  0.324745
+Saving Model, epoch: 56
+Time elapsed for testing: 0.0m : 42.993s
+Validation Complete.
+Mean
+       mcd       msd        gv
+0  6.34338  6.626177  0.058364
+Std
+        mcd       msd       gv
+0  0.788133  0.335001  0.01819
+Epoch:57
+Time elapsed this epoch: 0.0m : 3.2991s
+Mean
+     MDVAE
+0  3.22752
+Std
+      MDVAE
+0  0.341671
+Saving Model, epoch: 57
+Time elapsed for testing: 0.0m : 42.755s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.144957  6.673909  0.052371
+Std
+       mcd       msd        gv
+0  0.84141  0.336307  0.023076
+Epoch:58
+Time elapsed this epoch: 0.0m : 3.4015s
+Mean
+      MDVAE
+0  3.197478
+Std
+      MDVAE
+0  0.307519
+Saving Model, epoch: 58
+Time elapsed for testing: 0.0m : 43.12s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.633837  6.514518  0.047447
+Std
+        mcd       msd        gv
+0  0.863375  0.361422  0.037392
+Epoch:59
+Time elapsed this epoch: 0.0m : 3.3633s
+Mean
+      MDVAE
+0  3.224451
+Std
+      MDVAE
+0  0.305653
+Saving Model, epoch: 59
+Time elapsed for testing: 0.0m : 42.884s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.326733  6.684845  0.039901
+Std
+        mcd       msd        gv
+0  0.941585  0.340475  0.031859
+Epoch:60
+Time elapsed this epoch: 0.0m : 3.3612s
+Mean
+     MDVAE
+0  3.22847
+Std
+      MDVAE
+0  0.320122
+Saving Model, epoch: 60
+Time elapsed for testing: 0.0m : 42.781s
+Validation Complete.
+Mean
+       mcd       msd        gv
+0  6.43579  6.663497  0.050511
+Std
+        mcd       msd        gv
+0  1.051461  0.338586  0.025127
+Epoch:61
+Time elapsed this epoch: 0.0m : 3.4093s
+Mean
+      MDVAE
+0  3.217317
+Std
+      MDVAE
+0  0.281444
+Saving Model, epoch: 61
+Time elapsed for testing: 0.0m : 42.763s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.184546  6.618026  0.061973
+Std
+        mcd     msd        gv
+0  0.855271  0.3501  0.010868
+Epoch:62
+Time elapsed this epoch: 0.0m : 3.4154s
+Mean
+      MDVAE
+0  3.211629
+Std
+      MDVAE
+0  0.294735
+Saving Model, epoch: 62
+Time elapsed for testing: 0.0m : 42.38s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.029205  6.642158  0.079619
+Std
+        mcd       msd        gv
+0  0.809504  0.334232  0.013056
+Epoch:63
+Time elapsed this epoch: 0.0m : 3.3215s
+Mean
+      MDVAE
+0  3.216803
+Std
+      MDVAE
+0  0.327555
+Saving Model, epoch: 63
+Time elapsed for testing: 0.0m : 43.661s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.134848  6.646935  0.064473
+Std
+        mcd       msd        gv
+0  0.787893  0.339351  0.017401
+Epoch:64
+Time elapsed this epoch: 0.0m : 3.3392s
+Mean
+    MDVAE
+0  3.2577
+Std
+      MDVAE
+0  0.312242
+Saving Model, epoch: 64
+Time elapsed for testing: 0.0m : 43.206s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.111105  6.712882  0.052668
+Std
+        mcd       msd        gv
+0  0.967134  0.337139  0.019418
+Epoch:65
+Time elapsed this epoch: 0.0m : 3.3482s
+Mean
+      MDVAE
+0  3.219251
+Std
+      MDVAE
+0  0.310694
+Saving Model, epoch: 65
+Time elapsed for testing: 0.0m : 42.848s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.375946  6.547885  0.054833
+Std
+       mcd       msd        gv
+0  0.90278  0.353934  0.026973
+Epoch:66
+Time elapsed this epoch: 0.0m : 3.3452s
+Mean
+      MDVAE
+0  3.206107
+Std
+      MDVAE
+0  0.290209
+Saving Model, epoch: 66
+Time elapsed for testing: 0.0m : 43.183s
+Validation Complete.
+Mean
+        mcd       msd       gv
+0  6.109643  6.667719  0.05008
+Std
+        mcd       msd        gv
+0  0.877356  0.332902  0.016996
+Epoch:67
+Time elapsed this epoch: 0.0m : 3.4408s
+Mean
+      MDVAE
+0  3.230833
+Std
+      MDVAE
+0  0.347244
+Saving Model, epoch: 67
+Time elapsed for testing: 0.0m : 42.538s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.383468  6.602417  0.046302
+Std
+        mcd       msd        gv
+0  0.866694  0.344909  0.021968
+Epoch:68
+Time elapsed this epoch: 0.0m : 3.3677s
+Mean
+     MDVAE
+0  3.15995
+Std
+      MDVAE
+0  0.232088
+Saving Model, epoch: 68
+Time elapsed for testing: 0.0m : 42.749s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.127457  6.659465  0.054496
+Std
+        mcd       msd        gv
+0  0.925224  0.325775  0.030865
+Epoch:69
+Time elapsed this epoch: 0.0m : 3.4079s
+Mean
+      MDVAE
+0  3.228296
+Std
+      MDVAE
+0  0.305157
+Saving Model, epoch: 69
+Time elapsed for testing: 0.0m : 43.056s
+Validation Complete.
+Mean
+       mcd       msd        gv
+0  6.46275  6.583116  0.040848
+Std
+        mcd      msd        gv
+0  0.887253  0.34935  0.022509
+Epoch:70
+Time elapsed this epoch: 0.0m : 3.3554s
+Mean
+      MDVAE
+0  3.233111
+Std
+      MDVAE
+0  0.313193
+Saving Model, epoch: 70
+Time elapsed for testing: 0.0m : 42.449s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.140093  6.642984  0.066338
+Std
+        mcd       msd        gv
+0  0.807207  0.342373  0.011812
+Epoch:71
+Time elapsed this epoch: 0.0m : 3.5325s
+Mean
+      MDVAE
+0  3.235035
+Std
+      MDVAE
+0  0.306475
+Saving Model, epoch: 71
+Time elapsed for testing: 0.0m : 42.762s
+Validation Complete.
+Mean
+        mcd       msd       gv
+0  6.524073  6.682206  0.04136
+Std
+        mcd       msd       gv
+0  1.043946  0.338918  0.02006
+Epoch:72
+Time elapsed this epoch: 0.0m : 3.4327s
+Mean
+      MDVAE
+0  3.155315
+Std
+      MDVAE
+0  0.281004
+Saving Model, epoch: 72
+Time elapsed for testing: 0.0m : 43.395s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.203721  6.563615  0.066482
+Std
+       mcd       msd        gv
+0  0.80141  0.328896  0.015749
+Epoch:73
+Time elapsed this epoch: 0.0m : 3.4377s
+Mean
+      MDVAE
+0  3.180119
+Std
+      MDVAE
+0  0.242933
+Saving Model, epoch: 73
+Time elapsed for testing: 0.0m : 42.233s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.463969  6.594345  0.039506
+Std
+        mcd       msd        gv
+0  0.955468  0.354442  0.021775
+Epoch:74
+Time elapsed this epoch: 0.0m : 3.4921s
+Mean
+      MDVAE
+0  3.235119
+Std
+      MDVAE
+0  0.322066
+Saving Model, epoch: 74
+Time elapsed for testing: 0.0m : 43.377s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.279264  6.661516  0.044042
+Std
+        mcd       msd        gv
+0  1.036238  0.343637  0.024312
+Epoch:75
+Time elapsed this epoch: 0.0m : 3.4224s
+Mean
+      MDVAE
+0  3.191822
+Std
+      MDVAE
+0  0.272324
+Saving Model, epoch: 75
+Time elapsed for testing: 0.0m : 42.692s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.201305  6.618571  0.064347
+Std
+        mcd       msd       gv
+0  0.818712  0.344055  0.01788
+Epoch:76
+Time elapsed this epoch: 0.0m : 3.408s
+Mean
+      MDVAE
+0  3.213123
+Std
+      MDVAE
+0  0.300751
+Saving Model, epoch: 76
+Time elapsed for testing: 0.0m : 42.57s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.209725  6.645286  0.055378
+Std
+        mcd       msd        gv
+0  0.878109  0.344531  0.016681
+Epoch:77
+Time elapsed this epoch: 0.0m : 3.3737s
+Mean
+      MDVAE
+0  3.273647
+Std
+      MDVAE
+0  0.315341
+Saving Model, epoch: 77
+Time elapsed for testing: 0.0m : 43.076s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.148073  6.635907  0.060321
+Std
+        mcd       msd     gv
+0  0.805586  0.327229  0.014
+Epoch:78
+Time elapsed this epoch: 0.0m : 3.4934s
+Mean
+      MDVAE
+0  3.329477
+Std
+      MDVAE
+0  0.501735
+Saving Model, epoch: 78
+Time elapsed for testing: 0.0m : 42.105s
+Validation Complete.
+Mean
+        mcd       msd       gv
+0  6.283156  6.619576  0.04795
+Std
+        mcd       msd       gv
+0  0.952427  0.349401  0.02092
+Epoch:79
+Time elapsed this epoch: 0.0m : 3.4054s
+Mean
+     MDVAE
+0  3.21547
+Std
+      MDVAE
+0  0.286605
+Saving Model, epoch: 79
+Time elapsed for testing: 0.0m : 43.074s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.417177  6.603896  0.047611
+Std
+        mcd       msd        gv
+0  0.909998  0.365248  0.026572
+Epoch:80
+Time elapsed this epoch: 0.0m : 3.381s
+Mean
+      MDVAE
+0  3.337031
+Std
+      MDVAE
+0  0.451934
+Saving Model, epoch: 80
+Time elapsed for testing: 0.0m : 42.623s
+Validation Complete.
+Mean
+        mcd       msd       gv
+0  6.505728  6.583854  0.03384
+Std
+        mcd      msd        gv
+0  0.966016  0.38365  0.025723
+Epoch:81
+Time elapsed this epoch: 0.0m : 3.3777s
+Mean
+      MDVAE
+0  3.279534
+Std
+      MDVAE
+0  0.333859
+Saving Model, epoch: 81
+Time elapsed for testing: 0.0m : 42.728s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.457387  6.621389  0.041673
+Std
+        mcd       msd        gv
+0  0.844984  0.361486  0.025153
+Epoch:82
+Time elapsed this epoch: 0.0m : 3.3549s
+Mean
+      MDVAE
+0  3.259271
+Std
+      MDVAE
+0  0.355154
+Saving Model, epoch: 82
+Time elapsed for testing: 0.0m : 43.024s
+Validation Complete.
+Mean
+        mcd       msd       gv
+0  6.323004  6.568798  0.05319
+Std
+        mcd       msd        gv
+0  0.872176  0.359708  0.024002
+Epoch:83
+Time elapsed this epoch: 0.0m : 3.4244s
+Mean
+     MDVAE
+0  3.25247
+Std
+      MDVAE
+0  0.345616
+Saving Model, epoch: 83
+Time elapsed for testing: 0.0m : 42.953s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.058493  6.611871  0.067139
+Std
+        mcd       msd        gv
+0  0.821437  0.343716  0.022739
+Epoch:84
+Time elapsed this epoch: 0.0m : 3.3818s
+Mean
+      MDVAE
+0  3.173992
+Std
+      MDVAE
+0  0.268634
+Saving Model, epoch: 84
+Time elapsed for testing: 0.0m : 42.875s
+Validation Complete.
+Mean
+        mcd       msd       gv
+0  6.242095  6.666126  0.04966
+Std
+        mcd       msd        gv
+0  0.883231  0.334922  0.015813
+Epoch:85
+Time elapsed this epoch: 0.0m : 3.4092s
+Mean
+      MDVAE
+0  3.127055
+Std
+      MDVAE
+0  0.220829
+Saving Model, epoch: 85
+Time elapsed for testing: 0.0m : 43.23s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.084323  6.625325  0.068011
+Std
+        mcd       msd       gv
+0  0.789577  0.338317  0.01001
+Epoch:86
+Time elapsed this epoch: 0.0m : 3.3719s
+Mean
+      MDVAE
+0  3.195956
+Std
+      MDVAE
+0  0.267981
+Saving Model, epoch: 86
+Time elapsed for testing: 0.0m : 42.862s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.133688  6.629817  0.065355
+Std
+        mcd       msd        gv
+0  0.849754  0.337638  0.018674
+Epoch:87
+Time elapsed this epoch: 0.0m : 3.3968s
+Mean
+      MDVAE
+0  3.335431
+Std
+     MDVAE
+0  0.38042
+Saving Model, epoch: 87
+Time elapsed for testing: 0.0m : 43.126s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.149413  6.659966  0.062769
+Std
+        mcd       msd        gv
+0  0.790634  0.346041  0.015747
+Epoch:88
+Time elapsed this epoch: 0.0m : 3.3638s
+Mean
+      MDVAE
+0  3.339101
+Std
+     MDVAE
+0  0.41421
+Saving Model, epoch: 88
+Time elapsed for testing: 0.0m : 43.082s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.190482  6.650953  0.048279
+Std
+        mcd       msd        gv
+0  0.948326  0.349377  0.022434
+Epoch:89
+Time elapsed this epoch: 0.0m : 3.3283s
+Mean
+      MDVAE
+0  3.256491
+Std
+      MDVAE
+0  0.314668
+Saving Model, epoch: 89
+Time elapsed for testing: 0.0m : 42.944s
+Validation Complete.
+Mean
+       mcd       msd        gv
+0  6.48947  6.551407  0.047201
+Std
+        mcd       msd        gv
+0  0.971276  0.422128  0.023783
+Epoch:90
+Time elapsed this epoch: 0.0m : 3.3588s
+Mean
+      MDVAE
+0  3.300243
+Std
+      MDVAE
+0  0.374596
+Saving Model, epoch: 90
+Time elapsed for testing: 0.0m : 43.163s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.374698  6.541118  0.056188
+Std
+        mcd       msd        gv
+0  0.962916  0.339511  0.029014
+Epoch:91
+Time elapsed this epoch: 0.0m : 3.4189s
+Mean
+     MDVAE
+0  3.19306
+Std
+      MDVAE
+0  0.286381
+Saving Model, epoch: 91
+Time elapsed for testing: 0.0m : 43.197s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.296326  6.654491  0.049125
+Std
+        mcd      msd        gv
+0  0.827281  0.34925  0.026817
+Epoch:92
+Time elapsed this epoch: 0.0m : 3.3322s
+Mean
+      MDVAE
+0  3.076146
+Std
+      MDVAE
+0  0.211036
+Saving Model, epoch: 92
+Time elapsed for testing: 0.0m : 42.814s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.257624  6.564932  0.060077
+Std
+        mcd       msd        gv
+0  0.773154  0.335176  0.025429
+Epoch:93
+Time elapsed this epoch: 0.0m : 3.3577s
+Mean
+    MDVAE
+0  3.1632
+Std
+      MDVAE
+0  0.250653
+Saving Model, epoch: 93
+Time elapsed for testing: 0.0m : 42.948s
+Validation Complete.
+Mean
+        mcd       msd       gv
+0  6.170221  6.683726  0.05512
+Std
+        mcd       msd        gv
+0  0.845036  0.336665  0.028002
+Epoch:94
+Time elapsed this epoch: 0.0m : 3.2851s
+Mean
+      MDVAE
+0  3.216387
+Std
+     MDVAE
+0  0.31388
+Saving Model, epoch: 94
+Time elapsed for testing: 0.0m : 42.4s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.628202  6.492265  0.036895
+Std
+        mcd       msd        gv
+0  0.943779  0.361959  0.027729
+Epoch:95
+Time elapsed this epoch: 0.0m : 3.3278s
+Mean
+      MDVAE
+0  3.151584
+Std
+      MDVAE
+0  0.265534
+Saving Model, epoch: 95
+Time elapsed for testing: 0.0m : 43.067s
+Validation Complete.
+Mean
+        mcd       msd       gv
+0  6.120406  6.631425  0.06251
+Std
+        mcd      msd        gv
+0  0.840357  0.33188  0.025534
+Epoch:96
+Time elapsed this epoch: 0.0m : 3.3567s
+Mean
+      MDVAE
+0  3.213813
+Std
+      MDVAE
+0  0.334599
+Saving Model, epoch: 96
+Time elapsed for testing: 0.0m : 42.705s
+Validation Complete.
+Mean
+        mcd       msd       gv
+0  6.533678  6.555005  0.04003
+Std
+        mcd       msd        gv
+0  0.876268  0.364565  0.029711
+Epoch:97
+Time elapsed this epoch: 0.0m : 3.3201s
+Mean
+      MDVAE
+0  3.198862
+Std
+      MDVAE
+0  0.276849
+Saving Model, epoch: 97
+Time elapsed for testing: 0.0m : 42.137s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.192255  6.672894  0.042043
+Std
+       mcd       msd        gv
+0  0.91333  0.344564  0.022771
+Epoch:98
+Time elapsed this epoch: 0.0m : 3.9149s
+Mean
+      MDVAE
+0  3.265264
+Std
+      MDVAE
+0  0.362752
+Saving Model, epoch: 98
+Time elapsed for testing: 0.0m : 42.514s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.455944  6.602461  0.046029
+Std
+        mcd       msd        gv
+0  1.005933  0.403057  0.028332
+Epoch:99
+Time elapsed this epoch: 0.0m : 3.2971s
+Mean
+      MDVAE
+0  3.349957
+Std
+      MDVAE
+0  0.434366
+Saving Model, epoch: 99
+Time elapsed for testing: 0.0m : 42.974s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.109105  6.608939  0.065006
+Std
+        mcd       msd        gv
+0  0.846592  0.338057  0.009479
+Epoch:100
+Time elapsed this epoch: 0.0m : 3.3352s
+Mean
+      MDVAE
+0  3.362547
+Std
+      MDVAE
+0  0.420448
+Saving Model, epoch: 100
+Time elapsed for testing: 0.0m : 41.975s
+Validation Complete.
+Mean
+        mcd       msd        gv
+0  6.280088  6.611831  0.048895
+Std
+        mcd       msd        gv
+0  0.865505  0.359665  0.022751

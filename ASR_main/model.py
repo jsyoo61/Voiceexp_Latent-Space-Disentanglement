@@ -60,7 +60,7 @@ class Encoder(nn.Module):
 
         return h4_mu, h4_logvar
 
-class Decoder(nn.Module):
+class Decoder_C(nn.Module):
     def __init__(self, label_num = 100):
         super(Decoder, self).__init__()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -113,6 +113,59 @@ class Decoder(nn.Module):
         h7 = h7_ * self.upconv3_sigmoid(h7_gated)
 
         h7 = self.id_bias_add_2d(h7,label)
+        h8_mu = self.upconv4_mu(h7)
+        h8_logvar = self.upconv4_logvar(h7)
+
+        return h8_mu, h8_logvar
+
+class Decoder(nn.Module):
+    def __init__(self):
+        super(Decoder, self).__init__()
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+        self.upconv1 = nn.ConvTranspose2d(8, 10, (9,5), (1,1), padding=(0, 2))
+        self.upconv1_bn = nn.BatchNorm2d(10)
+        self.upconv1_gated = nn.ConvTranspose2d(8, 10, (9,5), (1,1), padding=(0, 2))
+        self.upconv1_gated_bn = nn.BatchNorm2d(10)
+        self.upconv1_sigmoid = nn.Sigmoid()
+
+        self.upconv2 = nn.ConvTranspose2d(10, 10, (4,8), (2,2), padding=(1, 3))
+        self.upconv2_bn = nn.BatchNorm2d(10)
+        self.upconv2_gated = nn.ConvTranspose2d(10, 10, (4,8), (2,2), padding=(1, 3))
+        self.upconv2_gated_bn = nn.BatchNorm2d(10)
+        self.upconv2_sigmoid = nn.Sigmoid()
+
+        self.upconv3 = nn.ConvTranspose2d(10, 5, (4,8), (2,2), padding=(1, 3))
+        self.upconv3_bn = nn.BatchNorm2d(5)
+        self.upconv3_gated = nn.ConvTranspose2d(10, 5, (4,8), (2,2), padding=(1, 3))
+        self.upconv3_gated_bn = nn.BatchNorm2d(5)
+        self.upconv3_sigmoid = nn.Sigmoid()
+
+        # Same with using the following, and slicing the result
+        # self.upconv4 = nn.ConvTranspose2d(5+self.label_num , 2, (3,9), (1,1), padding=(1, 4))
+        self.upconv4_mu = nn.ConvTranspose2d(5, 1, (3,9), (1,1), padding=(1, 4))
+        self.upconv4_logvar = nn.ConvTranspose2d(5, 1, (3,9), (1,1), padding=(1, 4))
+
+    def id_bias_add_2d(self, inputs, id):
+        # id: (batch, num_speakers)
+        id = id.view(id.size(0), id.size(1), 1, 1)  # id: (batch, num_speakers, 1, 1)
+        id = id.repeat(1, 1, inputs.size(2), inputs.size(3)) # id: (batch, num_speakers, input.shape[2], input.shape[3])
+        inputs_bias_added = torch.cat([inputs, id], dim=1) # dim == 1 : Channel in Conv2d
+        return inputs_bias_added
+
+    def forward(self, z):
+        h5_ = self.upconv1_bn(self.upconv1(z))
+        h5_gated = self.upconv1_gated_bn(self.upconv1(z))
+        h5 = h5_ * self.upconv1_sigmoid(h5_gated)
+
+        h6_ = self.upconv2_bn(self.upconv2(h5))
+        h6_gated = self.upconv2_gated_bn(self.upconv2(h5))
+        h6 = h6_ * self.upconv2_sigmoid(h6_gated)
+
+        h7_ = self.upconv3_bn(self.upconv3(h6))
+        h7_gated = self.upconv3_gated_bn(self.upconv3(h6))
+        h7 = h7_ * self.upconv3_sigmoid(h7_gated)
+
         h8_mu = self.upconv4_mu(h7)
         h8_logvar = self.upconv4_logvar(h7)
 
@@ -177,9 +230,9 @@ class SpeakerClassifier(nn.Module):
 
         return  logits
 
-class ASRLayer(nn.Module):
+class AutomaticSpeechRecognizer(nn.Module):
     def __init__(self, label_num = 100):
-        super(Decoder, self).__init__()
+        super(AutomaticSpeechRecognizer, self).__init__()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.upconv1 = nn.ConvTranspose2d(8, 10, (9,5), (1,1), padding=(0, 2))
@@ -226,9 +279,9 @@ class ASRLayer(nn.Module):
         h8 = self.upconv4(h7)
 
         return h8_mu
-# class ASRLayer(nn.Module):
+# class AutomaticSpeechRecognizer(nn.Module):
 #     def __init__(self):
-#         super(ASRLayer, self).__init__()
+#         super(AutomaticSpeechRecognizer, self).__init__()
 #
 #         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 #         self.conv1 = nn.Conv2d(8, 16, (1,3), (1,1), padding=(0, 1))
@@ -284,9 +337,9 @@ class ASRLayer(nn.Module):
 #
 #         return  logits
 
-class ACLayer(nn.Module):
+class AuxiliaryClassifier(nn.Module):
     def __init__(self, label_num = 100):
-        super(ACLayer, self).__init__()
+        super(AuxiliaryClassifier, self).__init__()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.label_num = label_num
 
@@ -336,14 +389,12 @@ class ACLayer(nn.Module):
         h4_gated = self.conv4_gated_bn(self.conv4_gated(h3))
         h4 = h4_ * self.conv4_sigmoid(h4_gated)
 
-
         h5 = self.conv_classify(h4)
         h5 = self.conv_softmax(h5)
         prod_logit = torch.prod(h5, dim=-1, keepdim=False)
         logits = prod_logit.view(prod_logit.size()[0], self.label_num)
 
         return prod_logit,logits
-
 
 class Discriminator(nn.Module):
     def __init__(self, label_num = 100):
@@ -450,7 +501,7 @@ class Discriminator(nn.Module):
 # self.upconv1(mu).shape
 # h5=self.upconv1(mu)
 # h5.shape
-# m = ASRLayer()
+# m = AutomaticSpeechRecognizer()
 # x = torch.full((1,8,36,128), 1).to(dtype = torch.float)
 # conv = nn.Conv2d(8, 5, (3,3), padding=(1,1))
 # y = m(x)

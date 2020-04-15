@@ -27,7 +27,6 @@ elif set == 'outset':
 else:
     assert False, 'set error'
 
-#dataset = 'vcc2018'
 data_dir_1 = os.path.join('../../../corpus')
 data_dir = os.path.join(data_dir_1, data_dir_2)
 exp_dir = os.path.join('processed')
@@ -36,7 +35,7 @@ start_time = time.time()
 
 sampling_rate = 16000
 num_mcep = 36
-frame_period = 10.0
+frame_period = 5.0
 n_frames = 128
 
 for speaker in speaker_list:

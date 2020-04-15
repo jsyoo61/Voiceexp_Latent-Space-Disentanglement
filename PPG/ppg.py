@@ -18,24 +18,26 @@ with open(model_path+"/prior.pk", 'rb') as f:
 for stype in ["inset", "outset"]:
     for dtype in ["train", "dev", "test"]:
         data_id = stype+"_"+dtype
+        print('Processing data_id:%s'%(data_id))
 
         ########################################################
         feat_path = "data/vctk/"+data_id
-        with open(data_path+"/sp.pk", 'wb') as f:
+        with open(feat_path+"/sp.pk", 'rb') as f:
             feat_dict = pk.load(f)
-    
+
         ########################################################
-        ppg_dict = dict()
 
         for utt_id, feat_mat in feat_dict.items():
+            print(utt_id)
             spk_id = utt_id.split("_")[0]
             x = torch.Tensor(feat_mat).float().cuda()
             with torch.no_grad():
                 result = model([x])
             result = result.detach().cpu().numpy()
             ppg = result - prior
-            
+
             result_path="result/vctk/"+data_id+"/"+spk_id
             os.makedirs(result_path, exist_ok=True)
             with open(result_path+"/"+utt_id+".pk", 'wb') as f:
                 pk.dump(ppg, f)
+print('Process Complete.')
