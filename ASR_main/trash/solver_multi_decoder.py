@@ -4,13 +4,13 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 import numpy as np
-import librosa
 import time
-import fastdtw
-import dtw
 import pandas as pd
 
-from model import Encoder, Decoder, ACLayer, ASRLayer, SpeakerClassifier
+from multiprocessing import Pool
+from model import Encoder, Decoder, AuxiliaryClassifier, AutomaticSpeechRecognizer, SpeakerClassifier
+from performance_measure import extract_ms, mcd_cal, msd_cal
+from loss import *
 from utils import cc
 from speech_tools import sample_train_data, transpose_in_list, world_decompose
 from tools.tools import load_pickle, readlines, read, append, Printer, sort_load
@@ -27,136 +27,92 @@ from utils import cal_acc
 from utils import calculate_gradients_penalty
 from utils import gen_noise
 
-num_speakers = 100
-batch_size = 8
-train_data_dir = 'processed'
-iteration = 0
-
-
-def CrossEnt_loss(self, logits, y_true):
-    '''y_true: onehot vector'''
-    loss = torch.mean(-y_true*torch.log(logits + 1e-6))
-    return loss
-
-def clf_CrossEnt_loss(self, logits, y_true):
-    '''y_true: label(indices)'''
-    criterion = nn.CrossEntropyLoss()
-    loss = criterion(logits, y_true)
-    return loss
-
-y_true = torch.tensor([1,1,2,3])
-logits = torch.tensor([1,0,0.5,0,0, 0,3, 0.5, 0,0, 0, 1, 2, 1,0, 0, 1, 1, 3,0]).view(4,5)
-logits_cat = torch.softmax(logits, dim=1)
-
-
-c = nn.CrossEntropyLoss(reduction='none')
-c=nn.CrossEntropyLoss()
-loss1 = c(logits, y_true)
-loss1
-loss2 = c(logits_cat,y_true)
-loss2
-
-onehot = torch.zeros(4, 5)
-for i,y in enumerate(y_true):
-    onehot[i,y.long()]=1
-onehot
-(-onehot*torch.log(logits_cat + 1e-6)).sum(dim=1).mean()
-loss3 = torch.mean(-onehot*torch.log(logits_cat + 1e-6))
-loss3 = -onehot*torch.log(logits_cat + 1e-6)
-loss4 = torch.mean(-onehot*torch.log(logits + 1e-6))
-print(loss1)
-print(loss2)
-print(loss3)
-print(loss4)
-print(-onehot*torch.log(logits_cat + 1e-6))
-print(c(logits_cat, y_true))
-
-from scipy.spatial.distance import euclidean
-def norm(p):
-    return lambda a, b: np.linalg.norm(np.atleast_1d(a) - np.atleast_1d(b), p)
-x = np.array([[1,1], [2,2], [3,3], [4,4], [5,5]])
-y = np.array([[2,2], [3,3], [4,4]])
-x=coded_sps_norm_A[0]
-y=coded_sps_norm_B[0]
-x.shape
-y.shape
-x.shape
-y.shape
-distance1, path1 = fastdtw.fastdtw(x.T, y.T, dist=2)
-distance2, path2 = fastdtw.dtw(x.T,y.T, dist=1)
-distance3, path3 = fastdtw.fasatdtw
-distance4, c, ac, path4 = dtw.dtw(x.T,y.T,w=1,dist = norm(1))
-
-mcd1 = 10/np.log(10)*np.sqrt(2)*distance1
-
-print(mcd1)
-help(dtw.dtw)
-print(distance1)
-print(path1)
-print(distance2)
-print(path2)
-
-help(np.linalg.norm)
-np.linalg.norm([1,2],2)
-help(np.atleast_1d)
-
-
 class Solver(object):
-    def __init__(self, num_speakers = 100, log_dir='./log/', new = True):
+    '''
+
+    Data descriptors:
+    dirs
+        Hold all directory information to be used in the experiment
+        in dict() form.
+        To see all directories that are related, refer to:
+        list(self.dirs.items())
+    '''
+    def __init__(self, num_speakers = 100, exp_name = None, new = True):
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.num_speakers = num_speakers
-        # self.dist = lambda x,y: np.linalg.norm(x-y) # L2 norm
+        self.create_env(exp_name, new)
+        self.speaker_list = sorted(os.listdir(self.dirs['train_data']))
+        self.num_speakers = len(self.speaker_list)
+        self.build_model()
+
+        assert self.num_speakers == num_speakers, 'Specified "num_speakers" and "num_speakers in train data" does not match'
+
         self.model_kept = []
         self.max_keep=100
 
         # Hyperparameters
         self.n_training_frames = 128
 
-        self.create_env(self, exp_dir, new)
-        self.build_model()
 
     def create_env(self, exp_name = None, new = True):
         '''
-        Creates all "static directories" required for experiment.
-        And stores them in "self.dirs"(dict)
+        Create experiment environment
+        Store all "static directories" required for experiment in "self.dirs"(dict)
 
-        Store everything in: exp/exp_name/ == exp_dir
-        including log, model, validation etc
+        Store every experiment result in: exp/exp_name/ == exp_dir
+        including log, model, test(validation) etc
         '''
+        # 0] exp_dir == master directory
         self.dirs = dict()
+        exp_dir = 'exp/'
+        model_dir = 'model/'
+        log_dir = 'log.txt'
+        train_data_dir = 'processed/'
+        si_dir = 'processed_stateindex/'
+        test_data_dir = 'processed_validation/inset_dev/'
+        test_pathlist_dir = 'filelist/in_dev.lst'
+
         # 1] Set up Experiment directory
-        exp_dir_0 = 'exp/'
         if exp_name == None:
             exp_name = time.strftime('%m%d_%H%M%S')
-        exp_dir = os.path.join(exp_dir_0, exp_name)
+        exp_dir = os.path.join(exp_dir, exp_name)
         if new == True:
             assert not os.path.isdir(exp_dir), 'New experiment, but exp_dir with same name exists'
             os.makedirs(exp_dir)
+        else:
+            assert os.path.isdir(exp_dir), 'Existing experiment, but exp_dir doesn\'t exist'
         self.dirs['exp'] = exp_dir
 
         # 2] Model parameter directory
-        model_dir = os.path.join(exp_dir, 'model/')
+        model_dir = os.path.join(exp_dir, model_dir)
         os.makedirs(model_dir, exist_ok=True)
         self.dirs['model'] = model_dir
 
-        # 3] Validation
-        self.dirs['validation_wav'] = "../../corpus/inset/inset_dev/"
-        self.dirs['validation_pathlist'] = 'filelist/in_dev.lst'
-        self.dirs['validation_data'] = 'processed_validation/'
+        # 3] Log settings
+        log_dir = os.path.join(self.dirs['exp'], log_dir)
+        self.dirs['log'] = log_dir
+
+        # 4] Train data
+        self.dirs['train_data'] = train_data_dir
+        self.dirs['si'] = si_dir
+
+        # 5] Test (Including Validation)
+        self.dirs['test_data'] = test_data_dir
+        self.dirs['test_pathlist'] = test_pathlist_dir
 
     def build_model(self):
-
+        '''
+        Initialize NN model & optimizers
+        '''
         self.Encoder = cc(Encoder(label_num = self.num_speakers))
         self.Decoder = [cc(Decoder(label_num = self.num_speakers)) for i in range(self.num_speakers)]
-        self.ACLayer = cc(ACLayer(label_num = self.num_speakers))
-        self.ASRLayer = cc(ASRLayer())
-        self.SpeakerClassifier = cc(SpeakerClassifier(label_num = self.num_speakers))
+        self.AC = cc(AuxiliaryClassifier(label_num = self.num_speakers))
+        self.ASR = cc(AutomaticSpeechRecognizer())
+        self.SC = cc(SpeakerClassifier(label_num = self.num_speakers))
         ac_betas = (0.5,0.999)
         vae_betas = (0.9,0.999)
         ac_lr = 0.00005
         vae_lr = 0.001
-        dis_lr = 0.002
         clf_betas = (0.5,0.999)
         asr_betas = (0.5,0.999)
         clf_lr = 0.0002
@@ -167,10 +123,10 @@ class Solver(object):
             decoder_parameter_list += list(decoder.parameters())
         vae_params = list(self.Encoder.parameters()) + decoder_parameter_list
 
-        self.ac_optimizer = optim.Adam(self.ACLayer.parameters(), lr=ac_lr, betas=ac_betas)
+        self.ac_optimizer = optim.Adam(self.AC.parameters(), lr=ac_lr, betas=ac_betas)
         self.vae_optimizer = optim.Adam(vae_params, lr=vae_lr, betas=vae_betas)
-        self.asr_optimizer = optim.Adam(self.ASRLayer.parameters(), lr=asr_lr, betas=asr_betas)
-        self.clf_optimizer = optim.Adam(self.SpeakerClassifier.parameters(), lr=clf_lr, betas=clf_betas)
+        self.asr_optimizer = optim.Adam(self.ASR.parameters(), lr=asr_lr, betas=asr_betas)
+        self.clf_optimizer = optim.Adam(self.SC.parameters(), lr=clf_lr, betas=clf_betas)
 
     def save_model(self, model_path, epoch,enc_only=True):
         all_model=dict()
@@ -186,7 +142,7 @@ class Solver(object):
                 module_name = 'decoder_' + str(i)
                 all_model[module_name] = decoder.state_dict()
 
-            all_model['aclayer'] = self.ACLayer.state_dict()
+            all_model['AC'] = self.AC.state_dict()
 
         new_model_path = os.path.join(model_path,'{}-{}'.format(model_path, epoch))
         with open(new_model_path, 'wb') as f_out:
@@ -229,6 +185,19 @@ class Solver(object):
         self.asr_optimizer.zero_grad()
         self.clf_optimizer.zero_grad()
 
+    def generate_label(self, index, batch_size):
+        '''label == [index, index, ...] with len(label) == batch_size '''
+        labels = [index] * int(batch_size)
+        return torch.tensor(labels)
+
+    def label2onehot(self, labels):
+        # labels: [1, 1, 1, ...], with len(labels) == batch_size
+        batch_size = len(labels)
+        # labels = torch.tensor(labels)
+        onehot = torch.zeros(batch_size, self.num_speakers)
+        onehot[:, labels.long()] = 1 # labels itself are indices for the onehot vectors
+        return onehot
+
     def test_step(self, x, c_src,c_trg,trg_speaker_num, gen=False):
         self.set_eval(trg_speaker_num)
         # Encoder
@@ -244,57 +213,16 @@ class Solver(object):
         eps = torch.randn_like(std)
         return eps * std + mu
 
-    def GaussianLogDensity(self, x, mu, log_var):
-        c = torch.log(torch.tensor(2*np.pi))
-        var = torch.exp(log_var)
-        x_mu2_over_var = ((x - mu) ** 2 ) / (var + 1e-6)
-        log_prob = -0.5 * (c + log_var + x_mu2_over_var)
-        return torch.mean(log_prob)
-
-    def KLD_loss(self, mu,logvar):
-        # Assume target is N(0,1)
-        mu2 = torch.zeros_like(mu)
-        logvar2 = torch.zeros_like(logvar)
-        var = torch.exp(logvar)
-        var2 = torch.exp(logvar2)
-        mu_diff_sq = (mu - mu2) ** 2
-
-        dimwise_kld = 0.5*( (logvar2 - logvar) + (var + mu_diff_sq)/(var2 + 1e-6) - 1.)
-        return torch.mean(dimwise_kld)
-
-    def CrossEnt_loss(self, logits_cat, y_true):
+    def loss_SI(self, x, c, c_onehot):
         '''
-        logits_cat: softmax output
-        y_true: onehot vector
+        Get Speaker Classifier loss
+        x_src - Encoder - Speaker Classifier - loss
         '''
-        loss = (-onehot*torch.log(logits_cat + 1e-6)).sum(dim=1).mean()
-        return loss
-
-    def clf_CrossEnt_loss(self, logits, y_true):
-        '''
-        logits: output without softmax
-        y_true: label(indices)
-        '''
-        cross_entropy = nn.CrossEntropyLoss()
-        loss = cross_entropy(logits, y_true)
-        return loss
-
-    def entropy_loss(self, logits):
-        loss = torch.mean(-logits*logits.log())
-        return loss
-
-    def generate_label(self, index, batch_size):
-        '''label == [index, index, ...] with len(label) == batch_size '''
-        labels = [index] * int(batch_size)
-        return torch.tensor(labels)
-
-    def label2onehot(self, labels):
-        # labels: [1, 1, 1, ...], with len(labels) == batch_size
-        batch_size = len(labels)
-        # labels = torch.tensor(labels)
-        onehot = torch.zeros(batch_size, self.num_speakers)
-        onehot[:, labels.long()] = 1 # labels itself are indices for the onehot vectors
-        return onehot
+        mu, logvar = self.Encoder(x, c_onehot)
+        z = self.reparameterize(mu, logvar)
+        logits = self.SC(z)
+        loss_SI = F.cross_entropy(logits,c)
+        return loss_SI
 
     def encode_step(self, x,c):
         mu, logvar = self.Encoder(x,c)
@@ -322,12 +250,12 @@ class Solver(object):
         z = self.reparameterize(mu_en, lv_en)
 
         # Speaker Classifier
-        logits = self.SpeakerClassifier(z)
+        logits = self.SC(z)
 
         loss = self.clf_CrossEnt_loss(logits,c)
         return loss
 
-    def asr_step(self, x_src, ppg_src, label, batch_size):
+    def asr_step(self, x_src, si_src, label, batch_size):
     # def asr_step(self, x_src, label, batch_size):
         '''Get Automatic Speech Recognizer loss
         x_src - Encoder - Automatic Speech Recognizer - loss
@@ -341,10 +269,10 @@ class Solver(object):
         z = self.reparameterize(mu_en, lv_en)
 
         # Automatic Speech Recognizer
-        logits = self.ASRLayer(z)
+        logits = self.ASR(z)
 
         loss = self.entropy_loss(logits)
-        # loss = self.CrossEnt_loss(logits, ppg_src)
+        # loss = self.CrossEnt_loss(logits, si_src)
         return loss
 
     def clf_asr_step(self, x_src,x_trg,label_src,label_trg,batch_size):
@@ -364,13 +292,13 @@ class Solver(object):
         # KLD = self.KLD_loss(mu_en,lv_en)
 
         # Speaker Classifier
-        clf_logits = self.SpeakerClassifier(z)
+        clf_logits = self.SC(z)
         clf_loss = self.clf_CrossEnt_loss(clf_logits,c)
 
         # Automatic Speech Recognizer
-        asr_logits = self.ASRLayer(z)
+        asr_logits = self.ASR(z)
         asr_loss = self.entropy_loss(asr_logits)
-        # loss = self.CrossEnt_loss(logits, ppg_src)
+        # loss = self.CrossEnt_loss(logits, si_src)
 
         # same_xt_mu,same_xt_lv = self.decode_step(z, c_src,label_src)
         # same_x_tilde = self.reparameterize(same_xt_mu,same_xt_lv)
@@ -399,7 +327,7 @@ class Solver(object):
         loss_rec = -self.GaussianLogDensity(x_src,xt_mu,xt_lv) # Maximize probability
         return KLD,loss_rec,x_tilde
 
-    def cycle_step(self, x_src, x_trg, ppg_src, ppg_target, label_src, label_trg, batch_size):
+    def cycle_step(self, x_src, x_trg, si_src, si_target, label_src, label_trg, batch_size):
         '''Get Cycle loss
         x_src - Encoder - Decoder - x_converted - Encoder - Decoder - x_reconstructed - loss
         x_src - Encoder - Decoder - x_converted - Encoder - loss
@@ -430,7 +358,7 @@ class Solver(object):
 
         return cyc_KLD, cyc_loss_rec
 
-    def sem_step(self, x_src,x_trg,ppg_src,ppg_target,label_src,label_trg,batch_size):
+    def sem_step(self, x_src,x_trg,si_src,si_target,label_src,label_trg,batch_size):
         c_src = self.generate_label(label_src,batch_size)
         c_trg = self.generate_label(label_trg,batch_size)
         c_src = self.label2onehot(c_src).to(self.device, dtype=torch.float)
@@ -464,8 +392,8 @@ class Solver(object):
         c_src = self.label2onehot(c_src).to(self.device, dtype=torch.float)
         c_trg = self.label2onehot(c_trg).to(self.device, dtype=torch.float)
 
-        acc_s,src_t_label = self.ACLayer(x_src)
-        acc_t,trg_t_label = self.ACLayer(x_trg)
+        acc_s,src_t_label = self.AC(x_src)
+        acc_t,trg_t_label = self.AC(x_trg)
 
         AC_source =  self.CrossEnt_loss(src_t_label, c_src)
         AC_target =  self.CrossEnt_loss(trg_t_label, c_trg)
@@ -484,7 +412,7 @@ class Solver(object):
         z = self.reparameterize(mu_en,lv_en)
 
         # AC layer
-        acc_s,t_label = self.ACLayer(x_src)
+        acc_s,t_label = self.AC(x_src)
         AC_real =  self.CrossEnt_loss(t_label, c_src)
 
         # Decoder step - Full
@@ -495,61 +423,44 @@ class Solver(object):
             # Decoder
             convert_xt_mu, convert_xt_lv = self.decode_step(z, c_trg,i)
             convert_x_tilde = self.reparameterize(convert_xt_mu,convert_xt_lv)
-            acc_conv_t, c_label = self.ACLayer(convert_x_tilde)
+            acc_conv_t, c_label = self.AC(convert_x_tilde)
             AC_cross = self.CrossEnt_loss(c_label, c_trg)
             AC_cross_list.append(AC_cross)
         AC_cross = sum(AC_cross_list) / self.num_speakers # Mean loss
 
         return AC_real,AC_cross
 
-    def performance_measure(self, mfcc_target, mfcc_hat, sr = 16000, frame_period = 10.0):
-        # Dynamic Time Warping(DTW)
-        distance, path = fastdtw(mfcc, mfcc_hat, radius = 1000000, dist = 2)
+    def train(self, batch_size, lambd, n_epoch = None, train_data_dir = None, model_dir = None):
+        # 0] Manual directory designation
+        if train_data_dir is not None:
+            self.dirs['train_data'] = train_data_dir
+        if model_dir is not None:
+            self.dirs['model'] = model_dir
 
-        mcd = (10.0 / np.log(10)) * np.sqrt(2)* distance / len(path)
-        return mcd, msd
-
-    def train(self, batch_size, lambda, train_data_dir = 'processed/', exp_name=None, new = True):
-        # 0. Creating experiment environment
-
-        # 1] Set up Experiment directory
-        exp_dir_0 = 'exp/'
-        if exp_name == None:
-            exp_name = time.strftime('%m%d_%H%M%S')
-        exp_dir = os.path.join(exp_dir_0, exp_name)
-        if new == True:
-            assert not os.path.isdir(exp_dir), 'New experiment, but exp_dir with same name exists'
-            os.makedirs(exp_dir)
-
-        # 2] Validation
-        wav_source_dir = "../../corpus/inset/inset_dev/"
-        validation_pathlist_dir = 'filelist/in_dev.lst'
-        validation_data_dir = 'processed_validation/'
-
-        # 3] Log settings
-        log_dir_0 = 'log.txt'
-        log_dir = os.path.join(exp_dir, log_dir_0)
-        p = Printer(filewrite_dir = log_dir) # Printer prints out to stdout & log
-
-        # 4] Data directories
-        train_data_dir = 'processed/'
-        ppg_dir = 'processed_stateindex/'
-
-        # 5] Hyperparameters - preprocess
+# num_speakers = 100
+# batch_size = 8
+# train_data_dir = 'processed'
+#
+# self = Solver()
+# self.num_speakers
+        # 0] Hyperparameters - preprocess
         sr = 16000
         frame_period = 10.0
         num_mcep = 36
 
-        # 1. Experiment settings
-        n_epoch = 100
+        # 1] Experiment settings
+        if n_epoch is None:
+            n_epoch = 100
 
-        speaker_list = sorted(os.listdir(train_data_dir))
-i=0
-j=2
-src_speaker = speaker_list[i]
-trg_speaker = speaker_list[j]
-src_speaker
-trg_speaker
+        # 2] Log settings
+        p = Printer(filewrite_dir = self.dirs['log']) # Printer prints out to stdout & log
+
+# i=0
+# j=2
+# src_speaker = self.speaker_list[i]
+# trg_speaker = self.speaker_list[j]
+# src_speaker
+# trg_speaker
 
         # 1. Start training
         if mode == 'ASR_TIMIT':
@@ -557,36 +468,40 @@ trg_speaker
                 p.print('epoch:%s'%epoch)
                 time_start = time.time()
                 np.random.seed()
-                for i, src_speaker in enumerate(speaker_list):
-                    for j, trg_speaker in enumerate(speaker_list):
+                for i, src_speaker in enumerate(self.speaker_list):
+                    for j, trg_speaker in enumerate(self.speaker_list):
 
-                        # Load train data, and PPG
+                        # Load train data, and si
                         # Source: A, Target: B
                         train_data_A_dir = os.path.join(train_data_dir, src_speaker, 'cache{}.p'.format(num_mcep))
-                        train_data_B_dir = os.path.join(train_data_dir, trg_speaker, 'cache{}.p'.format(num_mcep))
-                        ppg_A_dir = os.path.join(ppg_dir, src_speaker)
-                        ppg_B_dir = os.path.join(ppg_dir, trg_speaker)
+                        train_data_B_dir = os.path.join(self.dirs['train_data'], trg_speaker, 'cache{}.p'.format(num_mcep))
+                        si_A_dir = os.path.join(si_dir, src_speaker)
+                        si_B_dir = os.path.join(si_dir, trg_speaker)
 
-                        _, coded_sps_norm_A, coded_sps_mean_A, coded_sps_std_A, log_f0s_mean_A, log_f0s_std_A = load_pickle(train_data_A_dir)
-                        _, coded_sps_norm_B, coded_sps_mean_B, coded_sps_std_B, log_f0s_mean_B, log_f0s_std_B = load_pickle(train_data_B_dir)
-                        ppg_A = sort_load(ppg_A_dir) # [ppg, ppg, ...], ppg.shape == (n, 144)
-                        ppg_B = sort_load(ppg_B_dir)
-p=ppg_A[0]
-p.shape
-for p, c in zip(ppg_A, coded_sps_norm_A):
-    print(p.shape, c.shape)
+                        _, coded_sps_norm_A, _, _, _, _ = load_pickle(train_data_A_dir) #filelist_A, coded_sps_norm_A, coded_sps_mean_A, coded_sps_std_A, log_f0s_mean_A, log_f0s_std_A
+                        _, coded_sps_norm_B, _, _, _, _ = load_pickle(train_data_B_dir)
+                        si_A = sort_load(si_A_dir) # [si, si, ...], si.shape == (n,)
+                        si_B = sort_load(si_B_dir)
+# p=si_A[0]
+# p.shape
+# for p, c in zip(si_A, coded_sps_norm_A):
+#     print(p.shape, c.shape)
 
-                        dataset_A, dataset_B, ppgset_A, ppgset_B = sample_train_data(dataset_A=coded_sps_norm_A, dataset_B=coded_sps_norm_B, ppgset_A=ppg_A, ppgset_B=ppg_B, n_frames=self.n_training_frames)
+                        dataset_A, dataset_B, siset_A, siset_B = sample_train_data(dataset_A=coded_sps_norm_A, dataset_B=coded_sps_norm_B, siset_A=si_A, siset_B=si_B, n_frames=self.n_training_frames)
                         num_data = dataset_A.shape[0]
 
                         dataset_A = np.expand_dims(dataset_A, axis=1)
-                        dataset_A = torch.from_numpy(dataset_A).to(self.device, dtype=torch.float)
+                        dataset_A = torch.as_tensor(dataset_A, device = self.device, dtype=torch.float)
                         dataset_B = np.expand_dims(dataset_B, axis=1)
-                        dataset_B = torch.from_numpy(dataset_B).to(self.device, dtype=torch.float)
-                        ppgset_A = np.expand_dims(ppgset_A, axis=1)
-                        ppgset_A = torch.from_numpy(ppgset_A).to(self.device, dtype=torch.float)
-                        ppgset_B = np.expand_dims(ppgset_B, axis=1)
-                        ppgset_B = torch.from_numpy(ppgset_B).to(self.device, dtype=torch.float)
+                        dataset_B = torch.as_tensor(dataset_B, device = self.device, dtype=torch.float)
+                        siset_A = np.expand_dims(siset_A, axis=1)
+                        siset_A = torch.as_tensor(siset_A, device = self.device, dtype=torch.float)
+                        siset_B = np.expand_dims(siset_B, axis=1)
+                        siset_B = torch.as_tensor(siset_B, device = self.device, dtype=torch.float)
+                        c_A = self.generate_label(i, batch_size).to(self.device, dtype = torch.long)
+                        c_B = self.generate_label(j, batch_size).to(self.device, dtype = torch.long)
+                        c_onehot_A = self.label2onehot(c_A).to(self.device, dtype = torch.long)
+                        c_onehot_B = self.label2onehot(c_B).to(self.device, dtype = torch.long)
 
                         p.print('source: %s, target: %s, num_data: %s'%(src_speaker, trg_speaker, num_data))
                         for iteration in range(4):
@@ -595,12 +510,26 @@ for p, c in zip(ppg_A, coded_sps_norm_A):
 
                             x_batch_A = dataset_A[start:end]
                             x_batch_B = dataset_B[start:end]
-                            ppg_batch_A = ppgset_A[start:end]
-                            ppg_batch_B = ppgset_B[start:end]
+                            si_batch_A = siset_A[start:end]
+                            si_batch_B = siset_B[start:end]
 
                             if ((iteration+1) % 4)!=0 :
                                 # Update Speaker Clssifier (CLF) module
                                 self.grad_reset()
+                                # Generate label
+                                c = self.generate_label(label,batch_size).to(device = self.device, dtype = torch.long) # [label, label, ...]
+                                c_src = self.label2onehot(c_src).to(device = self.device, dtype=torch.float) # label -> onehot vector
+
+                                # Encoder
+                                mu_en, lv_en = self.encode_step(x_src, c_src)
+                                z = self.reparameterize(mu_en, lv_en)
+
+                                # Speaker Classifier
+                                logits = self.SC(z)
+
+                                loss = self.clf_CrossEnt_loss(logits,c)
+
+
                                 clf_loss_A = self.clf_step(x_batch_A, i, batch_size)
                                 clf_loss_B = self.clf_step(x_batch_B, j, batch_size)
                                 CLF_loss = clf_loss_A + clf_loss_B
@@ -641,12 +570,12 @@ for p, c in zip(ppg_A, coded_sps_norm_A):
                                 ASR_loss = (asr_loss_A + asr_loss_B) / 2.0
 
                                 ###Cycle step
-                                src_cyc_KLD, src_cyc_loss_rec = self.cycle_step(x_batch_A,x_batch_B,ppg_batch_A,ppg_batch_B,i,j,batch_size)
-                                trg_cyc_KLD, trg_cyc_loss_rec = self.cycle_step(x_batch_B,x_batch_A,ppg_batch_B,ppg_batch_A,j,i,batch_size)
+                                src_cyc_KLD, src_cyc_loss_rec = self.cycle_step(x_batch_A,x_batch_B,si_batch_A,si_batch_B,i,j,batch_size)
+                                trg_cyc_KLD, trg_cyc_loss_rec = self.cycle_step(x_batch_B,x_batch_A,si_batch_B,si_batch_A,j,i,batch_size)
 
                                 ###Semantic step
-                                src_semloss = self.sem_step(x_batch_A,x_batch_B,ppg_batch_A,ppg_batch_B,i,j,batch_size)
-                                trg_semloss = self.sem_step(x_batch_B,x_batch_A,ppg_batch_B,ppg_batch_A,j,i,batch_size)
+                                src_semloss = self.sem_step(x_batch_A,x_batch_B,si_batch_A,si_batch_B,i,j,batch_size)
+                                trg_semloss = self.sem_step(x_batch_B,x_batch_A,si_batch_B,si_batch_A,j,i,batch_size)
 
                                 AC_f_loss = (AC_real_src + AC_real_trg + AC_cross_src + AC_cross_trg) / 4.0
                                 Sem_loss = (src_semloss + trg_semloss) / 2.0
@@ -654,7 +583,7 @@ for p, c in zip(ppg_A, coded_sps_norm_A):
                                 Cycle_rec_loss = (src_cyc_loss_rec + trg_cyc_loss_rec) / 2.0
                                 KLD_loss = (src_KLD + trg_KLD)
                                 Rec_loss = (src_same_loss_rec + trg_same_loss_rec)
-                                loss = Rec_loss + KLD_loss + Cycle_KLD_loss + Cycle_rec_loss + AC_f_loss + Sem_loss-CLF_loss#+ASR_loss
+                                loss = Rec_loss + KLD_loss + Cycle_KLD_loss + Cycle_rec_loss + AC_f_loss + Sem_loss - CLF_loss#+ASR_loss
                                 loss.backward()
                                 self.vae_optimizer.step()
                 time_end = time.time()
@@ -670,117 +599,242 @@ for p, c in zip(ppg_A, coded_sps_norm_A):
 
                 # Validation
                 if (ep) % 50 ==0:
-                    validation_results = pd.DataFrame(columns = ['mcd', 'msd', 'gv'])
-                    validation_result_output_dir = os.path.join(self.dirs['exp_dir'], 'validation_{}.p'.format(ep))
-                    validation_pathlist = read(self.dirs['validation_pathlist']).splitlines()
-                    validation_log_dir = os.path.join(self.dirs['exp_dir'], "validation_{}.txt".format(ep))
-                    validation_log = open(validation_log_dir, 'a')
-
-                    validation_log.write('epoch_{}\n'.format(ep))
-                    validation_pathlist = read(validation_pathlist_dir).splitlines()
-
-                    for validation_path in validation_pathlist:
-validation_path = validation_pathlist[0]
-
-                        # Specify conversion details
-                        conversion_path_sex, filename_src, filename_trg = validation_path.split()
-                        src_speaker = filename_src.split('_')[0]
-                        trg_speaker = filename_trg.split('_')[0]
-                        label_src = speaker_list.index(src_speaker)
-                        label_trg = speaker_list.index(trg_speaker)
-                        wav_trg_dir = os.path.join(wav_source_dir, trg_speaker, '{}.wav'.format(filename_trg))
-
-                        # Define datapath
-                        data_A_dir = os.path.join(validation_data_dir, src_speaker, '{}.p'.format(filename_src))
-                        data_B_dir = os.path.join(validation_data_dir, trc_speaker, '{}.p'.format(filename_trg))
-                        train_data_A_dir = os.path.join(train_data_dir, src_speaker, 'cache{}.p'.format(num_mcep))
-                        train_data_B_dir = os.path.join(train_data_dir, trg_speaker, 'cache{}.p'.format(num_mcep))
-
-                        # Load data
-                        coded_sps_norm_A, coded_sps_mean_A, coded_sps_std_A, log_f0s_mean_A, log_f0s_std_A = load_pickle(os.path.join(train_data_A_dir, 'cache{}.p'.format(num_mcep)))
-                        coded_sps_norm_B, coded_sps_mean_B, coded_sps_std_B, log_f0s_mean_B, log_f0s_std_B = load_pickle(os.path.join(train_data_B_dir, 'cache{}.p'.format(num_mcep)))
-                        coded_sp, ap, f0 = load_pickle(data_A_dir) # coded_sp.shape: (T, 36)
-                        coded_sp_trg, _, _ = load_pickle(data_B_dir)
-
-                        # Prepare input
-                        coded_sp = coded_sp.T
-                        coded_sp_norm = (coded_sp - coded_sps_mean_A) / coded_sps_std_A
-                        coded_sp_norm = np.expand_dims(coded_sp_norm, axis=0)
-                        coded_sp_norm = np.expand_dims(coded_sp_norm, axis=0)
-                        coded_sp_norm = torch.from_numpy(coded_sp_norm).to(self.device, dtype=torch.float)
-
-                        c_src = self.generate_label(label_src,1)
-                        c_trg = self.generate_label(label_trg,1)
-                        c_src = self.label2onehot(c_src).to(self.device, dtype=torch.float)
-                        c_trg = self.label2onehot(c_trg).to(self.device, dtype=torch.float)
-
-                        # Convert
-                        coded_sp_converted_norm = self.test_step(coded_sp_norm, c_src, c_trg, label_trg)
-
-                        # Post-process output
-                        coded_sp_converted_norm = np.squeeze(coded_sp_converted_norm, axis=0)
-                        coded_sp_converted_norm = np.squeeze(coded_sp_converted_norm, axis=0)
-
-                        # Additional conversions
-                        # f0_converted = pitch_conversion(f0=f0, mean_log_src=log_f0s_mean_A, std_log_src=log_f0s_std_A, mean_log_target=log_f0s_mean_B, std_log_target=log_f0s_std_B)
-
-                        if coded_sp_converted_norm.shape[1] > len(f0):
-                            p.print('shape not coherent?? file:%s'%(filename_src))
-                            p.print(validation_path)
-                            coded_sp_converted_norm = coded_sp_converted_norm[:, :-1]
-                        coded_sp_converted = coded_sp_converted_norm * coded_sps_std_B + coded_sps_mean_B
-
-                        coded_sp_converted = coded_sp_converted.T
-                        coded_sp_converted = np.ascontiguousarray(coded_sp_converted)
-
-                        mcd, msd, gv = self.performance_measure(coded_sp_target, conded_sp_converted, sr=sr, frame_period=frame_period)
-
-                        validation_results.loc[validation_path] = mcd, msd, gv
-                        validation_log.write(validation_path + str(mcd) + ' ' + str(msd) + ' ' + str(gv) + '\n')
-                    save_pickle(validation_result, validation_result_output_dir)
+                    validation_result_dir = os.path.join(self.dirs['exp_dir'], 'validation_{}.p'.format(ep))
+                    validation_result = self.performance_measure(output_suffix = ep)
+                    save_pickle(validation_result, validation_result_dir)
                     p.print("Epoch {} : Validation Process Complete.".format(ep))
                     self.set_train()
 
+    def performance_measure(self, test_data_dir = None, test_pathlist_dir = None, output_suffix = None):
+        # mfcc_target, mfcc_hat, sr = 16000, frame_period = 10.0):
+        if test_data_dir is not None:
+            self.dirs['test_data'] = test_data_dir
+        if test_pathlist_dir is not None:
+            self.dirs['test_pathlist'] = test_pathlist_dir
+        if output_suffix is not None:
+            test_log_name = "test_{}.txt".format(output_suffix)
+        else:
+            test_log_name = "test.txt"
+
+        test_log_dir = os.path.join(self.dirs['exp_dir'], test_log_name)
+        p = Printer(filewrite_dir = test_log_dir)
+
+        test_pathlist = read(self.dirs['test_pathlist']).splitlines()
+        test_result = pd.DataFrame(index = test_pathlist, columns = ['mcd', 'msd', 'gv'], dtype = float)
+
+# test_path = test_pathlist[0]
+        # 1] Convert all data
+        p.print('Loading&Converting test data...')
+        converted_mcep_list = list()
+        target_mcep_list = list()
+        for test_path in test_pathlist:
+
+            # Specify conversion details
+            conversion_path_sex, filename_src, filename_trg = test_path.split()
+            src_speaker = filename_src.split('_')[0]
+            trg_speaker = filename_trg.split('_')[0]
+            label_src = self.speaker_list.index(src_speaker)
+            label_trg = self.speaker_list.index(trg_speaker)
+
+            # Define datapath
+            data_A_dir = os.path.join(self.dirs['test_data'], src_speaker, '{}.p'.format(filename_src))
+            data_B_dir = os.path.join(self.dirs['test_data'], trc_speaker, '{}.p'.format(filename_trg))
+            train_data_A_dir = os.path.join(self.dirs['train_data'], src_speaker, 'cache{}.p'.format(num_mcep))
+            train_data_B_dir = os.path.join(self.dirs['train_data'], trg_speaker, 'cache{}.p'.format(num_mcep))
+
+            # Load data
+            coded_sps_norm_A, coded_sps_mean_A, coded_sps_std_A, _, _ = load_pickle(os.path.join(train_data_A_dir, 'cache{}.p'.format(num_mcep)))
+            coded_sps_norm_B, coded_sps_mean_B, coded_sps_std_B, _, _ = load_pickle(os.path.join(train_data_B_dir, 'cache{}.p'.format(num_mcep)))
+            coded_sp, _, f0 = load_pickle(data_A_dir) # coded_sp.shape: (T, 36)
+            coded_sp_trg, _, _ = load_pickle(data_B_dir)
+
+            # Prepare input
+            coded_sp = coded_sp.T
+            coded_sp_norm = (coded_sp - coded_sps_mean_A) / coded_sps_std_A
+            coded_sp_norm = np.expand_dims(coded_sp_norm, axis=0)
+            coded_sp_norm = np.expand_dims(coded_sp_norm, axis=0)
+            coded_sp_norm = torch.from_numpy(coded_sp_norm).to(self.device, dtype=torch.float)
+
+            c_src = self.generate_label(label_src,1)
+            c_trg = self.generate_label(label_trg,1)
+            c_src = self.label2onehot(c_src).to(self.device, dtype=torch.float)
+            c_trg = self.label2onehot(c_trg).to(self.device, dtype=torch.float)
+
+            # Convert
+            coded_sp_converted_norm = self.test_step(coded_sp_norm, c_src, c_trg, label_trg)
+
+            # Post-process output
+            coded_sp_converted_norm = np.squeeze(coded_sp_converted_norm, axis=0)
+            coded_sp_converted_norm = np.squeeze(coded_sp_converted_norm, axis=0)
+
+            # Additional conversions
+            # f0_converted = pitch_conversion(f0=f0, mean_log_src=log_f0s_mean_A, std_log_src=log_f0s_std_A, mean_log_target=log_f0s_mean_B, std_log_target=log_f0s_std_B)
+            if coded_sp_converted_norm.shape[1] > len(f0):
+                p.print('shape not coherent?? file:%s'%(filename_src))
+                p.print(test_path)
+                coded_sp_converted_norm = coded_sp_converted_norm[:, :-1]
+
+            coded_sp_converted = coded_sp_converted_norm * coded_sps_std_B + coded_sps_mean_B
+            coded_sp_converted = coded_sp_converted.T
+            coded_sp_converted = np.ascontiguousarray(coded_sp_converted)
+
+            converted_mcep_list.append(coded_sp_converted)
+            target_mcep_list.append(coded_sp_trg)
+
+        # 2] Calculate performance_measures (MCD, MSD, GV)
+        p.print('Calculating MCD, MSD, GV')
+        pool = Pool(35)
+        converted_ms_list = pool.map(extract_ms, converted_mcep_list)
+        target_ms_list = pool.map(extract_ms, target_mcep_list)
+        pool.close()
+        pool.join()
+
+        pool = Pool(35)
+        mcd_list = pool.starmap(mcd_cal, zip(converted_mcep_list, target_mcep_list))
+        msd_list = pool.starmap(msd_cal, zip(converted_ms_list, target_ms_list))
+        pool.close()
+        pool.join()
+
+        # 3] Save Results
+        p.print('Calculation complete.')
+        for test_path, mcd, msd, gv in zip(test_pathlist, mcd_list, msd_list, gv_list):
+            test_result.loc[test_path] = mcd, msd, gv
+            p.print(test_path + str(mcd) + ' ' + str(msd) + ' ' + str(gv) + '\n')
+
+        return test_result
+
+w = torch.tensor([1,2,3,4,5], dtype = float, requires_grad = True)
+a = torch.tensor([2,2,2,2,2], dtype = float)
+
+h1=a*w
+h1
+h1_ = h1.sum()
+h1_.backward()
+h2=h1*w
+h2
+h2_=h2.sum()
+h2_
+h2_.backward()
+h3 = h2*w
+h3_ = h3.sum()
+h3_.backward()
+w.grad
+w.grad.data.zero_()
+
+w
+w_[0] = 7
+z = torch.as_tensor(w_)
+z
+y =a*w
+y_ = y.sum()
+y_.backward()
+a.grad
+b = a * 3
+c = a * 5
+c
+b_ = b.sum()
+b_
+b_.backward()
+c_ = c.sum()
+c_.backward()
+a.grad
+a.grad
+d = b+c
+d_ = d.sum()
+a.grad.data.zero_()
+a.grad
+d_.backward()
+e = a * 10
+e_ = e.sum()
+e_.backward()
+
+=0
+b = a+1
+
+
+#
+# from scipy.spatial.distance import euclidean
+# def norm(p):
+#     return lambda a, b: np.linalg.norm(np.atleast_1d(a) - np.atleast_1d(b), p)
+# x = np.array([[1,1], [2,2], [3,3], [4,4], [5,5]])
+# y = np.array([[2,2], [3,3], [4,4]])
+# x=coded_sps_norm_A[0].T
+# y=coded_sps_norm_B[0].T
+# x.shape
+# y.shape
+# x.shape
+# y.shape
+# distance1, path1 = fastdtw.fastdtw(x.T, y.T, dist=2)
+# # %% time
+# s1 = time.time()
+# distance2, path2 = fastdtw.dtw(x,y, dist=1)
+# e1 = time.time()
+# s2 = time.time()
+# distance4, c, ac, path4 = dtw.dtw(x,y,dist = norm(1))
+# e2 = time.time()
+#
+# for p1, p2 in zip(path2, path4[1]):
+#     print(p1[1], p2)
+# len(path2)
+# path4
+#
+# #  %%
+# distance3, path3 = fastdtw.fasatdtw
+# print(distance2, e1-s1)
+# print(distance4, e2-s2)
+#
+# mcd1 = 10/np.log(10)*np.sqrt(2)*distance1
+#
+# print(mcd1)
+# help(dtw.dtw)
+# print(distance1)
+# print(path1)
+# print(distance2)
+# print(path2)
+#
+# np.linalg.norm([1,2],2)
+# help(np.atleast_1d)
+
 # x_src = x_batch_A
 # x_trg = x_batch_B
-# ppg_src = ppg_batch_A
-# ppg_trg = ppg_batch_B
+# si_src = si_batch_A
+# si_trg = si_batch_B
 # label_src = i
 # label_trg = j
 
-# ppg_A = load_pickle('processed_ppgs_train/p226/ppgs_train.p')
-# for ppg in ppg_A:
-#     print(ppg.shape)
+# si_A = load_pickle('processed_sis_train/p226/sis_train.p')
+# for si in si_A:
+#     print(si.shape)
 # dataset_A.shape
 # dataset_B.shape
-# ppgset_A.shape
-# for ppg in ppgset_A:
-#     print(ppg.shape)
+# siset_A.shape
+# for si in siset_A:
+#     print(si.shape)
 # len(coded_sps_norm_A)
 # len(coded_sps_norm_B)
-# len(ppg_A)
-# len(ppg_B)
+# len(si_A)
+# len(si_B)
 # trg_speaker
 # train_data_B_dir
 # coded_sps_norm_A[0].shape
-# for c, d in zip(coded_sps_norm_A, ppg_A):
+# for c, d in zip(coded_sps_norm_A, si_A):
 #     print(c.shape, d.shape)
-# for c, d in zip(coded_sps_norm_B, ppg_B):
+# for c, d in zip(coded_sps_norm_B, si_B):
 #     print(c.shape, d.shape)
 #
-# ppg_A
-# len(ppg_B)
-# ppg_A[0].shape
-# ppg_A[1].shape
+# si_A
+# len(si_B)
+# si_A[0].shape
+# si_A[1].shape
 # file_dir = 'G:\\vctk\\inset_train\\p288'
 # file_list = sorted(os.listdir(file_dir))
 # file_list
-# ppg_B = list()
+# si_B = list()
 # for file in file_list:
 #     file_dir_1 = os.path.join(file_dir, file)
-#     ppg = load_pickle(file_dir_1)
-#     ppg_B.append(ppg)
+#     si = load_pickle(file_dir_1)
+#     si_B.append(si)
 #
-# for ppg in ppg_B:
-#     print(ppg.shape)
+# for si in si_B:
+#     print(si.shape)
 # a

@@ -1,3 +1,9 @@
+import pysptk, librosa, numpy as np
+from speech_tools import *
+from multiprocessing import Pool
+from dtw import dtw
+from fastdtw import fastdtw
+
 def calculate_mcd_msd(alpha, fftlen, pool, sr=22050, num_mcep=36, frame_period=5.0, validation_dir='./result/output',
                       gt_dir='./VCC2018/vcc2018_evaluation'):
     converted_dirs = os.listdir(validation_dir)
@@ -127,21 +133,23 @@ def extract_ms(mcep):
     ms = logpowerspec2(4096, mcep)
     return ms
 
-
 def mcd_cal(converted_mcep, target_mcep):
     converted_mcep = converted_mcep[:,1:]
     target_mcep = target_mcep[:,1:]
-    twf = estimate_twf(converted_mcep, target_mcep, fast=False)
-    converted_mcep_mod = converted_mcep[twf[0]]
-    target_mcep_mod = target_mcep[twf[1]]
-    mcd = melcd(converted_mcep_mod, target_mcep_mod)
+    distance, twf = estimate_twf(converted_mcep, target_mcep, fast=False)
+    T = len(twf[0])
+    mcd = distance / T
     return mcd
 
-
 def msd_cal(converted_ms, target_ms):
-    msd = np.sqrt(np.mean(np.power((converted_ms - target_ms), 2)))
+    # Distance between two vectors
+    msd = np.sqrt(np.sum((converted_ms - target_ms) ** 2))
+    # msd = np.sqrt(np.mean(np.power((converted_ms - target_ms), 2)))
     return msd
 
+def gv_cal(mcep):
+    gv = np.mean(np.var(mcep, axis = 0))
+    return gv
 
 def logpowerspec(fftsize, data):
     # create zero padded data
@@ -212,31 +220,22 @@ def estimate_twf(orgdata, tardata, distance='melcd', fast=True, otflag=None):
 
     return distance, twf
 
-
-import pysptk, librosa, numpy as np
-from preprocess import *
-from multiprocessing import Pool
-from dtw import dtw
-from fastdtw import fastdtw
-import argparse
-
-alpha = 0.455
-fftlen = 4096
-
-parser = argparse.ArgumentParser(description='T')
-
-model_default = '/nas/harden.lsd/CCGAN-VC'
-parser.add_argument('--model', type=str, help='model',
-                        default=model_default)
-parser.add_argument('--gt_dir', type=str, help='model',
-                        default='./VCC2018/vcc2018_evaluation')
-parser.add_argument('--pool', type=int, help='pool',
-                        default=35)
-
-argv = parser.parse_args()
-gt_dir = argv.gt_dir
-model = argv.model
-pool = argv.pool
-
-calculate_mcd_msd(alpha, fftlen, pool, sr=22050, num_mcep=36, frame_period=5.0, validation_dir=model,
-                      gt_dir=gt_dir)
+# x = np.linspace(0,10,200)
+# y1 = np.cos(2*np.pi/10 *100* x)
+# plt.plot(y1)
+# y=np.cos(2*np.pi/10* 20 * x) + np.cos(2*np.pi/10* 30 * x) + np.sin(2*np.pi/10* 50 * x)
+# import matplotlib.pyplot as plt
+# plt.plot(x,y)
+# help(np.fft.helper)
+# help(np.fft.fftn)
+# help(np.fft.fft)
+# help(np.fft.fft2)
+# help(np.fft.rfft)
+# re=np.fft.rfft(y)
+# res = np.fft.rfft(y1)
+# plt.plot(abs(res))
+# re.shape
+# plt.plot(abs(re))
+# plt.plot(re.real)
+# plt.plot(re.imag)
+# abs(re) == np.sqrt(re.imag **2 + re.real**2)
