@@ -25,6 +25,20 @@ def plot_result(exp_name):
 
     mean = pd.DataFrame(mean, columns = ['mcd','msd','gv'], index = epoch).sort_index()
     save_pickle(mean, 'mean.p')
+
+    for measure in mean.columns:
+        fig_save_dir = os.path.join(validation_dir, measure+'.png')
+        axes = mean.plot(y=measure, style='o-')
+        fig = axes.get_figure()
+        fig.savefig(fig_save_dir)
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description = 'Plot&Save validation results with specified exp_name')
+    parser.add_argument('--exp_name', type = str, help = 'Experiment name. All files will be stored in exp/exp_name')
+    args = parser.parse_args()
+
+    plot_result(exp_name = args.exp_name)
+
 # p=load_pickle('mean.p')
 # p.sort_index()
 # p
@@ -35,11 +49,6 @@ def plot_result(exp_name):
 #     print(i)
 # a
 
-    for measure in mean.columns:
-        fig_save_dir = os.path.join(validation_dir, measure+'.png')
-        axes = mean.plot(y=measure, style='o-')
-        fig = axes.get_figure()
-        fig.savefig(fig_save_dir)
 
 # c
 #
@@ -95,10 +104,3 @@ def plot_result(exp_name):
 #     plt.plot(epoch, mean[performance_measure])
 #
 #     save plot
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description = 'Plot&Save validation results with specified exp_name')
-    parser.add_argument('--exp_name', type = str, help = 'Experiment name. All files will be stored in exp/exp_name')
-    args = parser.parse_args()
-
-    plot_result(exp_name = args.exp_name)

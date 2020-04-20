@@ -426,8 +426,6 @@ def sample_train_data(dataset_A, dataset_B,ppgset_A,ppgset_B, n_frames=128):
     train_data_A = np.array(train_data_A)
     train_data_B = np.array(train_data_B)
 
-    #train_data_A = np.expand_dims(train_data_A, axis=-1)
-    #train_data_B = np.expand_dims(train_data_B, axis=-1)
     return train_data_A, train_data_B,train_data_ppg_A,train_data_ppg_B
 """
 def sample_train_data(dataset_A, dataset_B, n_frames=128):

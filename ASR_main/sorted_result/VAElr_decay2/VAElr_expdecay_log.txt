@@ -1,0 +1,3019 @@
+Experiment start at:2020-04-19 12:24 01s
+Start Training with the following setting:
+******************************
+torch version: 1.4.0
+train_data_dir: processed/
+model_dir: exp/VAElr_expdecay/model/
+num_speakers: 4
+training parameters: {'n_train_frames': 128, 'batch_size': 32, 'mini_batch_size': 8, 'iter_per_ep': 4, 'start_epoch': 1, 'n_epoch': 200, 'model_save_epoch': 2, 'validation_epoch': 2, 'sample_per_path': 10}
+lambd: {'SI': 0, 'LI': 0, 'AC': 0, 'SC': 0, 'C': 0}
+lambd_total: 1
+lambda normalization: True
+model optimizer configurations:
+VAE: {'lr': 0.01, 'betas': (0.9, 0.999), 'eps': 1e-08, 'weight_decay': 0, 'amsgrad': False}
+SC: {'lr': 0.0002, 'betas': (0.5, 0.999), 'eps': 1e-08, 'weight_decay': 0, 'amsgrad': False}
+ASR: {'lr': 1e-05, 'betas': (0.5, 0.999), 'eps': 1e-08, 'weight_decay': 0, 'amsgrad': False}
+AC: {'lr': 5e-05, 'betas': (0.5, 0.999), 'eps': 1e-08, 'weight_decay': 0, 'amsgrad': False}
+model lr_scheduler configurations:
+VAE: {'gamma': 0.9660508789898133, 'base_lrs': [0.01], 'last_epoch': 0, '_step_count': 1, '_get_lr_called_within_step': False, '_last_lr': [0.01]}
+******************************
+Epoch:1
+VAE lr:0.01
+Time elapsed this epoch: 0.0m 4.8275s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  3.384699  3.384699 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.564119  0.564119 NaN NaN NaN  NaN    NaN
+Epoch:2
+VAE lr:0.009660508789898133
+Time elapsed this epoch: 0.0m 3.3174s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  4.863941  4.863941 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  1.600035  1.600035 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 2
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 52.695s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  7.427592  6.642818  294.645819  0.000034
+Std
+        mcd   msd_all  msd_vector       gv
+0  1.006784  0.294684   13.092985  0.00004
+--------------------------------------------------
+Epoch:3
+VAE lr:0.00933254300796991
+Time elapsed this epoch: 0.0m 3.3196s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  3.370409  3.370409 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.463689  0.463689 NaN NaN NaN  NaN    NaN
+Epoch:4
+VAE lr:0.009015711376059568
+Time elapsed this epoch: 0.0m 3.3413s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.963127  2.963127 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.076607  0.076607 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 4
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.857s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  7.421384  6.782359  300.175049  0.000038
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.015506  0.301735   13.412071  0.000099
+--------------------------------------------------
+Epoch:5
+VAE lr:0.008709635899560805
+Time elapsed this epoch: 0.0m 3.3562s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.972358  2.972358 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.066573  0.066573 NaN NaN NaN  NaN    NaN
+Epoch:6
+VAE lr:0.008413951416451949
+Time elapsed this epoch: 0.0m 3.341s
+Mean
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  2.98845  2.98845 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.092501  0.092501 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 6
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.33s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  7.422839  6.793469  300.393217  0.000073
+Std
+       mcd   msd_all  msd_vector       gv
+0  1.00896  0.314361    13.80112  0.00012
+--------------------------------------------------
+Epoch:7
+VAE lr:0.00812830516164099
+Time elapsed this epoch: 0.0m 3.3039s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  3.025332  3.025332 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.089445  0.089445 NaN NaN NaN  NaN    NaN
+Epoch:8
+VAE lr:0.007852356346100715
+Time elapsed this epoch: 0.0m 3.309s
+Mean
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  3.00245  3.00245 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.110856  0.110856 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 8
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.744s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  7.089761  6.675706  295.877809  0.018439
+Std
+       mcd   msd_all  msd_vector       gv
+0  1.07344  0.301655   13.156724  0.01309
+--------------------------------------------------
+Epoch:9
+VAE lr:0.007585775750291835
+Time elapsed this epoch: 0.0m 3.3574s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  3.023313  3.023313 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.119741  0.119741 NaN NaN NaN  NaN    NaN
+Epoch:10
+VAE lr:0.007328245331389038
+Time elapsed this epoch: 0.0m 3.3662s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.968055  2.968055 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.117525  0.117525 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 10
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.298s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.915864  6.676426  296.314495  0.041642
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.013496  0.313448    13.72349  0.017957
+--------------------------------------------------
+Epoch:11
+VAE lr:0.007079457843841376
+Time elapsed this epoch: 0.0m 3.3876s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.987882  2.987882 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.110526  0.110526 NaN NaN NaN  NaN    NaN
+Epoch:12
+VAE lr:0.0068391164728142904
+Time elapsed this epoch: 0.0m 3.3002s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.970548  2.970548 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.123849  0.123849 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 12
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.635s
+Validation Complete.
+Mean
+        mcd  msd_all  msd_vector       gv
+0  6.922603  6.73872   299.21838  0.03818
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.041351  0.297478   13.106757  0.016429
+--------------------------------------------------
+Epoch:13
+VAE lr:0.006606934480075957
+Time elapsed this epoch: 0.0m 3.3296s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.968697  2.968697 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.137694  0.137694 NaN NaN NaN  NaN    NaN
+Epoch:14
+VAE lr:0.006382634861905484
+Time elapsed this epoch: 0.0m 3.325s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.908038  2.908038 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.092496  0.092496 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 14
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.754s
+Validation Complete.
+Mean
+      mcd   msd_all  msd_vector        gv
+0  6.8611  6.755506  299.865758  0.047684
+Std
+        mcd  msd_all  msd_vector        gv
+0  1.015486  0.30079   13.147393  0.016091
+--------------------------------------------------
+Epoch:15
+VAE lr:0.006165950018614819
+Time elapsed this epoch: 0.0m 3.3478s
+Mean
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  2.91003  2.91003 NaN NaN NaN  NaN    NaN
+Std
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  0.09643  0.09643 NaN NaN NaN  NaN    NaN
+Epoch:16
+VAE lr:0.005956621435290101
+Time elapsed this epoch: 0.0m 3.3126s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.871274  2.871274 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090044  0.090044 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 16
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.815s
+Validation Complete.
+Mean
+        mcd  msd_all  msd_vector        gv
+0  6.865466  6.70953   297.91279  0.045073
+Std
+        mcd   msd_all  msd_vector       gv
+0  1.004523  0.297541    13.05043  0.01884
+--------------------------------------------------
+Epoch:17
+VAE lr:0.005754399373371566
+Time elapsed this epoch: 0.0m 3.385s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.891746  2.891746 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088503  0.088503 NaN NaN NaN  NaN    NaN
+Epoch:18
+VAE lr:0.005559042572704032
+Time elapsed this epoch: 0.0m 3.3707s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.876237  2.876237 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088309  0.088309 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 18
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.37s
+Validation Complete.
+Mean
+        mcd  msd_all  msd_vector        gv
+0  6.913966  6.71945  298.433789  0.045233
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.041415  0.299251   13.140322  0.023254
+--------------------------------------------------
+Epoch:19
+VAE lr:0.0053703179637025235
+Time elapsed this epoch: 0.0m 3.343s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.890424  2.890424 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.084485  0.084485 NaN NaN NaN  NaN    NaN
+Epoch:20
+VAE lr:0.005188000389289607
+Time elapsed this epoch: 0.0m 3.315s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.862797  2.862797 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091921  0.091921 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 20
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.693s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.860929  6.767377  300.460288  0.050595
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.021884  0.288751   12.786876  0.021805
+--------------------------------------------------
+Epoch:21
+VAE lr:0.005011872336272719
+Time elapsed this epoch: 0.0m 3.2898s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.870682  2.870682 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.079974  0.079974 NaN NaN NaN  NaN    NaN
+Epoch:22
+VAE lr:0.00484172367584099
+Time elapsed this epoch: 0.0m 3.3731s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.845533  2.845533 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.093423  0.093423 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 22
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.834s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.852144  6.775283  300.750646  0.060102
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.991083  0.288915   12.796921  0.023031
+--------------------------------------------------
+Epoch:23
+VAE lr:0.0046773514128719785
+Time elapsed this epoch: 0.0m 3.3453s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.870808  2.870808 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.079704  0.079704 NaN NaN NaN  NaN    NaN
+Epoch:24
+VAE lr:0.00451855944374922
+Time elapsed this epoch: 0.0m 3.371s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.852723  2.852723 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.095192  0.095192 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 24
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.783s
+Validation Complete.
+Mean
+        mcd  msd_all  msd_vector      gv
+0  6.783329  6.77156   300.70468  0.0618
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.967242  0.287833   12.732497  0.016965
+--------------------------------------------------
+Epoch:25
+VAE lr:0.004365158322401656
+Time elapsed this epoch: 0.0m 3.3806s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.863225  2.863225 NaN NaN NaN  NaN    NaN
+Std
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  0.08552  0.08552 NaN NaN NaN  NaN    NaN
+Epoch:26
+VAE lr:0.004216965034285819
+Time elapsed this epoch: 0.0m 3.3799s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.836253  2.836253 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090695  0.090695 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 26
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.795s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.748653  6.801988   301.87458  0.067092
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.983387  0.293293   12.951022  0.015387
+--------------------------------------------------
+Epoch:27
+VAE lr:0.004073802778041123
+Time elapsed this epoch: 0.0m 3.3823s
+Mean
+      VAE   MDVAE  SI  LI  AC  Sem  Cycle
+0  2.8558  2.8558 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.086644  0.086644 NaN NaN NaN  NaN    NaN
+Epoch:28
+VAE lr:0.003935500754557771
+Time elapsed this epoch: 0.0m 3.405s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.830386  2.830386 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090333  0.090333 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 28
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.921s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.709597  6.807071  302.058393  0.073865
+Std
+        mcd   msd_all  msd_vector       gv
+0  0.963498  0.291225   12.916809  0.01538
+--------------------------------------------------
+Epoch:29
+VAE lr:0.0038018939632056084
+Time elapsed this epoch: 0.0m 3.4124s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.853717  2.853717 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.085178  0.085178 NaN NaN NaN  NaN    NaN
+Epoch:30
+VAE lr:0.003672823004980843
+Time elapsed this epoch: 0.0m 3.3685s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.829924  2.829924 NaN NaN NaN  NaN    NaN
+Std
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  0.08939  0.08939 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 30
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 46.883s
+Validation Complete.
+Mean
+       mcd   msd_all  msd_vector        gv
+0  6.70483  6.801186  301.709984  0.070623
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.966388  0.294801   13.022737  0.014392
+--------------------------------------------------
+Epoch:31
+VAE lr:0.003548133892335751
+Time elapsed this epoch: 0.0m 3.3846s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.851236  2.851236 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.083922  0.083922 NaN NaN NaN  NaN    NaN
+Epoch:32
+VAE lr:0.0034276778654645
+Time elapsed this epoch: 0.0m 3.2998s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.827362  2.827362 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.089964  0.089964 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 32
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.778s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.751486  6.808266  301.813421  0.060161
+Std
+        mcd  msd_all  msd_vector        gv
+0  0.967107   0.3011   13.260073  0.020197
+--------------------------------------------------
+Epoch:33
+VAE lr:0.0033113112148259074
+Time elapsed this epoch: 0.0m 3.3349s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.848477  2.848477 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.085981  0.085981 NaN NaN NaN  NaN    NaN
+Epoch:34
+VAE lr:0.0031988951096913946
+Time elapsed this epoch: 0.0m 3.2581s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.825921  2.825921 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090603  0.090603 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 34
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.731s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.635534  6.810144  302.103955  0.070442
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.945771  0.295119   13.085942  0.011792
+--------------------------------------------------
+Epoch:35
+VAE lr:0.0030902954325135873
+Time elapsed this epoch: 0.0m 3.3271s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.847999  2.847999 NaN NaN NaN  NaN    NaN
+Std
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  0.08367  0.08367 NaN NaN NaN  NaN    NaN
+Epoch:36
+VAE lr:0.0029853826189179563
+Time elapsed this epoch: 0.0m 3.2962s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.825371  2.825371 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087415  0.087415 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 36
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.536s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.664698  6.779264  300.766521  0.058077
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.915145  0.293993   13.040231  0.020218
+--------------------------------------------------
+Epoch:37
+VAE lr:0.002884031503126603
+Time elapsed this epoch: 0.0m 3.4073s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.842815  2.842815 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.084803  0.084803 NaN NaN NaN  NaN    NaN
+Epoch:38
+VAE lr:0.002786121168629767
+Time elapsed this epoch: 0.0m 3.3713s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.823254  2.823254 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090573  0.090573 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 38
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.192s
+Validation Complete.
+Mean
+        mcd  msd_all  msd_vector        gv
+0  6.537329  6.80859  302.068968  0.077425
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.894371  0.304511   13.482766  0.015725
+--------------------------------------------------
+Epoch:39
+VAE lr:0.0026915348039269127
+Time elapsed this epoch: 0.0m 3.3101s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.846572  2.846572 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.084892  0.084892 NaN NaN NaN  NaN    NaN
+Epoch:40
+VAE lr:0.002600159563165269
+Time elapsed this epoch: 0.0m 3.3429s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.820072  2.820072 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090014  0.090014 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 40
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.406s
+Validation Complete.
+Mean
+        mcd  msd_all  msd_vector        gv
+0  6.567144    6.833  303.109989  0.078411
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.891931  0.304165   13.490942  0.012443
+--------------------------------------------------
+Epoch:41
+VAE lr:0.0025118864315095773
+Time elapsed this epoch: 0.0m 3.3798s
+Mean
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  2.84202  2.84202 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.084754  0.084754 NaN NaN NaN  NaN    NaN
+Epoch:42
+VAE lr:0.0024266100950824125
+Time elapsed this epoch: 0.0m 3.3227s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.815843  2.815843 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088215  0.088215 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 42
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.886s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.531587  6.829225  302.983122  0.078177
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.908298  0.302018   13.377868  0.010618
+--------------------------------------------------
+Epoch:43
+VAE lr:0.002344228815319919
+Time elapsed this epoch: 0.0m 3.371s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.837879  2.837879 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087179  0.087179 NaN NaN NaN  NaN    NaN
+Epoch:44
+VAE lr:0.0022646443075930566
+Time elapsed this epoch: 0.0m 3.3257s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.813978  2.813978 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.089616  0.089616 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 44
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.568s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.541813  6.823609  302.701218  0.078944
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.912831  0.306211   13.526683  0.013268
+--------------------------------------------------
+Epoch:45
+VAE lr:0.0021877616239495495
+Time elapsed this epoch: 0.0m 3.3545s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.841581  2.841581 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087493  0.087493 NaN NaN NaN  NaN    NaN
+Epoch:46
+VAE lr:0.0021134890398366436
+Time elapsed this epoch: 0.0m 3.3762s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.812387  2.812387 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090889  0.090889 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 46
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.72s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.518255  6.810148  302.116989  0.081261
+Std
+        mcd  msd_all  msd_vector        gv
+0  0.892708  0.30869   13.640277  0.010653
+--------------------------------------------------
+Epoch:47
+VAE lr:0.0020417379446695263
+Time elapsed this epoch: 0.0m 3.4581s
+Mean
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  2.83731  2.83731 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.086031  0.086031 NaN NaN NaN  NaN    NaN
+Epoch:48
+VAE lr:0.0019724227361148506
+Time elapsed this epoch: 0.0m 3.3437s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.813848  2.813848 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.092895  0.092895 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 48
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.555s
+Validation Complete.
+Mean
+       mcd   msd_all  msd_vector        gv
+0  6.51527  6.825127  302.773989  0.079703
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.879773  0.308196    13.64923  0.010678
+--------------------------------------------------
+Epoch:49
+VAE lr:0.001905460717963244
+Time elapsed this epoch: 0.0m 3.3394s
+Mean
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  2.83868  2.83868 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087047  0.087047 NaN NaN NaN  NaN    NaN
+Epoch:50
+VAE lr:0.0018407720014689528
+Time elapsed this epoch: 0.0m 3.2905s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.810812  2.810812 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088532  0.088532 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 50
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.698s
+Validation Complete.
+Mean
+        mcd  msd_all  msd_vector        gv
+0  6.478197  6.82416  302.789797  0.082153
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.864236  0.308322   13.651917  0.011107
+--------------------------------------------------
+Epoch:51
+VAE lr:0.00177827941003892
+Time elapsed this epoch: 0.0m 3.2986s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.832778  2.832778 NaN NaN NaN  NaN    NaN
+Std
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  0.08651  0.08651 NaN NaN NaN  NaN    NaN
+Epoch:52
+VAE lr:0.0017179083871575853
+Time elapsed this epoch: 0.0m 3.3271s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.810297  2.810297 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091367  0.091367 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 52
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.482s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector       gv
+0  6.487976  6.817996  302.493193  0.08236
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.875935  0.310597   13.734989  0.011609
+--------------------------------------------------
+Epoch:53
+VAE lr:0.0016595869074375578
+Time elapsed this epoch: 0.0m 3.3256s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.835561  2.835561 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.084939  0.084939 NaN NaN NaN  NaN    NaN
+Epoch:54
+VAE lr:0.0016032453906900388
+Time elapsed this epoch: 0.0m 3.3646s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.806325  2.806325 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.092294  0.092294 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 54
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.778s
+Validation Complete.
+Mean
+        mcd  msd_all  msd_vector        gv
+0  6.461087  6.81209  302.273142  0.078191
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.856873  0.307137    13.60778  0.011078
+--------------------------------------------------
+Epoch:55
+VAE lr:0.0015488166189124787
+Time elapsed this epoch: 0.0m 3.3747s
+Mean
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  2.83194  2.83194 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088555  0.088555 NaN NaN NaN  NaN    NaN
+Epoch:56
+VAE lr:0.0014962356560944308
+Time elapsed this epoch: 0.0m 3.3333s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.807031  2.807031 NaN NaN NaN  NaN    NaN
+Std
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  0.08949  0.08949 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 56
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.365s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector      gv
+0  6.453792  6.828293  302.907145  0.0831
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.867746  0.311362   13.776841  0.011975
+--------------------------------------------------
+Epoch:57
+VAE lr:0.001445439770745925
+Time elapsed this epoch: 0.0m 3.3012s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.834998  2.834998 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.084583  0.084583 NaN NaN NaN  NaN    NaN
+Epoch:58
+VAE lr:0.0013963683610559352
+Time elapsed this epoch: 0.0m 3.3118s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.805988  2.805988 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090638  0.090638 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 58
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.913s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.442351  6.809732  302.097822  0.084064
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.850189  0.310427   13.718616  0.011359
+--------------------------------------------------
+Epoch:59
+VAE lr:0.0013489628825916512
+Time elapsed this epoch: 0.0m 3.3635s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.830085  2.830085 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.084657  0.084657 NaN NaN NaN  NaN    NaN
+Epoch:60
+VAE lr:0.0013031667784522971
+Time elapsed this epoch: 0.0m 3.4162s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.806482  2.806482 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091729  0.091729 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 60
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.05s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.469651  6.810843  302.132932  0.085015
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.859214  0.311415   13.767285  0.011449
+--------------------------------------------------
+Epoch:61
+VAE lr:0.0012589254117941649
+Time elapsed this epoch: 0.0m 3.4339s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.828147  2.828147 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088004  0.088004 NaN NaN NaN  NaN    NaN
+Epoch:62
+VAE lr:0.0012161860006463657
+Time elapsed this epoch: 0.0m 3.3155s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.805641  2.805641 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.089334  0.089334 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 62
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 46.746s
+Validation Complete.
+Mean
+        mcd  msd_all  msd_vector        gv
+0  6.469778  6.81444  302.324074  0.084032
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.850989  0.310578   13.746492  0.011738
+--------------------------------------------------
+Epoch:63
+VAE lr:0.0011748975549395273
+Time elapsed this epoch: 0.0m 3.3312s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.829398  2.829398 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087228  0.087228 NaN NaN NaN  NaN    NaN
+Epoch:64
+VAE lr:0.001135010815672313
+Time elapsed this epoch: 0.0m 3.2995s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.805005  2.805005 NaN NaN NaN  NaN    NaN
+Std
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  0.09031  0.09031 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 64
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.895s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.470613  6.793201  301.379768  0.081103
+Std
+        mcd  msd_all  msd_vector        gv
+0  0.841292  0.30571   13.535387  0.011998
+--------------------------------------------------
+Epoch:65
+VAE lr:0.001096478196143183
+Time elapsed this epoch: 0.0m 3.3347s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.827134  2.827134 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.086878  0.086878 NaN NaN NaN  NaN    NaN
+Epoch:66
+VAE lr:0.001059253725177287
+Time elapsed this epoch: 0.0m 3.4124s
+Mean
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  2.80415  2.80415 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088246  0.088246 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 66
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.533s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector       gv
+0  6.466135  6.784684  300.992246  0.08661
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.827623  0.310462   13.723869  0.014574
+--------------------------------------------------
+Epoch:67
+VAE lr:0.0010232929922807522
+Time elapsed this epoch: 0.0m 3.3708s
+Mean
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  2.82584  2.82584 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.085109  0.085109 NaN NaN NaN  NaN    NaN
+Epoch:68
+VAE lr:0.0009885530946569369
+Time elapsed this epoch: 0.0m 3.33s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.802551  2.802551 NaN NaN NaN  NaN    NaN
+Std
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  0.09112  0.09112 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 68
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.549s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.430608  6.793683  301.411042  0.088992
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.837367  0.308462   13.660377  0.014172
+--------------------------------------------------
+Epoch:69
+VAE lr:0.0009549925860214341
+Time elapsed this epoch: 0.0m 3.3553s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.827759  2.827759 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.086839  0.086839 NaN NaN NaN  NaN    NaN
+Epoch:70
+VAE lr:0.0009225714271547613
+Time elapsed this epoch: 0.0m 3.3166s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.803427  2.803427 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090211  0.090211 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 70
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.312s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.429218  6.796776  301.551534  0.083565
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.829607  0.310357   13.738559  0.012426
+--------------------------------------------------
+Epoch:71
+VAE lr:0.0008912509381337437
+Time elapsed this epoch: 0.0m 3.3483s
+Mean
+      VAE   MDVAE  SI  LI  AC  Sem  Cycle
+0  2.8286  2.8286 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087629  0.087629 NaN NaN NaN  NaN    NaN
+Epoch:72
+VAE lr:0.0008609937521845988
+Time elapsed this epoch: 0.0m 3.2896s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.804831  2.804831 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090749  0.090749 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 72
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.338s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector       gv
+0  6.432873  6.791401  301.311822  0.08669
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.824132  0.309816   13.714251  0.013302
+--------------------------------------------------
+Epoch:73
+VAE lr:0.0008317637711026691
+Time elapsed this epoch: 0.0m 3.5098s
+Mean
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  2.82738  2.82738 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088405  0.088405 NaN NaN NaN  NaN    NaN
+Epoch:74
+VAE lr:0.0008035261221856154
+Time elapsed this epoch: 0.0m 3.3755s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.801478  2.801478 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091137  0.091137 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 74
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.739s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.435388  6.791228  301.291832  0.087658
+Std
+        mcd  msd_all  msd_vector        gv
+0  0.820736  0.31123   13.784972  0.013633
+--------------------------------------------------
+Epoch:75
+VAE lr:0.0007762471166286899
+Time elapsed this epoch: 0.0m 3.432s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.826418  2.826418 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087756  0.087756 NaN NaN NaN  NaN    NaN
+Epoch:76
+VAE lr:0.000749894209332454
+Time elapsed this epoch: 0.0m 3.4288s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.801484  2.801484 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.089515  0.089515 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 76
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.14s
+Validation Complete.
+Mean
+        mcd  msd_all  msd_vector        gv
+0  6.412929  6.79266  301.362846  0.085657
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.837416  0.308159   13.641544  0.013004
+--------------------------------------------------
+Epoch:77
+VAE lr:0.0007244359600749883
+Time elapsed this epoch: 0.0m 3.314s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.824989  2.824989 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.085675  0.085675 NaN NaN NaN  NaN    NaN
+Epoch:78
+VAE lr:0.0006998419960022717
+Time elapsed this epoch: 0.0m 3.3313s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.801196  2.801196 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091335  0.091335 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 78
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.561s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.441428  6.785236   301.02414  0.085321
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.823231  0.311552   13.792914  0.013537
+--------------------------------------------------
+Epoch:79
+VAE lr:0.00067608297539198
+Time elapsed this epoch: 0.0m 3.3577s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.825143  2.825143 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.085752  0.085752 NaN NaN NaN  NaN    NaN
+Epoch:80
+VAE lr:0.0006531305526474707
+Time elapsed this epoch: 0.0m 3.3177s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.799558  2.799558 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.092487  0.092487 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 80
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.525s
+Validation Complete.
+Mean
+        mcd  msd_all  msd_vector        gv
+0  6.421951  6.77937  300.798518  0.088566
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.829292  0.311296   13.791449  0.014648
+--------------------------------------------------
+Epoch:81
+VAE lr:0.0006309573444801916
+Time elapsed this epoch: 0.0m 3.3111s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.824812  2.824812 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088566  0.088566 NaN NaN NaN  NaN    NaN
+Epoch:82
+VAE lr:0.0006095368972401675
+Time elapsed this epoch: 0.0m 3.3007s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.801069  2.801069 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.089936  0.089936 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 82
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.967s
+Validation Complete.
+Mean
+        mcd  msd_all  msd_vector        gv
+0  6.440649  6.77576  300.618377  0.085723
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.818658  0.308769   13.675386  0.013558
+--------------------------------------------------
+Epoch:83
+VAE lr:0.0005888436553555873
+Time elapsed this epoch: 0.0m 3.3738s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.823591  2.823591 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.089227  0.089227 NaN NaN NaN  NaN    NaN
+Epoch:84
+VAE lr:0.0005688529308438398
+Time elapsed this epoch: 0.0m 3.3646s
+Mean
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  2.79982  2.79982 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.092338  0.092338 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 84
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.003s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.427261  6.765989  300.180273  0.086112
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.803668  0.310497    13.73201  0.013373
+--------------------------------------------------
+Epoch:85
+VAE lr:0.0005495408738576229
+Time elapsed this epoch: 0.0m 3.3788s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.821771  2.821771 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.086555  0.086555 NaN NaN NaN  NaN    NaN
+Epoch:86
+VAE lr:0.0005308844442309868
+Time elapsed this epoch: 0.0m 3.356s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.798752  2.798752 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090216  0.090216 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 86
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.09s
+Validation Complete.
+Mean
+      mcd   msd_all  msd_vector        gv
+0  6.4452  6.773022  300.461609  0.085251
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.819961  0.310788   13.742529  0.012271
+--------------------------------------------------
+Epoch:87
+VAE lr:0.0005128613839913633
+Time elapsed this epoch: 0.0m 3.3964s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.822741  2.822741 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.086099  0.086099 NaN NaN NaN  NaN    NaN
+Epoch:88
+VAE lr:0.0004954501908047887
+Time elapsed this epoch: 0.0m 3.373s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.796931  2.796931 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091416  0.091416 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 88
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.249s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector       gv
+0  6.472214  6.763138  300.046988  0.08438
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.815294  0.311357   13.780653  0.013009
+--------------------------------------------------
+Epoch:89
+VAE lr:0.00047863009232263686
+Time elapsed this epoch: 0.0m 3.376s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.820679  2.820679 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087916  0.087916 NaN NaN NaN  NaN    NaN
+Epoch:90
+VAE lr:0.0004623810213992589
+Time elapsed this epoch: 0.0m 3.4465s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.797203  2.797203 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090447  0.090447 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 90
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.581s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.438814  6.769401  300.301604  0.083482
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.808642  0.310343   13.723357  0.012558
+--------------------------------------------------
+Epoch:91
+VAE lr:0.00044668359215096175
+Time elapsed this epoch: 0.0m 3.4539s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.822485  2.822485 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087477  0.087477 NaN NaN NaN  NaN    NaN
+Epoch:92
+VAE lr:0.0004315190768277639
+Time elapsed this epoch: 0.0m 3.3476s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.799072  2.799072 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.093062  0.093062 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 92
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.002s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector       gv
+0  6.409725  6.769615  300.341233  0.08601
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.806753  0.309311   13.695361  0.013417
+--------------------------------------------------
+Epoch:93
+VAE lr:0.0004168693834703341
+Time elapsed this epoch: 0.0m 3.3407s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.824566  2.824566 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087975  0.087975 NaN NaN NaN  NaN    NaN
+Epoch:94
+VAE lr:0.0004027170343254578
+Time elapsed this epoch: 0.0m 3.3597s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.798398  2.798398 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090123  0.090123 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 94
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.203s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.407528  6.769616  300.319999  0.085523
+Std
+       mcd   msd_all  msd_vector        gv
+0  0.81414  0.308043   13.633132  0.013296
+--------------------------------------------------
+Epoch:95
+VAE lr:0.00038904514499427936
+Time elapsed this epoch: 0.0m 3.3349s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.822622  2.822622 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088546  0.088546 NaN NaN NaN  NaN    NaN
+Epoch:96
+VAE lr:0.00037583740428844296
+Time elapsed this epoch: 0.0m 3.3716s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.798752  2.798752 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091532  0.091532 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 96
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.906s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.447663  6.776816  300.648943  0.082863
+Std
+       mcd   msd_all  msd_vector        gv
+0  0.81443  0.309604   13.705539  0.012662
+--------------------------------------------------
+Epoch:97
+VAE lr:0.00036307805477010015
+Time elapsed this epoch: 0.0m 3.3618s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.822875  2.822875 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.086401  0.086401 NaN NaN NaN  NaN    NaN
+Epoch:98
+VAE lr:0.00035075187395256684
+Time elapsed this epoch: 0.0m 3.3536s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.797918  2.797918 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091647  0.091647 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 98
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.738s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.434436  6.765671  300.169785  0.084337
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.810559  0.308414    13.65304  0.012224
+--------------------------------------------------
+Epoch:99
+VAE lr:0.00033884415613920143
+Time elapsed this epoch: 0.0m 3.4235s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.823129  2.823129 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087826  0.087826 NaN NaN NaN  NaN    NaN
+Epoch:100
+VAE lr:0.0003273406948788371
+Time elapsed this epoch: 0.0m 3.3097s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.795111  2.795111 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090382  0.090382 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 100
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.332s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.396976  6.773391  300.495755  0.087672
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.804758  0.308598    13.64989  0.013147
+--------------------------------------------------
+Epoch:101
+VAE lr:0.00031622776601683686
+Time elapsed this epoch: 0.0m 3.3364s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.821058  2.821058 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.089151  0.089151 NaN NaN NaN  NaN    NaN
+Epoch:102
+VAE lr:0.00030549211132155027
+Time elapsed this epoch: 0.0m 3.3182s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.799477  2.799477 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088527  0.088527 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 102
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.307s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.400133  6.772998  300.466683  0.087168
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.809182  0.308758   13.659996  0.012783
+--------------------------------------------------
+Epoch:103
+VAE lr:0.00029512092266663754
+Time elapsed this epoch: 0.0m 3.3362s
+Mean
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  2.82008  2.82008 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088658  0.088658 NaN NaN NaN  NaN    NaN
+Epoch:104
+VAE lr:0.00028510182675038994
+Time elapsed this epoch: 0.0m 3.3301s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.798235  2.798235 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090641  0.090641 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 104
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 49.084s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.417847  6.764093  300.077114  0.088561
+Std
+        mcd  msd_all  msd_vector        gv
+0  0.798135  0.30929    13.68332  0.012742
+--------------------------------------------------
+Epoch:105
+VAE lr:0.0002754228703338157
+Time elapsed this epoch: 0.0m 3.4167s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.820192  2.820192 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.086617  0.086617 NaN NaN NaN  NaN    NaN
+Epoch:106
+VAE lr:0.00026607250597988
+Time elapsed this epoch: 0.0m 3.3578s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.797545  2.797545 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.092395  0.092395 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 106
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.681s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.430472  6.765914  300.160568  0.084667
+Std
+       mcd   msd_all  msd_vector        gv
+0  0.80886  0.308204   13.631091  0.012216
+--------------------------------------------------
+Epoch:107
+VAE lr:0.00025703957827688545
+Time elapsed this epoch: 0.0m 3.3742s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.819568  2.819568 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087094  0.087094 NaN NaN NaN  NaN    NaN
+Epoch:108
+VAE lr:0.0002483133105295561
+Time elapsed this epoch: 0.0m 3.3866s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.795398  2.795398 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.089745  0.089745 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 108
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.842s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.439952  6.760148  299.915819  0.084885
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.802798  0.307215   13.603086  0.013125
+--------------------------------------------------
+Epoch:109
+VAE lr:0.00023988329190194818
+Time elapsed this epoch: 0.0m 3.4085s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.821566  2.821566 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087998  0.087998 NaN NaN NaN  NaN    NaN
+Epoch:110
+VAE lr:0.000231739464996847
+Time elapsed this epoch: 0.0m 3.3192s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.799171  2.799171 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.093139  0.093139 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 110
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.315s
+Validation Complete.
+Mean
+        mcd  msd_all  msd_vector        gv
+0  6.434675  6.76145   299.96919  0.084834
+Std
+        mcd   msd_all  msd_vector       gv
+0  0.796694  0.309208   13.680664  0.01286
+--------------------------------------------------
+Epoch:111
+VAE lr:0.00022387211385683313
+Time elapsed this epoch: 0.0m 3.358s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.824527  2.824527 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088373  0.088373 NaN NaN NaN  NaN    NaN
+Epoch:112
+VAE lr:0.0002162718523727012
+Time elapsed this epoch: 0.0m 3.3228s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.796362  2.796362 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088886  0.088886 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 112
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.756s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.438287  6.756111  299.738944  0.085728
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.795683  0.307822   13.624086  0.013338
+--------------------------------------------------
+Epoch:113
+VAE lr:0.00020892961308540314
+Time elapsed this epoch: 0.0m 3.3524s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.820896  2.820896 NaN NaN NaN  NaN    NaN
+Std
+      VAE   MDVAE  SI  LI  AC  Sem  Cycle
+0  0.0892  0.0892 NaN NaN NaN  NaN    NaN
+Epoch:114
+VAE lr:0.00020183663636815533
+Time elapsed this epoch: 0.0m 3.2477s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.796666  2.796666 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091453  0.091453 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 114
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.226s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector       gv
+0  6.425175  6.756483   299.75505  0.08635
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.783597  0.308711   13.667874  0.013727
+--------------------------------------------------
+Epoch:115
+VAE lr:0.00019498445997580377
+Time elapsed this epoch: 0.0m 3.3992s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.819503  2.819503 NaN NaN NaN  NaN    NaN
+Std
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  0.08787  0.08787 NaN NaN NaN  NaN    NaN
+Epoch:116
+VAE lr:0.00018836490894897932
+Time elapsed this epoch: 0.0m 3.408s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.800057  2.800057 NaN NaN NaN  NaN    NaN
+Std
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  0.09225  0.09225 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 116
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.736s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.424765  6.754255  299.652133  0.088075
+Std
+        mcd   msd_all  msd_vector       gv
+0  0.792664  0.308659    13.65322  0.01363
+--------------------------------------------------
+Epoch:117
+VAE lr:0.00018197008586099761
+Time elapsed this epoch: 0.0m 3.3498s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.820902  2.820902 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088058  0.088058 NaN NaN NaN  NaN    NaN
+Epoch:118
+VAE lr:0.00017579236139586855
+Time elapsed this epoch: 0.0m 3.3095s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.795965  2.795965 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090505  0.090505 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 118
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 49.025s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.425645  6.769345  300.313321  0.085673
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.794155  0.309435   13.697601  0.013096
+--------------------------------------------------
+Epoch:119
+VAE lr:0.00016982436524617375
+Time elapsed this epoch: 0.0m 3.3677s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.818319  2.818319 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.085022  0.085022 NaN NaN NaN  NaN    NaN
+Epoch:120
+VAE lr:0.00016405897731995326
+Time elapsed this epoch: 0.0m 3.3981s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.797835  2.797835 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091172  0.091172 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 120
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.61s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.413965  6.756036  299.735833  0.087937
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.787917  0.309563   13.698544  0.013982
+--------------------------------------------------
+Epoch:121
+VAE lr:0.0001584893192461107
+Time elapsed this epoch: 0.0m 3.3584s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.819528  2.819528 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087968  0.087968 NaN NaN NaN  NaN    NaN
+Epoch:122
+VAE lr:0.00015310874616820237
+Time elapsed this epoch: 0.0m 3.3044s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.796604  2.796604 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090975  0.090975 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 122
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.59s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector       gv
+0  6.425616  6.758114  299.816743  0.08642
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.789517  0.309813   13.696912  0.013356
+--------------------------------------------------
+Epoch:123
+VAE lr:0.0001479108388168201
+Time elapsed this epoch: 0.0m 3.4376s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.818994  2.818994 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088597  0.088597 NaN NaN NaN  NaN    NaN
+Epoch:124
+VAE lr:0.00014288939585110967
+Time elapsed this epoch: 0.0m 3.3386s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.797126  2.797126 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091228  0.091228 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 124
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.316s
+Validation Complete.
+Mean
+       mcd   msd_all  msd_vector        gv
+0  6.41369  6.757698  299.801987  0.087366
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.787645  0.309016   13.671536  0.013603
+--------------------------------------------------
+Epoch:125
+VAE lr:0.0001380384264602879
+Time elapsed this epoch: 0.0m 3.4046s
+Mean
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  2.81874  2.81874 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087807  0.087807 NaN NaN NaN  NaN    NaN
+Epoch:126
+VAE lr:0.00013335214321633183
+Time elapsed this epoch: 0.0m 3.3452s
+Mean
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  2.79623  2.79623 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090184  0.090184 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 126
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.363s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.417257  6.754389  299.667085  0.086784
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.784664  0.309171   13.674855  0.013581
+--------------------------------------------------
+Epoch:127
+VAE lr:0.00012882495516931282
+Time elapsed this epoch: 0.0m 3.3498s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.819632  2.819632 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090093  0.090093 NaN NaN NaN  NaN    NaN
+Epoch:128
+VAE lr:0.00012445146117713796
+Time elapsed this epoch: 0.0m 3.39s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.797121  2.797121 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.092414  0.092414 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 128
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.382s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.431602  6.762829  300.034085  0.083545
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.796423  0.308267   13.640679  0.013138
+--------------------------------------------------
+Epoch:129
+VAE lr:0.00012022644346174076
+Time elapsed this epoch: 0.0m 3.3132s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.820532  2.820532 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087755  0.087755 NaN NaN NaN  NaN    NaN
+Epoch:130
+VAE lr:0.00011614486138403375
+Time elapsed this epoch: 0.0m 3.3668s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.797733  2.797733 NaN NaN NaN  NaN    NaN
+Std
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  0.09058  0.09058 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 130
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.719s
+Validation Complete.
+Mean
+        mcd  msd_all  msd_vector        gv
+0  6.430626  6.76102  299.931111  0.086384
+Std
+        mcd   msd_all  msd_vector       gv
+0  0.789556  0.309561   13.687831  0.01348
+--------------------------------------------------
+Epoch:131
+VAE lr:0.00011220184543019584
+Time elapsed this epoch: 0.0m 3.3112s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.820017  2.820017 NaN NaN NaN  NaN    NaN
+Std
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  0.08698  0.08698 NaN NaN NaN  NaN    NaN
+Epoch:132
+VAE lr:0.00010839269140211986
+Time elapsed this epoch: 0.0m 3.3301s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.795885  2.795885 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090368  0.090368 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 132
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.289s
+Validation Complete.
+Mean
+       mcd   msd_all  msd_vector       gv
+0  6.42955  6.761754   299.96454  0.08651
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.793785  0.309644   13.684103  0.013158
+--------------------------------------------------
+Epoch:133
+VAE lr:0.00010471285480508947
+Time elapsed this epoch: 0.0m 3.418s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.819585  2.819585 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088945  0.088945 NaN NaN NaN  NaN    NaN
+Epoch:134
+VAE lr:0.00010115794542598939
+Time elapsed this epoch: 0.0m 3.3778s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.795729  2.795729 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.092968  0.092968 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 134
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.485s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.409237  6.764614  300.093327  0.086492
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.794099  0.309705   13.686049  0.013113
+--------------------------------------------------
+Epoch:135
+VAE lr:9.772372209558062e-05
+Time elapsed this epoch: 0.0m 3.3227s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.821128  2.821128 NaN NaN NaN  NaN    NaN
+Std
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  0.08893  0.08893 NaN NaN NaN  NaN    NaN
+Epoch:136
+VAE lr:9.44060876285919e-05
+Time elapsed this epoch: 0.0m 3.3338s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.797436  2.797436 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090079  0.090079 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 136
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.543s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.410911  6.761117  299.942575  0.088152
+Std
+        mcd  msd_all  msd_vector        gv
+0  0.787488  0.31044   13.720169  0.013557
+--------------------------------------------------
+Epoch:137
+VAE lr:9.120108393559054e-05
+Time elapsed this epoch: 0.0m 3.3675s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.818197  2.818197 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088454  0.088454 NaN NaN NaN  NaN    NaN
+Epoch:138
+VAE lr:8.810488730080098e-05
+Time elapsed this epoch: 0.0m 3.3963s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.795778  2.795778 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091406  0.091406 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 138
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.677s
+Validation Complete.
+Mean
+       mcd   msd_all  msd_vector        gv
+0  6.41705  6.757193  299.778271  0.086258
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.788068  0.309062   13.656695  0.012842
+--------------------------------------------------
+Epoch:139
+VAE lr:8.511380382023723e-05
+Time elapsed this epoch: 0.0m 3.3339s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.819309  2.819309 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088148  0.088148 NaN NaN NaN  NaN    NaN
+Epoch:140
+VAE lr:8.222426499470671e-05
+Time elapsed this epoch: 0.0m 3.2994s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.796967  2.796967 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087514  0.087514 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 140
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.922s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.417725  6.761222  299.955117  0.086991
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.787522  0.310042   13.705426  0.013116
+--------------------------------------------------
+Epoch:141
+VAE lr:7.943282347242776e-05
+Time elapsed this epoch: 0.0m 3.4204s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.817974  2.817974 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.089054  0.089054 NaN NaN NaN  NaN    NaN
+Epoch:142
+VAE lr:7.673614893618152e-05
+Time elapsed this epoch: 0.0m 3.3045s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.797183  2.797183 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088921  0.088921 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 142
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.771s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector       gv
+0  6.415684  6.758835  299.853935  0.08531
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.790256  0.309438   13.681397  0.013078
+--------------------------------------------------
+Epoch:143
+VAE lr:7.413102413009138e-05
+Time elapsed this epoch: 0.0m 3.4131s
+Mean
+    VAE  MDVAE  SI  LI  AC  Sem  Cycle
+0  2.82   2.82 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.086086  0.086086 NaN NaN NaN  NaN    NaN
+Epoch:144
+VAE lr:7.161434102128984e-05
+Time elapsed this epoch: 0.0m 3.3759s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.795585  2.795585 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091048  0.091048 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 144
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 49.407s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.419968  6.763672  300.045205  0.086329
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.792938  0.309911   13.689893  0.012799
+--------------------------------------------------
+Epoch:145
+VAE lr:6.91830970918933e-05
+Time elapsed this epoch: 0.0m 3.4063s
+Mean
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  2.82005  2.82005 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087468  0.087468 NaN NaN NaN  NaN    NaN
+Epoch:146
+VAE lr:6.683439175686113e-05
+Time elapsed this epoch: 0.0m 3.3769s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.795041  2.795041 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090818  0.090818 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 146
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.615s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.418996  6.760982  299.936149  0.085167
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.787255  0.308709   13.647614  0.012655
+--------------------------------------------------
+Epoch:147
+VAE lr:6.456542290346523e-05
+Time elapsed this epoch: 0.0m 3.3675s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.815717  2.815717 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087432  0.087432 NaN NaN NaN  NaN    NaN
+Epoch:148
+VAE lr:6.237348354824162e-05
+Time elapsed this epoch: 0.0m 3.3225s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.794404  2.794404 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091451  0.091451 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 148
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.445s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.408313  6.760177  299.886883  0.087431
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.784752  0.310611   13.720603  0.012962
+--------------------------------------------------
+Epoch:149
+VAE lr:6.0255958607435474e-05
+Time elapsed this epoch: 0.0m 3.3554s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.818046  2.818046 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088189  0.088189 NaN NaN NaN  NaN    NaN
+Epoch:150
+VAE lr:5.821032177708685e-05
+Time elapsed this epoch: 0.0m 3.3125s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.797252  2.797252 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091481  0.091481 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 150
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.955s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.407252  6.761644  299.972545  0.086137
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.784968  0.308306   13.625851  0.012804
+--------------------------------------------------
+Epoch:151
+VAE lr:5.623413251903462e-05
+Time elapsed this epoch: 0.0m 3.3971s
+Mean
+     VAE  MDVAE  SI  LI  AC  Sem  Cycle
+0  2.818  2.818 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087523  0.087523 NaN NaN NaN  NaN    NaN
+Epoch:152
+VAE lr:5.432503314924304e-05
+Time elapsed this epoch: 0.0m 3.3002s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.795912  2.795912 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091228  0.091228 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 152
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.314s
+Validation Complete.
+Mean
+        mcd  msd_all  msd_vector        gv
+0  6.409331  6.76232  299.985145  0.085939
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.785333  0.309349   13.667624  0.012643
+--------------------------------------------------
+Epoch:153
+VAE lr:5.248074602497699e-05
+Time elapsed this epoch: 0.0m 3.4012s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.819345  2.819345 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087192  0.087192 NaN NaN NaN  NaN    NaN
+Epoch:154
+VAE lr:5.0699070827470174e-05
+Time elapsed this epoch: 0.0m 3.344s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.796948  2.796948 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.089041  0.089041 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 154
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 49.019s
+Validation Complete.
+Mean
+        mcd  msd_all  msd_vector        gv
+0  6.403086  6.76459   300.07286  0.087536
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.785869  0.310621   13.715301  0.012857
+--------------------------------------------------
+Epoch:155
+VAE lr:4.8977881936844364e-05
+Time elapsed this epoch: 0.0m 3.4844s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.819578  2.819578 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.089059  0.089059 NaN NaN NaN  NaN    NaN
+Epoch:156
+VAE lr:4.73151258961478e-05
+Time elapsed this epoch: 0.0m 3.4154s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.797408  2.797408 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091273  0.091273 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 156
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.727s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.406077  6.767683  300.220964  0.085639
+Std
+        mcd   msd_all  msd_vector       gv
+0  0.791062  0.308903   13.648432  0.01245
+--------------------------------------------------
+Epoch:157
+VAE lr:4.570881896148726e-05
+Time elapsed this epoch: 0.0m 3.3454s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.818846  2.818846 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091063  0.091063 NaN NaN NaN  NaN    NaN
+Epoch:158
+VAE lr:4.415704473533101e-05
+Time elapsed this epoch: 0.0m 3.3726s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.792911  2.792911 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091942  0.091942 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 158
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.689s
+Validation Complete.
+Mean
+        mcd  msd_all  msd_vector        gv
+0  6.400195  6.76161  299.955216  0.087417
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.782971  0.309309   13.663589  0.012777
+--------------------------------------------------
+Epoch:159
+VAE lr:4.2657951880159033e-05
+Time elapsed this epoch: 0.0m 3.4214s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.818543  2.818543 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.086801  0.086801 NaN NaN NaN  NaN    NaN
+Epoch:160
+VAE lr:4.12097519097328e-05
+Time elapsed this epoch: 0.0m 3.3896s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.796874  2.796874 NaN NaN NaN  NaN    NaN
+Std
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  0.08911  0.08911 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 160
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.102s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.408319  6.765514  300.114353  0.086535
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.787498  0.310033   13.694098  0.012599
+--------------------------------------------------
+Epoch:161
+VAE lr:3.981071705534951e-05
+Time elapsed this epoch: 0.0m 3.3593s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.818051  2.818051 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.089481  0.089481 NaN NaN NaN  NaN    NaN
+Epoch:162
+VAE lr:3.845917820453515e-05
+Time elapsed this epoch: 0.0m 3.3198s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.794612  2.794612 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.092135  0.092135 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 162
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.799s
+Validation Complete.
+Mean
+      mcd   msd_all  msd_vector        gv
+0  6.4084  6.763874  300.056515  0.085434
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.786526  0.308626   13.635067  0.012466
+--------------------------------------------------
+Epoch:163
+VAE lr:3.7153522909717054e-05
+Time elapsed this epoch: 0.0m 3.3218s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.819769  2.819769 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087526  0.087526 NaN NaN NaN  NaN    NaN
+Epoch:164
+VAE lr:3.589219346450033e-05
+Time elapsed this epoch: 0.0m 3.3195s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.795704  2.795704 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090709  0.090709 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 164
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.703s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.403056  6.763659  300.044344  0.086546
+Std
+        mcd  msd_all  msd_vector        gv
+0  0.782826   0.3091   13.656395  0.012722
+--------------------------------------------------
+Epoch:165
+VAE lr:3.467368504525298e-05
+Time elapsed this epoch: 0.0m 3.3714s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.820133  2.820133 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.085529  0.085529 NaN NaN NaN  NaN    NaN
+Epoch:166
+VAE lr:3.3496543915782584e-05
+Time elapsed this epoch: 0.0m 3.3643s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.796278  2.796278 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.089413  0.089413 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 166
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.76s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.401061  6.763975  300.059192  0.086827
+Std
+        mcd  msd_all  msd_vector        gv
+0  0.785904    0.309   13.653216  0.012886
+--------------------------------------------------
+Epoch:167
+VAE lr:3.235936569296265e-05
+Time elapsed this epoch: 0.0m 3.3191s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.821047  2.821047 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.089147  0.089147 NaN NaN NaN  NaN    NaN
+Epoch:168
+VAE lr:3.126079367123938e-05
+Time elapsed this epoch: 0.0m 3.3221s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.794817  2.794817 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091354  0.091354 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 168
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.87s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.404864  6.761882  299.957524  0.086693
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.784988  0.309497   13.667242  0.012554
+--------------------------------------------------
+Epoch:169
+VAE lr:3.019951720402e-05
+Time elapsed this epoch: 0.0m 3.3031s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.819426  2.819426 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088258  0.088258 NaN NaN NaN  NaN    NaN
+Epoch:170
+VAE lr:2.917427014001151e-05
+Time elapsed this epoch: 0.0m 3.2361s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.794529  2.794529 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.089651  0.089651 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 170
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.501s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.403692  6.763028  300.005461  0.086731
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.785492  0.309791   13.679462  0.012726
+--------------------------------------------------
+Epoch:171
+VAE lr:2.8183829312644386e-05
+Time elapsed this epoch: 0.0m 3.3879s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.818263  2.818263 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.086535  0.086535 NaN NaN NaN  NaN    NaN
+Epoch:172
+VAE lr:2.7227013080778975e-05
+Time elapsed this epoch: 0.0m 3.3068s
+Mean
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  2.79539  2.79539 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.089361  0.089361 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 172
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.078s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector       gv
+0  6.406461  6.762525  299.987807  0.08726
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.786667  0.309563   13.669789  0.012797
+--------------------------------------------------
+Epoch:173
+VAE lr:2.6302679918953675e-05
+Time elapsed this epoch: 0.0m 3.3203s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.818912  2.818912 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088544  0.088544 NaN NaN NaN  NaN    NaN
+Epoch:174
+VAE lr:2.5409727055492912e-05
+Time elapsed this epoch: 0.0m 3.2942s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.797381  2.797381 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.093307  0.093307 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 174
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.627s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.409585  6.766611  300.171223  0.085563
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.789968  0.309092   13.657944  0.012751
+--------------------------------------------------
+Epoch:175
+VAE lr:2.454708915685017e-05
+Time elapsed this epoch: 0.0m 3.3999s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.817505  2.817505 NaN NaN NaN  NaN    NaN
+Std
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  0.08815  0.08815 NaN NaN NaN  NaN    NaN
+Epoch:176
+VAE lr:2.371373705661642e-05
+Time elapsed this epoch: 0.0m 3.3477s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.796818  2.796818 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090093  0.090093 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 176
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.399s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.411994  6.765363  300.123112  0.085312
+Std
+       mcd   msd_all  msd_vector        gv
+0  0.79078  0.308345   13.627449  0.012703
+--------------------------------------------------
+Epoch:177
+VAE lr:2.2908676527677603e-05
+Time elapsed this epoch: 0.0m 3.351s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.818992  2.818992 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090169  0.090169 NaN NaN NaN  NaN    NaN
+Epoch:178
+VAE lr:2.2130947096056254e-05
+Time elapsed this epoch: 0.0m 3.3728s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.795458  2.795458 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090884  0.090884 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 178
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.128s
+Validation Complete.
+Mean
+       mcd   msd_all  msd_vector        gv
+0  6.40007  6.762783  300.002992  0.086943
+Std
+        mcd   msd_all  msd_vector      gv
+0  0.784518  0.309213   13.659632  0.0129
+--------------------------------------------------
+Epoch:179
+VAE lr:2.13796208950222e-05
+Time elapsed this epoch: 0.0m 3.4174s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.819263  2.819263 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088644  0.088644 NaN NaN NaN  NaN    NaN
+Epoch:180
+VAE lr:2.065380155810518e-05
+Time elapsed this epoch: 0.0m 3.3536s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.794743  2.794743 NaN NaN NaN  NaN    NaN
+Std
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  0.09106  0.09106 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 180
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.343s
+Validation Complete.
+Mean
+        mcd  msd_all  msd_vector        gv
+0  6.398466  6.76402  300.049615  0.088306
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.787959  0.310427   13.709343  0.013087
+--------------------------------------------------
+Epoch:181
+VAE lr:1.9952623149688685e-05
+Time elapsed this epoch: 0.0m 3.402s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.820598  2.820598 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.086401  0.086401 NaN NaN NaN  NaN    NaN
+Epoch:182
+VAE lr:1.9275249131909253e-05
+Time elapsed this epoch: 0.0m 3.2907s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.796829  2.796829 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091864  0.091864 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 182
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.815s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.408151  6.761216  299.938422  0.085818
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.784549  0.308805    13.64137  0.012599
+--------------------------------------------------
+Epoch:183
+VAE lr:1.862087136662857e-05
+Time elapsed this epoch: 0.0m 3.3462s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.818135  2.818135 NaN NaN NaN  NaN    NaN
+Std
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  0.08891  0.08891 NaN NaN NaN  NaN    NaN
+Epoch:184
+VAE lr:1.7988709151287776e-05
+Time elapsed this epoch: 0.0m 3.3015s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.794583  2.794583 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.092465  0.092465 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 184
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.402s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.397753  6.764121  300.053094  0.087881
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.789827  0.309921   13.687332  0.013104
+--------------------------------------------------
+Epoch:185
+VAE lr:1.7378008287493655e-05
+Time elapsed this epoch: 0.0m 3.3477s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.820168  2.820168 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.084225  0.084225 NaN NaN NaN  NaN    NaN
+Epoch:186
+VAE lr:1.6788040181225506e-05
+Time elapsed this epoch: 0.0m 3.3846s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.794076  2.794076 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091239  0.091239 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 186
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.75s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector       gv
+0  6.412763  6.762247  299.975833  0.08588
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.787247  0.308996   13.643733  0.012453
+--------------------------------------------------
+Epoch:187
+VAE lr:1.6218100973589207e-05
+Time elapsed this epoch: 0.0m 3.3541s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.818691  2.818691 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088394  0.088394 NaN NaN NaN  NaN    NaN
+Epoch:188
+VAE lr:1.56675107010814e-05
+Time elapsed this epoch: 0.0m 3.3494s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.795822  2.795822 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091431  0.091431 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 188
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.397s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.397098  6.760725  299.913786  0.087515
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.785262  0.309312   13.664701  0.012963
+--------------------------------------------------
+Epoch:189
+VAE lr:1.5135612484361993e-05
+Time elapsed this epoch: 0.0m 3.3583s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.818552  2.818552 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.086239  0.086239 NaN NaN NaN  NaN    NaN
+Epoch:190
+VAE lr:1.4621771744567096e-05
+Time elapsed this epoch: 0.0m 3.2917s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.794856  2.794856 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.088988  0.088988 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 190
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.76s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.408588  6.764495  300.082923  0.085442
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.790845  0.308583   13.635197  0.012589
+--------------------------------------------------
+Epoch:191
+VAE lr:1.412537544622746e-05
+Time elapsed this epoch: 0.0m 3.3605s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.819136  2.819136 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.085768  0.085768 NaN NaN NaN  NaN    NaN
+Epoch:192
+VAE lr:1.3645831365889165e-05
+Time elapsed this epoch: 0.0m 3.4013s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.795132  2.795132 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090721  0.090721 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 192
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.867s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.400353  6.761151  299.929684  0.086589
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.784103  0.309429   13.665388  0.012752
+--------------------------------------------------
+Epoch:193
+VAE lr:1.3182567385563993e-05
+Time elapsed this epoch: 0.0m 3.4685s
+Mean
+       VAE    MDVAE  SI  LI  AC  Sem  Cycle
+0  2.81875  2.81875 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.085736  0.085736 NaN NaN NaN  NaN    NaN
+Epoch:194
+VAE lr:1.2735030810166541e-05
+Time elapsed this epoch: 0.0m 3.2962s
+Mean
+      VAE   MDVAE  SI  LI  AC  Sem  Cycle
+0  2.7976  2.7976 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.090727  0.090727 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 194
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.892s
+Validation Complete.
+Mean
+       mcd   msd_all  msd_vector        gv
+0  6.40419  6.764401  300.069244  0.086741
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.787294  0.309899   13.685895  0.012751
+--------------------------------------------------
+Epoch:195
+VAE lr:1.2302687708123741e-05
+Time elapsed this epoch: 0.0m 3.3153s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.819677  2.819677 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087859  0.087859 NaN NaN NaN  NaN    NaN
+Epoch:196
+VAE lr:1.1885022274370112e-05
+Time elapsed this epoch: 0.0m 3.2662s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.796682  2.796682 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091168  0.091168 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 196
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.654s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.403826  6.764584  300.087901  0.086358
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.786783  0.308869     13.6489  0.012916
+--------------------------------------------------
+Epoch:197
+VAE lr:1.1481536214968756e-05
+Time elapsed this epoch: 0.0m 3.3533s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.818063  2.818063 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.087983  0.087983 NaN NaN NaN  NaN    NaN
+Epoch:198
+VAE lr:1.1091748152623942e-05
+Time elapsed this epoch: 0.0m 3.3992s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.795703  2.795703 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.092894  0.092894 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 198
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 47.612s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.400121  6.761232  299.940624  0.086467
+Std
+        mcd   msd_all  msd_vector       gv
+0  0.782254  0.308891    13.64491  0.01281
+--------------------------------------------------
+Epoch:199
+VAE lr:1.0715193052375997e-05
+Time elapsed this epoch: 0.0m 3.283s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.818296  2.818296 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.089099  0.089099 NaN NaN NaN  NaN    NaN
+Epoch:200
+VAE lr:1.0351421666793374e-05
+Time elapsed this epoch: 0.0m 3.3126s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  2.796154  2.796154 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.091535  0.091535 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 200
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 48.405s
+Validation Complete.
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.403456  6.762104   299.96926  0.086846
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.784739  0.310159   13.695851  0.012653
+--------------------------------------------------

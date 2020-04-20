@@ -104,15 +104,12 @@ def world_encode_data(wavs, fs, frame_period = 5.0, num_mcep = 36):
 
     return f0s, timeaxes, sps, aps, mcs
 
-
-
 def transpose_in_list(lst):
 
     transposed_lst = list()
     for array in lst:
         transposed_lst.append(array.T)
     return transposed_lst
-
 
 def world_decode_data(coded_sps, fs):
 

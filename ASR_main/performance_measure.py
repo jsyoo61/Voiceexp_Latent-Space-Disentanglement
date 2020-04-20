@@ -1,123 +1,103 @@
 import pysptk, librosa, numpy as np
 from speech_tools import *
 from multiprocessing import Pool
-from dtw import dtw
-from fastdtw import fastdtw
 
-def calculate_mcd_msd(alpha, fftlen, pool, sr=22050, num_mcep=36, frame_period=5.0, validation_dir='./result/output',
-                      gt_dir='./VCC2018/vcc2018_evaluation'):
-    converted_dirs = os.listdir(validation_dir)
-    total_mcd_list = list()
-    total_sample_mcd_list = list()
-    f2f_mcd_list = list()
-    f2m_mcd_list = list()
-    m2f_mcd_list = list()
-    m2m_mcd_list = list()
-    sample_f2f_mcd_list = list()
-    sample_f2m_mcd_list = list()
-    sample_m2f_mcd_list = list()
-    sample_m2m_mcd_list = list()
-    total_msd_list = list()
-    total_sample_msd_list = list()
-    f2f_msd_list = list()
-    f2m_msd_list = list()
-    m2f_msd_list = list()
-    m2m_msd_list = list()
-    sample_f2f_msd_list = list()
-    sample_f2m_msd_list = list()
-    sample_m2f_msd_list = list()
-    sample_m2m_msd_list = list()
+def dtw(x, y, dist, warp = 1, w = 'inf'):
+    '''Dynamic Time Warping of two sequences, accelerated with
+    matrix operations instead of sequential vector operations
 
-    for converted_dir in converted_dirs:
-        src, tar = converted_dir.split('_to_')
-        converted_dir = os.path.join(validation_dir, converted_dir)
-        target_dir = os.path.join(gt_dir, tar)
-        sent_list = os.listdir(converted_dir)
+    Parameters
+    ----------
+    x: numpy.ndarray
+        x.ndim == 1 or 2
+    y: numpy.ndarray
+        y.ndim == 1 or 2 (consistent with x)
+    dist: function
+        function which measures distance between frames from x and y
+        if (ndim == 1)
+            function should compare entry to entry(x[i], y[j]), and return single entry
+        if (ndim == 2)
+            function should compare vector to whole matrix(x[i], y), and return single vector
+            it compares single vector frame from x to all vector frames in y.
+            ex) x.shape == (T1, 10)
+                y.shape == (T2, 10)
+                dist(x[i], y)    ===> How dist is used
+                dist(x[i], y).shape == (T2,)
 
-        p = Pool(pool)
-        converted_mcep_list = p.starmap(load_wav_extract_mcep, zip([converted_dir] * len(sent_list), sent_list))
-        target_mcep_list = p.starmap(load_wav_extract_mcep, zip([target_dir] * len(sent_list), sent_list))
-        p.close()
-        p.join()
+    warp: maximum warp amount when finding path
+        (Not Supported Yet)
+    w: window size when computing cost matrix
+        (Not Supported Yet)
 
-        p = Pool(pool)
-        converted_ms_list = p.map(extract_ms, converted_mcep_list)
-        target_ms_list = p.map(extract_ms, target_mcep_list)
-        p.close()
-        p.join()
+    Returns
+    -------
+    distance: minimum sum of distance across all frames
+    path: DTW path of x, y in list form
+    '''
+    assert x.ndim == y.ndim, 'The number of dimensions do not match\n x: %s, y: %s '%(x.ndim, y.ndim)
+    assert x.ndim < 3, 'Maximum number of dimensions are 2\n, ndim: %s'%(x.dim)
+    # 0] Preparation
+    T1 = len(x)
+    T2 = len(y)
+    swap = False
+    if T1 > T2:
+        swap = True
+        x, y = y, x
+        T1, T2 = T2, T1
+    # always T1 < T2, to accelerate calculation
+    cost_matrix_ = np.zeros((T1+1, T2+1))
+    cost_matrix_[1:, 0] = float('inf')
+    cost_matrix_[0, 1:] = float('inf')
+    cost_matrix = cost_matrix_[1:, 1:] # View
 
-        p = Pool(pool)
-        mcd_list = p.starmap(mcd_cal, zip(converted_mcep_list, target_mcep_list))
-        msd_list = p.starmap(msd_cal, zip(converted_ms_list, target_ms_list))
-        p.close()
-        p.join()
+    # 1] Get cost matrix: dist(vector, matrix) -> Faster calculation
+    # Scalar sequences
+    if x.ndim == 1:
+        cost_matrix[:, :] = dist(np.expand_dims(x,-1), np.broadcast_to(y, (T1,T2)))
+        # cost_matrix = (x - y.expand(T1, -1).T).T
+    # Vector sequences
+    else:
+        for i, vector in enumerate(x):
+            cost_matrix[i] = dist(vector, y)
+    # cost_matrix_base = cost_matrix.copy() # To save cost matrix
 
-        for mcd, msd, sent in zip(mcd_list, msd_list, sent_list):
-            total_mcd_list.append(mcd)
-            total_msd_list.append(msd)
-            if 'F' in src and 'F' in tar:
-                f2f_mcd_list.append(mcd)
-                f2f_msd_list.append(msd)
-                if src == 'VCC2SF1' and tar == 'VCC2SF2' and sent in ['30011.wav', '30012.wav', '30013.wav']:
-                    sample_f2f_mcd_list.append(mcd)
-                    sample_f2f_msd_list.append(msd)
-                    total_sample_mcd_list.append(mcd)
-                    total_sample_msd_list.append(msd)
+    # 2] Compute accumulated cost path(minimum cost matrix) & minimum cost path (T2 ~ T1+T2-1)
+    # Accumulate to existing cost_matrix
+    path_matrix = np.zeros((T1, T2, 2), dtype=int)
+    x_i = {0:-1, 1:0, 2:-1}
+    y_i = {0:-1, 1:-1, 2:0}
+    for i in range(T1):
+        for j in range(T2):
+            search_list = [ cost_matrix_[i,j], cost_matrix_[i+1,j], cost_matrix_[i,j+1] ]
+            min_hash = np.argmin(search_list)
+            path_matrix[i,j] = i + x_i[min_hash] , j + y_i[min_hash]
+            cost_matrix[i,j] += search_list[min_hash]
 
-            elif 'F' in src and 'M' in tar:
-                f2m_mcd_list.append(mcd)
-                f2m_msd_list.append(msd)
-                if src == 'VCC2SF2' and tar == 'VCC2SM2' and sent in ['30005.wav', '30009.wav', '30011.wav']:
-                    sample_f2m_mcd_list.append(mcd)
-                    sample_f2m_msd_list.append(msd)
-                    total_sample_mcd_list.append(mcd)
-                    total_sample_msd_list.append(msd)
-            elif 'M' in src and 'F' in tar:
-                m2f_mcd_list.append(mcd)
-                m2f_msd_list.append(msd)
-                if src == 'VCC2SM1' and tar == 'VCC2SF1' and sent in ['30004.wav', '30005.wav', '30016.wav']:
-                    sample_m2f_mcd_list.append(mcd)
-                    sample_m2f_msd_list.append(msd)
-                    total_sample_mcd_list.append(mcd)
-                    total_sample_msd_list.append(msd)
-            elif 'M' in src and 'M' in tar:
-                m2m_mcd_list.append(mcd)
-                m2m_msd_list.append(msd)
-                if src == 'VCC2SM2' and tar == 'VCC2SM1' and sent in ['30005.wav', '30009.wav', '30012.wav']:
-                    sample_m2m_mcd_list.append(mcd)
-                    sample_m2m_msd_list.append(msd)
-                    total_sample_mcd_list.append(mcd)
-                    total_sample_msd_list.append(msd)
+    # 3] Back-Trace minimum cost path
+    i, j = T1-1, T2-1
+    x_path = list()
+    y_path = list()
+    while (j>0 or i>0): # Since T1 < T2, i=0 occurs more. So check j first
+        i, j = path_matrix[i,j]
+        x_path.append(i)
+        y_path.append(j)
+    x_path.reverse()
+    y_path.reverse()
+    if swap == True:
+        x_path, y_path = y_path, x_path
+    return cost_matrix[-1,-1], [x_path, y_path]
 
-        print('SRC: ', src, ' TAR: ', tar, ' MCD_MEAN: ', np.mean(mcd_list), ' MCD_STD: ', np.std(mcd_list))
-        print('SRC: ', src, ' TAR: ', tar, ' MSD_MEAN: ', np.mean(msd_list), ' MSD_STD: ', np.std(msd_list))
+def mcd_vectorized(x,y):
+    '''x: vector
+    y: array
+    (or vice versa)
+    x: array
+    y: vector
 
-    print()
-    print('-' * 30)
-    print('total ', ' MCD_MEAN: ', np.mean(total_mcd_list), ' MCD_STD: ', np.std(total_mcd_list))
-    print('sample ', ' MCD_MEAN: ', np.mean(total_sample_mcd_list), ' MCD_STD: ', np.std(total_sample_mcd_list))
-    print('f2f ', ' MCD_MEAN: ', np.mean(f2f_mcd_list), ' MCD_STD: ', np.std(f2f_mcd_list))
-    print('f2m ', ' MCD_MEAN: ', np.mean(f2m_mcd_list), ' MCD_STD: ', np.std(f2m_mcd_list))
-    print('m2f ', ' MCD_MEAN: ', np.mean(m2f_mcd_list), ' MCD_STD: ', np.std(m2f_mcd_list))
-    print('m2m ', ' MCD_MEAN: ', np.mean(m2m_mcd_list), ' MCD_STD: ', np.std(m2m_mcd_list))
-    print('sample_f2f ', ' MCD_MEAN: ', np.mean(sample_f2f_mcd_list), ' MCD_STD: ', np.std(sample_f2f_mcd_list))
-    print('sample_f2m ', ' MCD_MEAN: ', np.mean(sample_f2m_mcd_list), ' MCD_STD: ', np.std(sample_f2m_mcd_list))
-    print('sample_m2f ', ' MCD_MEAN: ', np.mean(sample_m2f_mcd_list), ' MCD_STD: ', np.std(sample_m2f_mcd_list))
-    print('sample_m2m ', ' MCD_MEAN: ', np.mean(sample_m2m_mcd_list), ' MCD_STD: ', np.std(sample_m2m_mcd_list))
-
-    print()
-    print('-' * 30)
-    print('total ', ' MSD_MEAN: ', np.mean(total_msd_list), ' MSD_STD: ', np.std(total_msd_list))
-    print('sample ', ' MSD_MEAN: ', np.mean(total_sample_msd_list), ' MSD_STD: ', np.std(total_sample_msd_list))
-    print('f2f ', ' MSD_MEAN: ', np.mean(f2f_msd_list), ' MSD_STD: ', np.std(f2f_msd_list))
-    print('f2m ', ' MSD_MEAN: ', np.mean(f2m_msd_list), ' MSD_STD: ', np.std(f2m_msd_list))
-    print('m2f ', ' MSD_MEAN: ', np.mean(m2f_msd_list), ' MSD_STD: ', np.std(m2f_msd_list))
-    print('m2m ', ' MSD_MEAN: ', np.mean(m2m_msd_list), ' MSD_STD: ', np.std(m2m_msd_list))
-    print('sample_f2f ', ' MSD_MEAN: ', np.mean(sample_f2f_msd_list), ' MSD_STD: ', np.std(sample_f2f_msd_list))
-    print('sample_f2m ', ' MSD_MEAN: ', np.mean(sample_f2m_msd_list), ' MSD_STD: ', np.std(sample_f2m_msd_list))
-    print('sample_m2f ', ' MSD_MEAN: ', np.mean(sample_m2f_msd_list), ' MSD_STD: ', np.std(sample_m2f_msd_list))
-    print('sample_m2m ', ' MSD_MEAN: ', np.mean(sample_m2m_msd_list), ' MSD_STD: ', np.std(sample_m2m_msd_list))
-
+    returns: vector of mcd compared between x & all vectors in array
+    '''
+    # return 10.0 / 2.302585092994046 * 1.4142135623730951 * np.sqrt(np.sum((x-y)**2, axis=1))
+    return 10.0 / np.log(10) * np.sqrt(2.0) * np.sqrt(np.sum((x-y)**2, axis=1))
 
 def load_wav_extract_mcep(converted_dir, sent):
     if '.wav' in os.path.join(converted_dir, sent):
@@ -128,7 +108,6 @@ def load_wav_extract_mcep(converted_dir, sent):
     else:
         print('{}: not wav'.format(os.path.join(converted_dir, sent)))
 
-
 def extract_ms(mcep):
     ms = logpowerspec2(4096, mcep)
     return ms
@@ -136,16 +115,20 @@ def extract_ms(mcep):
 def mcd_cal(converted_mcep, target_mcep):
     converted_mcep = converted_mcep[:,1:]
     target_mcep = target_mcep[:,1:]
-    distance, twf = estimate_twf(converted_mcep, target_mcep, fast=False)
-    T = len(twf[0])
+    # distance, path = estimate_twf(converted_mcep, target_mcep, fast=False)
+    distance, path = dtw(converted_mcep, target_mcep, dist=mcd_vectorized)
+    T = len(path[0])
     mcd = distance / T
     return mcd
 
-def msd_cal(converted_ms, target_ms):
-    # Distance between two vectors
-    msd = np.sqrt(np.sum((converted_ms - target_ms) ** 2))
-    # msd = np.sqrt(np.mean(np.power((converted_ms - target_ms), 2)))
-    return msd
+def msd_cal(converted_ms, target_ms, method = 'all'):
+    # Mean Distance between two vectors from each feature
+    if method == 'all':
+        # RMS value
+        return np.sqrt(np.mean((converted_ms - target_ms) ** 2))
+    elif method == 'vector':
+        # Mean of distance for each vector
+        return np.mean(np.linalg.norm(converted_ms - target_ms, axis = 0, ord=2))
 
 def gv_cal(mcep):
     gv = np.mean(np.var(mcep, axis = 0))
@@ -220,7 +203,159 @@ def estimate_twf(orgdata, tardata, distance='melcd', fast=True, otflag=None):
 
     return distance, twf
 
-# x = np.linspace(0,10,200)
+# coded_sp=load_pickle('processed/p225/cache36.p')[1]
+# x=coded_sp[0].T
+# y=coded_sp[9].T
+# x.shape
+# y.shape
+# dist = lambda x, y: (x-y)**2
+# dist = lambda x, y:  10.0 / np.log(10) * np.sqrt(2.0 * np.sum((x-y )** 2))
+# dist = lambda x, y: 10.0 / np.log(10) * np.sqrt(2.0) * np.sqrt( np.sum((x-y)**2, axis=1))
+# dist = lambda x, y: 10.0 / np.log(10) * torch.sqrt(2.0 * torch.sum((x-y)**2, axis=1))
+# # %%
+# # result1
+# # result2
+# st = time.time()
+# result1 = dtw.dtw(x,y, dist=dist)
+# et = time.time()
+# print(et - st)
+# st = time.time()
+# result2 = fastdtw.dtw(x,y, dist=dist)
+# et = time.time()
+# print(et - st)
+# # %%
+# st = time.time()
+# result3 = torch_dtw(x,y, dist=dist)
+# et = time.time()
+# print(et - st)
+#
+# # %%
+# for i in range(5):
+#     st = time.time()
+#     result3 = torch_dtw(y,x, dist=dist)
+#     et = time.time()
+#     print(et - st)
+# print('--------')
+# for i in range(5):
+#     st = time.time()
+#     result3 = torch_dtw(x,y, dist=dist)
+#     et = time.time()
+#     print(et - st)
+
+# import matplotlib.pyplot as plt
+# x1 = np.arange(0,5,10/200)
+# x2 = np.arange(0,40,10/200)
+# x3 = np.arange(0,20,10/200)
+#
+# T1 = x1[-1] - x1[0]
+# T2 = x2[-1] - x2[0]
+# T3 = x3[-1] - x3[0]
+# N1=len(x1)
+# N2=len(x2)
+# N3=len(x3)
+# y1 = np.sin(2*np.pi/T1 * x1) + np.sin(2*np.pi/T1 * N1/4 * x1)
+# y1 = np.concatenate([np.sin(2*np.pi/T1 * x1), np.sin(2*np.pi/T1 * (N1)/4 * x1)])
+# # y1 = np.sin(2*np.pi/T1 * x1)
+# y2 = np.sin(2*np.pi/T2 * x2) + np.sin(2*np.pi/T2 * N2/4 * x2)
+# y2 = np.concatenate([np.sin(2*np.pi/T2 * x2), np.sin(2*np.pi/T2 * N2/4 * x2)])
+# # y2 = np.sin(2*np.pi/T2 * x2)
+# y3 = np.sin(2*np.pi/T3 * N3*1/8 * x3) + np.sin(2*np.pi/T3 * N3*3/8 * x3)
+# y1 = np.sin(2*np.pi/T1 * x1)
+# y2 = np.sin(2*np.pi/T2 * x2)
+# N1 = len(y1)
+# N2 = len(y2)
+# N3 = len(y3)
+# plt.plot(y1)
+# plt.plot(y2)
+# plt.plot(y3)
+# plt.plot( np.sin(2*np.pi/T1 * (N1)/ * x1))
+# N1
+#
+# fftsize=2048
+# padded_data1 = np.zeros(fftsize)
+# padded_data1[:N1] = y1
+# padded_data2 = np.zeros(fftsize)
+# padded_data2[:N2] = y2
+# padded_data3 = np.zeros(fftsize)
+# padded_data3[:N3] = y3
+# plt.plot(padded_data1)
+# plt.plot(padded_data2)
+# plt.plot(padded_data3)
+# padded_data4 = np.sin(2*np.pi/fftsize * 2 * np.arange(fftsize))
+# padded_data4[fftsize//2:]=0
+# plt.plot(padded_data4)
+#
+# padded_data.shape
+# complex1 = np.fft.rfft(padded_data1, fftsize)
+# complex2 = np.fft.rfft(padded_data2, fftsize)
+# complex3 = np.fft.rfft(padded_data3, fftsize)
+# complex4 = np.fft.rfft(padded_data4, fftsize)
+# plt.stem(abs(complex1))
+# plt.stem(abs(complex2))
+# plt.stem(abs(complex3))
+# plt.stem(abs(complex4))
+# len(complex1)
+# len(complex2)
+# abs(complex1)
+# abs(complex4)
+# complex_n1 = np.fft.rfft(y1)
+# complex_n2 = np.fft.rfft(y2)
+# plt.stem(abs(complex_n1))
+# plt.stem(abs(complex_n2))
+#
+# ms1_ = logpowerspec2(fftsize, np.expand_dims(y1, -1))
+# plt.stem(ms1_.squeeze(-1))
+# plt.clf()
+# ms1_.shape
+# ms1.shape
+# np.where((ms1!=ms1_.squeeze(-1)))
+# ms1_.squeeze().shape
+
+# c = complex1[np.where((abs(complex1)**2 != complex1.real **2 + complex1.imag**2))]
+# c1=c[0]
+# abs(c1)
+# np.sqrt(c1.real**2+c1.imag**2)
+#
+# abs(c1)**2
+# c1.real**2 + c1.imag**2
+# c1=complex1[0]
+#
+# help(np.fft.rfft)
+# 4096/2
+# T1
+# T2
+#
+# ms1 = np.log(abs(complex1)**2)
+# ms2 = np.log(abs(complex2)**2)
+# ms3 = np.log(abs(complex3)**2)
+# ms4 = np.log(abs(complex4)**2)
+# plt.stem(ms1)
+# plt.stem(ms2)
+# plt.stem(ms3)
+# plt.stem(ms4)
+# np.sqrt(np.mean( (ms1-ms4)**2 ))
+# plt.stem(ms1-ms2)
+# plt.stem(ms1-ms3)
+# np.sqrt(np.mean( (ms1-ms2)**2 ) )
+# np.sqrt(np.mean( (ms1-ms3)**2 ))
+# np.sqrt(np.mean( (ms2-ms3)**2 ))
+# np.linalg.norm(ms1-ms2)
+# np.linalg.norm((ms1-ms3))
+#
+# np.sqrt(np.mean( (ms1_ - ms2)**2) )
+# ms1_ = ms1_.squeeze()
+# ms1
+#
+# plt.plot(ms1-ms1_)
+# np.linalg.norm(ms1-ms1_)
+#
+# np.sqrt(np.mean( (ms1_-ms3)**2))
+# np.sqrt(np.mean( (ms1_-ms2)**2))
+
+
+
+# x=np.arange(20).reshape(10,2)
+# np.linalg.norm(x, axis=0)
 # y1 = np.cos(2*np.pi/10 *100* x)
 # plt.plot(y1)
 # y=np.cos(2*np.pi/10* 20 * x) + np.cos(2*np.pi/10* 30 * x) + np.sin(2*np.pi/10* 50 * x)
