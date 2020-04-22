@@ -45,6 +45,11 @@ def stars():
 def print_stars():
     print('*' * 30)
 
+def update_dict(dict, new_dict):
+    for key, value in new_dict.items:
+        dict[key] = value
+    return dict
+
 class Printer():
     def __init__(self, filewrite_dir = None):
         self.content = ''

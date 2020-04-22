@@ -33,6 +33,20 @@ def dtw(x, y, dist, warp = 1, w = 'inf'):
     -------
     distance: minimum sum of distance across all frames
     path: DTW path of x, y in list form
+
+    Examples
+    --------
+    >>> from dtw import dtw
+    >>> x = np.arange(10).reshape(5,2)
+    >>> y = np.arange(20).reshape(10,2)
+    >>> RMS = lambda x, y: np.sqrt(np.mean(np.sum((x - y) ** 2, axis = 0))) # Root Mean Square function
+    >>> distance, path = dtw(x, y, dist=RMS)
+    >>> distance
+
+    >>> path[0] # path of x
+
+    >>> path[1] # path of y
+
     '''
     assert x.ndim == y.ndim, 'The number of dimensions do not match\n x: %s, y: %s '%(x.ndim, y.ndim)
     assert x.ndim < 3, 'Maximum number of dimensions are 2\n, ndim: %s'%(x.dim)
@@ -109,7 +123,7 @@ def load_wav_extract_mcep(converted_dir, sent):
         print('{}: not wav'.format(os.path.join(converted_dir, sent)))
 
 def extract_ms(mcep):
-    ms = logpowerspec2(4096, mcep)
+    ms = logpowerspec3(mcep)
     return ms
 
 def mcd_cal(converted_mcep, target_mcep):
@@ -123,12 +137,14 @@ def mcd_cal(converted_mcep, target_mcep):
 
 def msd_cal(converted_ms, target_ms, method = 'all'):
     # Mean Distance between two vectors from each feature
+    T = min(len(converted_ms), len(target_ms))
+    diff = converted_ms[:T] - target_ms[:T]
     if method == 'all':
         # RMS value
-        return np.sqrt(np.mean((converted_ms - target_ms) ** 2))
+        return np.sqrt(np.mean(diff ** 2))
     elif method == 'vector':
         # Mean of distance for each vector
-        return np.mean(np.linalg.norm(converted_ms - target_ms, axis = 0, ord=2))
+        return np.mean(np.sqrt(np.mean(diff ** 2, axis = 0)))
 
 def gv_cal(mcep):
     gv = np.mean(np.var(mcep, axis = 0))
@@ -154,6 +170,13 @@ def logpowerspec2(fftsize, data):
     complex_spec = np.fft.rfft(padded_data,fftsize, axis=0)
     R, I = complex_spec.real, complex_spec.imag
     logpowerspec2 = np.log(R * R + I * I)  # 2가 log 안에서 제곱 역할
+
+    return logpowerspec2
+
+def logpowerspec3(data):
+    complex_spec = np.fft.rfft(data, axis=0)
+    R, I = complex_spec.real, complex_spec.imag
+    logpowerspec2 = 10 * np.log10(R * R + I * I)  # 2가 log 안에서 제곱 역할
 
     return logpowerspec2
 

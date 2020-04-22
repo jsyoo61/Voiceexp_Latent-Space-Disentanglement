@@ -76,7 +76,7 @@ class Experiment(object):
         self.train_p['iter_per_ep'] = self.train_p['batch_size'] // self.train_p['mini_batch_size']
         assert self.train_p['iter_per_ep'] * self.train_p['mini_batch_size'] == self.train_p['batch_size'], 'Specified batch_size "%s" cannot be divided by mini_batch_size "%s"'%(self.train_p['batch_size'], self.train_p['mini_batch_size'])
         self.train_p['start_epoch'] = 1
-        self.train_p['n_epoch'] = 200
+        self.train_p['n_epoch'] = 100
         self.train_p['epoch'] = self.train_p['start_epoch'] - 1
         self.train_p['model_save_epoch'] = 2
         self.train_p['validation_epoch'] = 2
@@ -210,8 +210,8 @@ class Experiment(object):
         self.lr_scheduler = dict()
         # self.lr_scheduler['VAE'] = optim.lr_scheduler.MultiStepLR(self.optimizer['VAE'], milestones=[50, 100], gamma=0.1)
         # self.lr_scheduler['VAE'] = optim.lr_scheduler.LambdaLR(self.optimizer['VAE'], lr_lambda=lr_schedule['VAE'])
-        self.lr_scheduler['VAE'] = optim.lr_scheduler.ExponentialLR(self.optimizer['VAE'], gamma=(1e-4) ** (1/200))
-        # self.lr_scheduler['VAE'] = toptim.lr_scheduler.AdaptiveLR(self.optimizer['VAE'], a = 0.1, b = 0.5)
+        # self.lr_scheduler['VAE'] = optim.lr_scheduler.ExponentialLR(self.optimizer['VAE'], gamma=(1e-2) ** (1/200))
+        self.lr_scheduler['VAE'] = toptim.lr_scheduler.AdaptiveLR(self.optimizer['VAE'], a = 0.1, b = 0.5)
         self.lr_scheduler['SC'] = None
         self.lr_scheduler['ASR'] = None
         self.lr_scheduler['AC'] = None
@@ -607,7 +607,7 @@ class Experiment(object):
 
         np.random.seed(0)
         # 4] Start training
-        for ep in range(self.train_p['start_epoch'], self.train_p['start_epoch'] + self.train_p['n_epoch']):
+        while(self.optimizer['VAE'].param_groups[0]['lr'] > 1e-6):
             self.train_p['epoch'] += 1
             self.p.print('Epoch:%s'%self.train_p['epoch'])
             self.p.print('VAE lr:%s'%self.optimizer['VAE'].param_groups[0]['lr'])
@@ -620,7 +620,47 @@ class Experiment(object):
             self.loss_summary.loc[self.train_p['epoch']] = loss_result_mean.values
             self.save_results(self.loss_summary, loss_result, log_dir = self.dirs['loss_log'], plot_dir = self.dirs['exp'])
             # 3. Adjust learning rate
-            self.lr_scheduler['VAE'].step()
+            self.lr_scheduler['VAE'].step(loss_result_mean['loss_VAE'])
+
+            time_end = time.time()
+            time_elapsed = time_end - time_start
+            self.p.print('Time elapsed this epoch: {:0.1f}m {:0.5}s'.format( time_elapsed // 60, time_elapsed % 60 ))
+
+            # Save model (Default: 2)
+            if self.train_p['epoch'] % self.train_p['model_save_epoch'] == 0:
+                self.p.print("Saving Model, epoch: {}".format(self.train_p['epoch']))
+                self.save_model(self.dirs['model'], self.train_p['epoch'])
+
+            # Validation (Default: 2)
+            if self.train_p['epoch'] % self.train_p['validation_epoch'] == 0:
+                '''validation_result : holds validation result of all samples at particular epoch
+                validation_summary: holds mean value of each validation results
+                '''
+                self.p.print('-'*50)
+                self.p.print('Validation Start.')
+                # 1. Get performance measures
+                validation_result = self.performance_measure(test_data_dir = self.dirs['validation_data'], test_pathlist_dir = self.dirs['validation_pathlist'], sample_per_path = self.train_p['sample_per_path'])
+                # 2. Save results
+                self.validation_summary.loc[self.train_p['epoch']] = validation_result.mean().values
+                save_pickle(self.validation_summary, self.dirs['validation_summary'])
+                self.save_results(self.validation_summary, validation_result, log_dir = self.dirs['validation_log'], plot_dir=self.dirs['validation'])
+                self.set_train()
+                self.p.print('-'*50)
+        self.p.print('*'*50)
+        self.p.print('*'*20+'Adaptive Learning Complete!!'+'*'*20)
+        self.p.print('*'*50)
+        self.optimizer['VAE'].param_groups[0]['lr'] = 1e-6
+        for ep in range(self.train_p['n_epoch']):
+            self.train_p['epoch'] += 1
+            self.p.print('Epoch:%s'%self.train_p['epoch'])
+            self.p.print('VAE lr:%s'%self.optimizer['VAE'].param_groups[0]['lr'])
+
+            time_start = time.time()
+            # 1. Update weights
+            loss_result = self.step()
+            # 2. Save Results
+            self.loss_summary.loc[self.train_p['epoch']] = loss_result.mean().values
+            self.save_results(self.loss_summary, loss_result, log_dir = self.dirs['loss_log'], plot_dir = self.dirs['exp'])
 
             time_end = time.time()
             time_elapsed = time_end - time_start
@@ -1046,3 +1086,31 @@ if False:
     self.loss_index = ['VAE','MDVAE','SI','LI','AC','SC','C']
     self.loss_summary = pd.DataFrame(columns = self.loss_index)
     self.validation_summary = pd.DataFrame(columns = self.performance_measure_index)
+# x=torch.arange(2*3*4).view(2,3,1,4)
+# print(x)
+# print(torch.flip(x, [0,1]))
+# torch.flip(x,[0,1]).shape
+# x.transpose(0,1).shape
+# x.transpose(0,1)[1,0,2]
+# x.squeeze()
+# x.shape
+# x[0,1,2]
+# x=torch.ones((8,8,1,32))
+# x.shape
+# y = self.ASR(x)
+# y.shape
+# y.transpose(1,2).shape
+# F.cross_entropy(y.transpose(1,2), si_batch_A)
+# c_A.shape
+# y[0].shape
+# for s, yy in zip(si_batch_A, y):
+#     l+=F.cross_entropy(yy,s)
+#
+# l/8
+# l=torch.tensor(0).to(float)
+# si_batch_A[0].shape
+# y.transpose(1,2)[0].shape
+# F.cross_entropy(y, si_batch_A)
+# help(F.cross_entropy)
+# si_batch_A.shape
+# iteration=0
