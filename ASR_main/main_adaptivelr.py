@@ -1,6 +1,6 @@
 import argparse
 import torch
-from multidecoder_experiment_adaptivelr import Experiment
+from experiment_adaptivelr import Experiment
 from tools.tools import str2bool
 
 if __name__ == '__main__':

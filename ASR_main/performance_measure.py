@@ -232,9 +232,12 @@ def estimate_twf(orgdata, tardata, distance='melcd', fast=True, otflag=None):
 # x.shape
 # y.shape
 # dist = lambda x, y: (x-y)**2
-# dist = lambda x, y:  10.0 / np.log(10) * np.sqrt(2.0 * np.sum((x-y )** 2))
-# dist = lambda x, y: 10.0 / np.log(10) * np.sqrt(2.0) * np.sqrt( np.sum((x-y)**2, axis=1))
-# dist = lambda x, y: 10.0 / np.log(10) * torch.sqrt(2.0 * torch.sum((x-y)**2, axis=1))
+# dist1 = lambda x, y:  10.0 / np.log(10) * np.sqrt(2.0 * np.sum((x-y )** 2))
+# dist2 = lambda x, y: 10.0 / np.log(10) * np.sqrt(2.0) * np.sqrt( np.sum((x-y)**2, axis=1))
+# from dtw import dtw as dtw_1
+# result1 = dtw_1(x, y, dist=dist1)
+# result2 = dtw(x, y, dist=dist2)
+# print(result1[0],result2[0])
 # # %%
 # # result1
 # # result2

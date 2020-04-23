@@ -62,7 +62,11 @@ class AdaptiveLR(_LRScheduler):
         else:
             return self.base_lrs
 
-
+class NoneLR(_LRScheduler):
+    def __init__(self, optimizer, last_epoch = -1):
+        super(NoneLR, self).__init__(optimizer, last_epoch)
+    def get_lr(self):
+        return self.base_lrs
 #
 # import torch
 # import torch.optim as optim
