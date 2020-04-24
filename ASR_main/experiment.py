@@ -1,5 +1,6 @@
 # %% Initialize
 import os
+import sys
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -40,9 +41,11 @@ class Experiment(object):
     speaker_list
         Hold all name of speakers
     '''
-    def __init__(self, num_speakers = 100, exp_name = None, new = True, model_p = None, train_p = None):
+    def __init__(self, num_speakers = 4, exp_name = None, new = True, model_p = None, train_p = None):
         np.random.seed(0)
         torch.manual_seed(0)
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         # 0] Default parameters
@@ -84,11 +87,11 @@ class Experiment(object):
         if train_p is not None:
             self.train_p.update(train_p)
         self.lambd = dict(
-        SI = 1,
-        LI = 1,
-        AC = 1,
-        SC = 1,
-        C = 1,
+        SI = 0,
+        LI = 0,
+        AC = 0,
+        SC = 0,
+        C = 0,
         )
         self.lambd['total'] = 1 + sum(self.lambd.values())
         self.lambda_norm = True
@@ -130,10 +133,13 @@ class Experiment(object):
         exp_dir = 'exp/'
         model_dir = 'model/'
         log_dir = 'log.txt'
+        log_all_dir = 'log_all.txt'
         # Train
         train_data_dir = 'processed/'
         si_dir = 'processed_stateindex/'
         loss_log_dir = 'loss_log.txt'
+        train_id_log_dir = 'train_id_log.txt'
+        validation_id_log_dir = 'validation_id_log.txt'
         # Validation
         validation_data_dir = 'processed_validation/inset_dev/'
         validation_pathlist_dir = 'filelist/inset_dev.lst'
@@ -163,11 +169,14 @@ class Experiment(object):
 
         # 3] Log settings
         self.dirs['log'] = os.path.join(self.dirs['exp'], log_dir)
+        self.dirs['log_all'] = os.path.join(self.dirs['exp'], log_all_dir)
 
         # 4] Train
         self.dirs['train_data'] = train_data_dir
         self.dirs['si'] = si_dir
         self.dirs['loss_log'] = os.path.join(self.dirs['exp'], loss_log_dir)
+        self.dirs['train_id_log'] = os.path.join(self.dirs['exp'], train_id_log_dir)
+        self.dirs['validation_id_log'] = os.path.join(self.dirs['exp'], validation_id_log_dir)
 
         # 6] Validation
         self.dirs['validation_data'] = validation_data_dir
@@ -454,8 +463,9 @@ class Experiment(object):
                 si_A = sort_load(si_A_dir) # [si, si, ...], si.shape == (n,)
                 si_B = sort_load(si_B_dir)
 
-                dataset_A, dataset_B, siset_A, siset_B = sample_train_data(dataset_A=coded_sps_norm_A, dataset_B=coded_sps_norm_B, ppgset_A=si_A, ppgset_B=si_B, n_frames=self.train_p['n_train_frames'])
+                dataset_A, dataset_B, siset_A, siset_B, shuffled_id_A, shuffled_id_B = sample_train_data(dataset_A=coded_sps_norm_A, dataset_B=coded_sps_norm_B, ppgset_A=si_A, ppgset_B=si_B, n_frames=self.train_p['n_train_frames'])
                 num_data = dataset_A.shape[0]
+                # append(self.dirs['train_id_log'], str(shuffled_id_A))
 
                 dataset_A = np.expand_dims(dataset_A, axis=1)
                 dataset_B = np.expand_dims(dataset_B, axis=1)
@@ -591,6 +601,7 @@ class Experiment(object):
         self.p.add('Start Training with the following setting:\n')
         self.p.add(stars()+'\n')
         self.p.add('torch version: %s\n'%torch.__version__)
+        self.p.add('device: %s\n'%self.device)
         self.p.add('train_data_dir: %s\n'%self.dirs['train_data'])
         self.p.add('model_dir: %s\n'%self.dirs['model'])
         self.p.add('num_speakers: %s\n'%self.num_speakers)
@@ -610,6 +621,7 @@ class Experiment(object):
         self.p.add(stars()+'\n')
         self.p.print(end='')
 
+        append(os.path.join(self.dirs['exp'], 'Encoder_'+str(0)+'.txt'), str(next(self.Encoder.parameters())) )
         np.random.seed(0)
         # 4] Start training
         for ep in range(self.train_p['start_epoch'], self.train_p['start_epoch'] + self.train_p['n_epoch']):
@@ -628,6 +640,7 @@ class Experiment(object):
             self.save_results(self.loss_summary, loss_result, log_dir = self.dirs['loss_log'], plot_dir = self.dirs['exp'])
             # 3. Adjust learning rate
             self.lr_scheduler['VAE'].step()
+            append(os.path.join(self.dirs['exp'], 'Encoder_'+str(ep)+'.txt'), str(next(self.Encoder.parameters())) )
 
             # Save model (Default: 2)
             if self.train_p['epoch'] % self.train_p['model_save_epoch'] == 0:
@@ -671,7 +684,6 @@ class Experiment(object):
         target_mcep_list = list()
         tested_pathlist = list()
         start_time = time.time()
-        # np.random.shuffle(test_pathlist)
         for speaker_A in self.speaker_list:
             for speaker_B in self.speaker_list:
                 n_sample = 0
@@ -736,6 +748,10 @@ class Experiment(object):
                     target_mcep_list.append(coded_sp_trg)
                     tested_pathlist.append(test_path)
 
+        append(self.dirs['validation_id_log'], '*'*30+'\n')
+        for path in tested_pathlist:
+            append(self.dirs['validation_id_log'], path+'\n')
+
         # 2] Calculate performance_measures (MCD, MSD, GV)
         print('Calculating MCD, MSD, GV')
         n_sample = len(tested_pathlist)
@@ -777,7 +793,6 @@ class Experiment(object):
         # 1] Convert all data & Save them
         print('Loading&Converting test data...')
         start_time = time.time()
-        np.random.shuffle(test_pathlist)
         for speaker_A in self.speaker_list:
             for speaker_B in self.speaker_list:
                 n_sample = 0
@@ -870,9 +885,7 @@ class Experiment(object):
         converted_mcep_list = list()
         target_mcep_list = list()
         tested_pathlist = list()
-        sample_per_path = 1
         start_time = time.time()
-        np.random.shuffle(test_pathlist)
         for speaker_A in self.speaker_list:
             for speaker_B in self.speaker_list:
                 n_sample = 0

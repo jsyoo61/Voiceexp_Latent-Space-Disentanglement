@@ -78,3 +78,20 @@ if __name__ == '__main__':
     # solver = Experiment(num_speakers = 100, exp_name = args.exp_name, model_p = model_p, new = args.new)
     solver.train(lambd = lambd, lambda_norm = args.lambda_norm, train_data_dir = args.train_data_dir)
     # solver.train(lambd = lambd, train_param = train_p, train_data_dir = args.train_data_dir)
+
+from experiment import Experiment
+train_p = dict(
+n_epoch = 2,
+
+)
+lambd = dict(
+SI=0,
+LI=0,
+AC=0,
+SC=0,
+C=0,
+)
+solver = Experiment(num_speakers = 4, train_p = train_p)
+solver.train_p
+solver.train(lambd=lambd)
+solver.speaker_list
