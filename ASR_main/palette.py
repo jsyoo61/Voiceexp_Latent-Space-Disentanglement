@@ -1,3 +1,79 @@
+
+
+# %%
+mcd_list = list()
+for file in sorted(os.listdir('processed_validation/inset_dev/p225/')):
+    print(file)
+    file_dir = os.path.join('processed_validation/inset_dev/p225/', file)
+    coded_sp, ap, f0 = load_pickle(file_dir)
+    decoded_sp = world_decode_mc(mc=coded_sp, fs= self.preprocess_p['sr'])
+    wav = world_speech_synthesis(f0=f0, decoded_sp=decoded_sp, ap=ap, fs=self.preprocess_p['sr'], frame_period=self.preprocess_p['frame_period'] )
+    soundfile.write('p225_001.wav', wav, self.preprocess_p['sr'])
+
+    wav, _ = librosa.load('p225_001.wav', sr=self.preprocess_p['sr'], mono=True)
+    wav = librosa.util.normalize(wav, norm=np.inf, axis=None)
+    f0, timeaxis, sp, ap, mc = world_decompose(wav=wav, fs=self.preprocess_p['sr'], frame_period=self.preprocess_p['frame_period'])
+
+    mcd = mcd_cal(coded_sp, mc)
+    mcd_list.append(mcd)
+mcd_list
+sum(mcd_list)/len(mcd_list)
+# %%
+mcd = mcd_cal(coded_sp, coded_sp)
+mcd = mcd_cal(mc, mc)
+
+
+coded_sp, ap, f0 = load_pickle('processed_validation/inset_dev/p225/p225_001.p')
+coded_sp.shape
+decoded_sp = world_decode_mc(mc=coded_sp, fs= self.preprocess_p['sr'])
+wav = world_speech_synthesis(f0=f0, decoded_sp=decoded_sp, ap=ap, fs=self.preprocess_p['sr'], frame_period=self.preprocess_p['frame_period'] )
+soundfile.write('p225_001.wav', wav, self.preprocess_p['sr'])
+import librosa
+wav, _ = librosa.load('p225_001_selfconverted.wav', sr=self.preprocess_p['sr'], mono=True)
+wav = librosa.util.normalize(wav, norm=np.inf, axis=None)
+f0, timeaxis, sp, ap, mc = world_decompose(wav=wav, fs=self.preprocess_p['sr'], frame_period=self.preprocess_p['frame_period'])
+mcd = mcd_cal(coded_sp, mc)
+from dtw import dtw
+from performance_measure import dtw as dtw2
+d1, p1 =dtw2(coded_sp[:,1:], mc[:,1:], dist = lambda x,y: 10.0 / np.log(10) * np.sqrt(2.0) * np.sqrt(np.sum((x-y)**2, axis=1)))
+p1[1][-1]
+p1[0][-1]
+d1/len(p1[0])
+p1[1]
+len(p1[0])
+len(path[0])
+coded_sp.shape
+len(p1[0])
+p1[0]
+p1[1]
+result[3][1]
+result[3][0]
+d, m, m, path = dtw(coded_sp[:,1:], mc[:,1:], dist = lambda x,y: 10.0 / np.log(10) * np.sqrt(2.0) * np.sqrt(np.sum((x-y)**2)))
+d/len(path[0])
+path[0].
+p1
+list([1])
+d1 / len(path[0])
+mcd
+len(wav)
+
+import matplotlib.pyplot as plt
+fig, ax =plt.subplots(figsize=(10,10))
+ax.matshow(mc, aspect='auto')
+fig
+# %%
+fig1, ax1 =plt.subplots(figsize=(10,10))
+ax1.matshow(mc, aspect='auto')
+# fig1
+fig2, ax2 =plt.subplots(figsize=(10,10))
+ax2.matshow(coded_sp, aspect='auto')
+# fig2
+mc.shape
+
+
+# %%
+
+
 # self = Experiment(num_speakers=4)
 #
 # o = self.optimizer['VAE']

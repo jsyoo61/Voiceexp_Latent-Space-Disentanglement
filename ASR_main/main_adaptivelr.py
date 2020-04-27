@@ -10,7 +10,7 @@ if __name__ == '__main__':
     AC = 0
     SC = 0
     C = 0
-    vae_lr = 0.01
+    vae_lr = 1e-3
     vae_betas = (0.9,0.999)
     sc_lr = 0.0002
     sc_betas = (0.5,0.999)
@@ -22,6 +22,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = 'Proceed experiment with specified exp_name')
     parser.add_argument('--exp_name', type = str, help = 'Experiment name. All files will be stored in exp/exp_name')
     parser.add_argument('--new', default = True, type = str2bool, help = 'if True, create new model')
+    parser.add_argument('--debug', default = False, type = str2bool, help = 'if True, redirect stdout to exp/exp_name/log_all.txt')
     # Loss lambda
     parser.add_argument('--SI', default = SI, type = float, help = 'lambda_SI')
     parser.add_argument('--LI', default = LI, type = float, help = 'lambda_LI')
@@ -74,7 +75,7 @@ if __name__ == '__main__':
     #     if train_p_[p] is not None:
     #         train_p[p] = train_p_[p]
 
-    solver = Experiment(num_speakers = 4, exp_name = args.exp_name, model_p = model_p, new = args.new)
+    solver = Experiment(num_speakers = 4, new = args.new, exp_name = args.exp_name, model_p = model_p, lambd = lambd, debug = args.debug)
     # solver = Experiment(num_speakers = 100, exp_name = args.exp_name, model_p = model_p, new = args.new)
     solver.train(lambd = lambd, lambda_norm = args.lambda_norm, train_data_dir = args.train_data_dir)
     # solver.train(lambd = lambd, train_param = train_p, train_data_dir = args.train_data_dir)

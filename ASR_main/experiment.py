@@ -41,51 +41,52 @@ class Experiment(object):
     speaker_list
         Hold all name of speakers
     '''
-    def __init__(self, num_speakers = 4, exp_name = None, new = True, model_p = None, train_p = None):
+    def __init__(self, num_speakers = 4, exp_name = None, new = True, model_p = None, train_p = None, lambd = None, debug = False):
+        # 0] Random seed
         np.random.seed(0)
         torch.manual_seed(0)
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        # 0] Default parameters
-        if model_p == None:
-            model_p = dict(
-            vae_lr = 0.0001,
-            vae_betas = (0.9,0.999),
-            sc_lr = 0.0002,
-            sc_betas = (0.5,0.999),
-            asr_lr = 0.00001,
-            asr_betas = (0.5,0.999),
-            ac_lr = 0.00005,
-            ac_betas = (0.5,0.999),
-            )
-        self.model_p = model_p
+        # 1] Hyperparameters setting
+        self.model_p = dict(
+        vae_lr = 1e-3,
+        vae_betas = (0.9,0.999),
+        sc_lr = 0.0002,
+        sc_betas = (0.5,0.999),
+        asr_lr = 0.00001,
+        asr_betas = (0.5,0.999),
+        ac_lr = 0.00005,
+        ac_betas = (0.5,0.999),
+        )
+        if model_p is not None:
+            self.model_p.update(model_p)
 
-        # 1] Initialize
-        self.create_env(exp_name, new)
-        # self.speaker_list = sorted(os.listdir(self.dirs['train_data']))
-        self.speaker_list = ['p225','p226','p227','p228']
-        self.num_speakers = len(self.speaker_list)
-        assert self.num_speakers == num_speakers, 'Specified "num_speakers" and "num_speakers in train data" does not match'
-        self.build_model(params = model_p)
-        self.p = Printer(filewrite_dir = self.dirs['log'])
-
-        # 2] Hyperparameters for Training
-        self.train_p = dict()
-        self.train_p['n_train_frames'] = 128
-        self.train_p['batch_size'] = 32
-        self.train_p['mini_batch_size'] = 8
+        self.train_p = dict(
+        n_train_frames = 128,
+        batch_size = 32,
+        mini_batch_size = 8,
+        start_epoch = 1,
+        n_epoch = 300,
+        model_save_epoch = 2,
+        validation_epoch = 2,
+        sample_per_path = 10,
+        )
         self.train_p['iter_per_ep'] = self.train_p['batch_size'] // self.train_p['mini_batch_size']
-        assert self.train_p['iter_per_ep'] * self.train_p['mini_batch_size'] == self.train_p['batch_size'], 'Specified batch_size "%s" cannot be divided by mini_batch_size "%s"'%(self.train_p['batch_size'], self.train_p['mini_batch_size'])
-        self.train_p['start_epoch'] = 1
-        self.train_p['n_epoch'] = 200
-        self.train_p['epoch'] = self.train_p['start_epoch'] - 1
-        self.train_p['model_save_epoch'] = 2
-        self.train_p['validation_epoch'] = 2
-        self.train_p['sample_per_path'] = 10
         if train_p is not None:
             self.train_p.update(train_p)
+        try:
+            assert self.train_p['iter_per_ep'] * self.train_p['mini_batch_size'] == self.train_p['batch_size'], 'Specified batch_size "%s" cannot be divided by mini_batch_size "%s"'%(self.train_p['batch_size'], self.train_p['mini_batch_size'])
+        except:
+            print("Invalid train_p['iter_per_ep'] setting!")
+            print('iter_per_ep: %s'%self.train_p['iter_per_ep'])
+            print('batch_size: %s'%self.train_p['batch_size'])
+            print('mini_batch_size: %s'%self.train_p['mini_batch_size'])
+            print('Setting (iter_per_ep) = (batch_size) // (mini_batch_size)')
+            self.train_p['iter_per_ep'] = self.train_p['batch_size'] // self.train_p['mini_batch_size']
+        self.train_p['epoch'] = self.train_p['start_epoch'] - 1
+
         self.lambd = dict(
         SI = 0,
         LI = 0,
@@ -93,23 +94,42 @@ class Experiment(object):
         SC = 0,
         C = 0,
         )
+        if lambd is not None:
+            self.lambd.update(lambd)
         self.lambd['total'] = 1 + sum(self.lambd.values())
         self.lambda_norm = True
+
         self.preprocess_p = dict(
         sr = 16000,
         frame_period = 5.0,
         num_mcep = 36,
         )
-        self.loss_index = ['loss_VAE','loss_MDVAE','loss_SI','loss_LI','loss_AC','loss_SC','loss_C']
+        # self.loss_index = ['loss_VAE','loss_MDVAE','loss_SI','loss_LI','loss_AC','loss_SC','loss_C']
+        self.loss_index = ['loss_VAE','loss_KLD','loss_rec','loss_SI','loss_LI','loss_AC','loss_SC','loss_C']
         self.performance_measure_index = ['mcd', 'msd_all', 'msd_vector', 'gv']
+        self.lr_index = ['VAE_lr']
         self.loss_summary = pd.DataFrame(columns = self.loss_index)
         self.validation_summary = pd.DataFrame(columns = self.performance_measure_index)
+        self.lr_summary = pd.DataFrame(columns = self.lr_index)
+
+        self.model_kept = []
+        self.max_keep=100
+
+        # 2] Initialize environment and variables
+        self.create_env(exp_name, new)
+        # self.speaker_list = sorted(os.listdir(self.dirs['train_data']))
+        self.speaker_list = ['p225','p226','p227','p228']
+        self.num_speakers = len(self.speaker_list)
+        assert self.num_speakers == num_speakers, 'Specified "num_speakers" and "num_speakers in train data" does not match'
+        self.build_model(params = self.model_p)
+        self.p = Printer(filewrite_dir = self.dirs['log'])
+        if debug == False:
+            sys.stdout = open(self.dirs['log_all'], 'a')
         append(self.dirs['loss_log'], 'epoch '+' '.join(self.loss_index)+'\n')
         append(self.dirs['validation_log'], 'epoch '+' '.join(self.performance_measure_index)+'\n')
 
         # 3] Hyperparameters for saving model
-        self.model_kept = []
-        self.max_keep=100
+
 
         # 4] If the experiment is not new, Load most recent model
         if new == False:
@@ -133,7 +153,7 @@ class Experiment(object):
         exp_dir = 'exp/'
         model_dir = 'model/'
         log_dir = 'log.txt'
-        log_all_dir = 'log_all.txt'
+        log_all_dir = 'all_log.txt'
         # Train
         train_data_dir = 'processed/'
         si_dir = 'processed_stateindex/'
@@ -218,10 +238,11 @@ class Experiment(object):
         # 3] lr_schedulers
         self.lr_scheduler = dict()
         # self.lr_scheduler['VAE'] = optim.lr_scheduler.MultiStepLR(self.optimizer['VAE'], milestones=[50, 100], gamma=0.1)
+        # self.lr_scheduler['VAE'] = toptim.lr_scheduler.LinearLR(self.optimizer['VAE'], delta = (1-1e-2) / self.train_p['n_epoch'])
         # self.lr_scheduler['VAE'] = optim.lr_scheduler.LambdaLR(self.optimizer['VAE'], lr_lambda=lr_schedule['VAE'])
-        # self.lr_scheduler['VAE'] = optim.lr_scheduler.ExponentialLR(self.optimizer['VAE'], gamma=(1e-2) ** (1/200))
-        # self.lr_scheduler['VAE'] = toptim.lr_scheduler.AdaptiveLR(self.optimizer['VAE'], a = 0.1, b = 0.5)
-        self.lr_scheduler['VAE'] = toptim.lr_scheduler.NoneLR(self.optimizer['VAE'])
+        # self.lr_scheduler['VAE'] = optim.lr_scheduler.ExponentialLR(self.optimizer['VAE'], gamma=(1e-2) ** (1/self.train_p['n_epoch']))
+        self.lr_scheduler['VAE'] = toptim.lr_scheduler.AdaptiveLR(self.optimizer['VAE'], a = 0.1, b = 0.5, threshold=1e-2)
+        # self.lr_scheduler['VAE'] = toptim.lr_scheduler.NoneLR(self.optimizer['VAE'])
         self.lr_scheduler['SC'] = None
         self.lr_scheduler['ASR'] = None
         self.lr_scheduler['AC'] = None
@@ -442,13 +463,16 @@ class Experiment(object):
     def step(self):
         # Keep track of loss results for monitoring
         loss_VAE = None
-        loss_MDVAE = None
+        loss_KLD = None
+        loss_rec = None
+        # loss_MDVAE = None
         loss_SI = None
         loss_LI = None
         loss_AC = None
         loss_SC = None
         loss_C = None
         loss_list = list()
+
         for i, src_speaker in enumerate(self.speaker_list):
             for j, trg_speaker in enumerate(self.speaker_list):
                 # Load train data: mcep, state index
@@ -547,8 +571,11 @@ class Experiment(object):
 
                     loss_KLD_A, loss_rec_A = self.loss_MDVAE(x_batch_A, c_onehot_A)
                     loss_KLD_B, loss_rec_B = self.loss_MDVAE(x_batch_B, c_onehot_B)
-                    loss_MDVAE = loss_KLD_A + loss_rec_A + loss_KLD_B + loss_rec_B
-                    loss_VAE += loss_MDVAE
+                    loss_KLD = loss_KLD_A + loss_KLD_B
+                    loss_rec = loss_rec_A + loss_rec_B
+                    loss_VAE += loss_KLD + loss_rec
+                    # loss_MDVAE = loss_KLD_A + loss_rec_A + loss_KLD_B + loss_rec_B
+                    # loss_VAE += loss_MDVAE
                     if self.lambda_norm == True:
                         loss_VAE /= self.lambd['total'] # Normalize so that the lambda will effect the learning rate less
                     self.optimizer['VAE'].zero_grad()
@@ -556,14 +583,15 @@ class Experiment(object):
                     self.optimizer['VAE'].step()
 
                     try:
-                        loss_list.append([float(loss_VAE), float(loss_MDVAE), float(loss_SI), float(loss_LI), float(loss_AC), float(loss_SC), float(loss_C)])
+                        loss_list.append([float(loss_VAE), float(loss_KLD), float(loss_rec), float(loss_SI), float(loss_LI), float(loss_AC), float(loss_SC), float(loss_C)])
                     except:
-                        loss_list.append([loss_VAE, loss_MDVAE, loss_SI, loss_LI, loss_AC, loss_SC, loss_C])
+                        loss_list.append([loss_VAE, loss_KLD, loss_rec, loss_SI, loss_LI, loss_AC, loss_SC, loss_C])
+                        # loss_list.append([loss_VAE, loss_MDVAE, loss_SI, loss_LI, loss_AC, loss_SC, loss_C])
         # 1. Loss Results
         loss_result = pd.DataFrame(loss_list, columns = self.loss_index)
         return loss_result
 
-    def save_results(self, summary, result, log_dir, plot_dir):
+    def save_log(self, result, log_dir):
         # 1. Write to log
         log_content = str(self.train_p['epoch'])
         for value in result.mean():
@@ -572,7 +600,8 @@ class Experiment(object):
         # 2. Print result statistics
         self.p.print('Mean\n' + str(result.mean().to_frame().T))
         self.p.print('Std\n' + str(result.std().to_frame().T))
-        # 3. Plot
+
+    def save_plot(summary, plot_dir):
         for measure in summary.columns:
             fig_save_dir = os.path.join(plot_dir, measure+'.png')
             axes = summary.plot(y = measure, style='o-')
@@ -628,6 +657,7 @@ class Experiment(object):
             self.train_p['epoch'] += 1
             self.p.print('Epoch:%s'%self.train_p['epoch'])
             self.p.print('VAE lr:%s'%self.optimizer['VAE'].param_groups[0]['lr'])
+            self.save_plot(self.lr_summary, plot_dir = self.dirs['exp'])
 
             # 1. Train
             time_start = time.time()
@@ -637,10 +667,13 @@ class Experiment(object):
             self.p.print('Time elapsed this epoch: {:0.1f}m {:0.5}s'.format( time_elapsed // 60, time_elapsed % 60 ))
             # 2. Save Results
             self.loss_summary.loc[self.train_p['epoch']] = loss_result.mean().values
-            self.save_results(self.loss_summary, loss_result, log_dir = self.dirs['loss_log'], plot_dir = self.dirs['exp'])
+            self.save_log(result = loss_result, log_dir = self.dirs['loss_log'])
+            self.save_plot(summary = self.loss_summary, plot_dir = self.dirs['exp'])
+            # self.save_results(self.loss_summary, loss_result, log_dir = self.dirs['loss_log'], plot_dir = self.dirs['exp'])
             # 3. Adjust learning rate
-            self.lr_scheduler['VAE'].step()
-            append(os.path.join(self.dirs['exp'], 'Encoder_'+str(ep)+'.txt'), str(next(self.Encoder.parameters())) )
+            # self.lr_scheduler['VAE'].step()
+            self.lr_scheduler['VAE'].step(loss_result.mean()['loss_VAE'])
+            # append(os.path.join(self.dirs['exp'], 'Encoder_'+str(ep)+'.txt'), str(next(self.Encoder.parameters())) )
 
             # Save model (Default: 2)
             if self.train_p['epoch'] % self.train_p['model_save_epoch'] == 0:
@@ -658,7 +691,9 @@ class Experiment(object):
                 # 2. Save results
                 self.validation_summary.loc[self.train_p['epoch']] = validation_result.mean().values
                 save_pickle(self.validation_summary, self.dirs['validation_summary'])
-                self.save_results(self.validation_summary, validation_result, log_dir = self.dirs['validation_log'], plot_dir=self.dirs['validation'])
+                self.save_log(result = validation_result, log_dir = self.dirs['validation_log'])
+                self.save_plot(summary = self.validation_summary, plot_dir = self.dirs['validation'])
+                # self.save_results(self.validation_summary, validation_result, log_dir = self.dirs['validation_log'], plot_dir=self.dirs['validation'])
                 self.set_train()
                 self.p.print('-'*50)
         # After training ends, convert wav with the best model

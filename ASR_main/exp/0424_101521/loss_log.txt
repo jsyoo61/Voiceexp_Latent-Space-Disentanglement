@@ -1,2 +1,0 @@
-epoch loss_VAE loss_MDVAE loss_SI loss_LI loss_AC loss_SC loss_C
-2 1.8931617736816406 3.7863235473632812 nan nan nan nan nan

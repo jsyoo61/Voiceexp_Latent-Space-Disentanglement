@@ -27,27 +27,33 @@ class AdaptiveLR(_LRScheduler):
         >>>     validate(...)
         >>>     scheduler.step(loss)
     """
-    def __init__(self, optimizer, a, b, last_epoch = -1, last_loss = float('inf')):
+    def __init__(self, optimizer, a, b, last_epoch = -1, threshold = -float('inf'), fix = False, last_loss = float('inf')):
         self.last_loss = last_loss
         self.loss = self.last_loss
-        if (not isinstance(a, list) and not isinstance(a, tuple)) and (not isinstance(b, list) and not isinstance(b, tuple)):
-            self.a_s = [a] * len(optimizer.param_groups)
-            self.b_s = [b] * len(optimizer.param_groups)
-        elif (isinstance(a, list) or isinstance(a, tuple)) and (isinstance(b, list) or isinstance(b, tuple)):
-            if len(a) != len(optimizer.param_groups) or len(b) != len(optimizer.param_groups):
-                raise ValueError("Expected {} 'a's and 'b's, but got {}, {}".format(
-                    len(optimizer.param_groups), len(a), len(b)))
-            self.a_s = list(a)
-            self.b_s = list(b)
-        else:
-            raise ValueError("a and b has to be the same type, of either iterable or numeric values."
-                            "Got: a: {}, b: {}".format(type(a), type(b)))
+        self.threshold = threshold
+        self.fix = fix
+        self.factor = 1
+        self.a = a
+        self.b = b
+        # if (not isinstance(a, list) and not isinstance(a, tuple)) and (not isinstance(b, list) and not isinstance(b, tuple)):
+        #     self.a_s = [a] * len(optimizer.param_groups)
+        #     self.b_s = [b] * len(optimizer.param_groups)
+        # elif (isinstance(a, list) or isinstance(a, tuple)) and (isinstance(b, list) or isinstance(b, tuple)):
+        #     if len(a) != len(optimizer.param_groups) or len(b) != len(optimizer.param_groups):
+        #         raise ValueError("Expected {} 'a's and 'b's, but got {}, {}".format(
+        #             len(optimizer.param_groups), len(a), len(b)))
+        #     self.a_s = list(a)
+        #     self.b_s = list(b)
+        # else:
+        #     raise ValueError("a and b has to be the same type, of either iterable or numeric values."
+        #                     "Got: a: {}, b: {}".format(type(a), type(b)))
         super(AdaptiveLR, self).__init__(optimizer, last_epoch)
 
     def step(self, loss = 0, epoch=None):
-        if self.last_epoch > 0:
+        if self.last_epoch >= 0:
             self.last_loss = self.loss
             self.loss = loss
+        # self.last_epoch gets incremented afterwards
         super(AdaptiveLR, self).step(epoch=epoch)
 
     def get_lr(self):
@@ -55,12 +61,71 @@ class AdaptiveLR(_LRScheduler):
             warnings.warn("To get the last learning rate computed by the scheduler, "
                           "please use `get_last_lr()`.", DeprecationWarning)
         if self.last_epoch > 0:
-            if self.loss <= self.last_loss:
-                return [lr + lr * a for lr, a in zip(self._last_lr, self.a_s)]
+            if self.factor < self.threshold:
+                # lr fixed after threshold
+                if self.fix:
+                    return [base_lr * self.threshold for base_lr in self.base_lrs]
+                # lr not fixed after threshold
+                elif self.loss <= self.last_loss:
+                    self.factor += self.factor * self.a
+                    return [base_lr * self.factor for base_lr in self.base_lrs]
+                    # return [group['lr'] + group['lr'] * self.a for group in self.optimizer.param_groups]
+                else:
+                    return [base_lr * self.factor for base_lr in self.base_lrs]
+                    # return [group['lr'] for group in self.optimizer.param_groups]
             else:
-                return [lr - lr * b for lr, b in zip(self._last_lr, self.b_s)]
+                if self.loss <= self.last_loss:
+                    self.factor += self.factor * self.a
+                    return [base_lr * self.factor for base_lr in self.base_lrs]
+                    # return [group['lr'] + group['lr'] * self.a for group in self.optimizer.param_groups]
+                else:
+                    self.factor -= self.factor * self.b
+                    return [base_lr * self.factor for base_lr in self.base_lrs]
+                    # return [group['lr'] - group['lr'] * self.b for group in self.optimizer.param_groups]
         else:
             return self.base_lrs
+
+class LinearLR(_LRScheduler):
+    """Decay the learning rate of each parameter group by delta every epoch.
+    Every step,
+    lr = lr - initial_lr * delta
+    -----
+    Args:
+        optimizer (Optimizer): Wrapped optimizer.
+        delta: (float or list): A subtractive factor to decrement learning rate.
+        last_epoch (int): The index of last epoch. Default: -1.
+    Example:
+        >>> # Assuming optimizer has two groups.
+        >>> delta_list = [0.1, 0.2]
+        >>> scheduler = AdaptiveLR(optimizer, delta=delta_list)
+        >>> for epoch in range(100):
+        >>>     train(...)
+        >>>     validate(...)
+        >>>     scheduler.step()
+    """
+    def __init__(self, optimizer, delta, last_epoch = -1):
+        self.deltas = delta
+        if not isinstance(delta, list) and not isinstance(delta, tuple):
+            self.deltas = [delta] * len(optimizer.param_groups)
+        else:
+            if len(delta) != len(optimizer.param_groups):
+                raise ValueError("Expected {} deltas, but got {}".format(
+                    len(optimizer.param_groups), len(delta)))
+            self.deltas = list(delta)
+        super(LinearLR, self).__init__(optimizer, last_epoch)
+
+    def get_lr(self):
+        if not self._get_lr_called_within_step:
+            warnings.warn("To get the last learning rate computed by the scheduler, "
+                          "please use `get_last_lr()`.", DeprecationWarning)
+        if self.last_epoch > 0:
+            return [group['lr'] - base_lr * delta for group, base_lr, delta in zip(self.optimizer.param_groups, self.base_lrs, self.deltas)]
+        else:
+            return self.base_lrs
+
+    def _get_closed_form_lr(self):
+        return [base_lr*(1 - delta * self.epoch) for base_lr, delta in zip(self.base_lrs, self.deltas)]
+
 
 class NoneLR(_LRScheduler):
     def __init__(self, optimizer, last_epoch = -1):

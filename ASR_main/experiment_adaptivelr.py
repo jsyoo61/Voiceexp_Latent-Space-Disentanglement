@@ -1,5 +1,6 @@
 # %% Initialize
 import os
+import sys
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -40,56 +41,64 @@ class Experiment(object):
     speaker_list
         Hold all name of speakers
     '''
-    def __init__(self, num_speakers = 100, exp_name = None, new = True, model_p = None, train_p = None):
+    def __init__(self, num_speakers = 4, exp_name = None, new = True, model_p = None, train_p = None, lambd = None, debug = False):
+        # 0] Random seed
         np.random.seed(0)
         torch.manual_seed(0)
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        # 0] Default parameters
-        if model_p == None:
-            model_p = dict(
-            vae_lr = 0.0001,
-            vae_betas = (0.9,0.999),
-            sc_lr = 0.0002,
-            sc_betas = (0.5,0.999),
-            asr_lr = 0.00001,
-            asr_betas = (0.5,0.999),
-            ac_lr = 0.00005,
-            ac_betas = (0.5,0.999),
-            )
-        self.model_p = model_p
-
-        # 1] Initialize
-        self.create_env(exp_name, new)
-        # self.speaker_list = sorted(os.listdir(self.dirs['train_data']))
-        self.speaker_list = ['p225','p226','p227','p228']
-        self.num_speakers = len(self.speaker_list)
-        assert self.num_speakers == num_speakers, 'Specified "num_speakers" and "num_speakers in train data" does not match'
-        self.build_model(params = model_p)
-        self.p = Printer(filewrite_dir = self.dirs['log'])
-
-        # 2] Hyperparameters for Training
-        self.train_p = dict()
-        self.train_p['n_train_frames'] = 128
-        self.train_p['batch_size'] = 32
-        self.train_p['mini_batch_size'] = 8
-        self.train_p['iter_per_ep'] = self.train_p['batch_size'] // self.train_p['mini_batch_size']
-        assert self.train_p['iter_per_ep'] * self.train_p['mini_batch_size'] == self.train_p['batch_size'], 'Specified batch_size "%s" cannot be divided by mini_batch_size "%s"'%(self.train_p['batch_size'], self.train_p['mini_batch_size'])
-        self.train_p['start_epoch'] = 1
-        self.train_p['n_epoch'] = 100
-        self.train_p['epoch'] = self.train_p['start_epoch'] - 1
-        self.train_p['model_save_epoch'] = 2
-        self.train_p['validation_epoch'] = 2
-        self.train_p['sample_per_path'] = 10
-        self.lambd = dict(
-        SI = 1,
-        LI = 1,
-        AC = 1,
-        SC = 1,
-        C = 1,
+        # 1] Hyperparameters setting
+        self.model_p = dict(
+        vae_lr = 0.0001,
+        vae_betas = (0.9,0.999),
+        sc_lr = 0.0002,
+        sc_betas = (0.5,0.999),
+        asr_lr = 0.00001,
+        asr_betas = (0.5,0.999),
+        ac_lr = 0.00005,
+        ac_betas = (0.5,0.999),
         )
+        if model_p is not None:
+            self.model_p.update(model_p)
+
+        self.train_p = dict(
+        n_train_frames = 128,
+        batch_size = 32,
+        mini_batch_size = 8,
+        start_epoch = 1,
+        n_epoch = 100,
+        model_save_epoch = 2,
+        validation_epoch = 40,
+        sample_per_path = 10,
+        )
+        self.train_p['iter_per_ep'] = self.train_p['batch_size'] // self.train_p['mini_batch_size']
+        if train_p is not None:
+            self.train_p.update(train_p)
+        try:
+            assert self.train_p['iter_per_ep'] * self.train_p['mini_batch_size'] == self.train_p['batch_size'], 'Specified batch_size "%s" cannot be divided by mini_batch_size "%s"'%(self.train_p['batch_size'], self.train_p['mini_batch_size'])
+        except:
+            print("Invalid train_p['iter_per_ep'] setting!")
+            print('iter_per_ep: %s'%self.train_p['iter_per_ep'])
+            print('batch_size: %s'%self.train_p['batch_size'])
+            print('mini_batch_size: %s'%self.train_p['mini_batch_size'])
+            print('Setting (iter_per_ep) = (batch_size) // (mini_batch_size)')
+            self.train_p['iter_per_ep'] = self.train_p['batch_size'] // self.train_p['mini_batch_size']
+        self.train_p['epoch'] = self.train_p['start_epoch'] - 1
+
+        self.lambd = dict(
+        SI = 0,
+        LI = 0,
+        AC = 0,
+        SC = 0,
+        C = 0,
+        )
+        if lambd is not None:
+            self.lambd.update(lambd)
         self.lambd['total'] = 1 + sum(self.lambd.values())
         self.lambda_norm = True
+
         self.preprocess_p = dict(
         sr = 16000,
         frame_period = 5.0,
@@ -99,22 +108,35 @@ class Experiment(object):
         self.performance_measure_index = ['mcd', 'msd_all', 'msd_vector', 'gv']
         self.loss_summary = pd.DataFrame(columns = self.loss_index)
         self.validation_summary = pd.DataFrame(columns = self.performance_measure_index)
+
+        self.model_kept = []
+        self.max_keep=100
+
+        # 2] Initialize environment and variables
+        self.create_env(exp_name, new)
+        # self.speaker_list = sorted(os.listdir(self.dirs['train_data']))
+        self.speaker_list = ['p225','p226','p227','p228']
+        self.num_speakers = len(self.speaker_list)
+        assert self.num_speakers == num_speakers, 'Specified "num_speakers" and "num_speakers in train data" does not match'
+        self.build_model(params = self.model_p)
+        self.p = Printer(filewrite_dir = self.dirs['log'])
+        if debug == False:
+            sys.stdout = open(self.dirs['log_all'], 'a')
         append(self.dirs['loss_log'], 'epoch '+' '.join(self.loss_index)+'\n')
         append(self.dirs['validation_log'], 'epoch '+' '.join(self.performance_measure_index)+'\n')
 
         # 3] Hyperparameters for saving model
-        self.model_kept = []
-        self.max_keep=100
+
 
         # 4] If the experiment is not new, Load most recent model
         if new == False:
             self.model_kept= sorted(os.listdir(self.dirs['model']))
-            most_trained_model = max(model_list)
-            epoch_trained = int(most_trained_model.split('-')[-1])
+            most_trained_model = max(self.model_kept)
+            epoch_trained = int(most_trained_model.split('_')[-1].split('.')[0])
             self.train_p['start_epoch'] += epoch_trained
             # Update lr_scheduler
             print('Loading model from %s'%most_trained_model)
-            self.load_model_all(os.path.join(self.dirs['model'], most_trained_model))
+            self.load_model_all(self.dirs['model'], epoch_trained)
 
     def create_env(self, exp_name = None, new = True):
         '''Create experiment environment
@@ -128,10 +150,13 @@ class Experiment(object):
         exp_dir = 'exp/'
         model_dir = 'model/'
         log_dir = 'log.txt'
+        log_all_dir = 'log_all.txt'
         # Train
         train_data_dir = 'processed/'
         si_dir = 'processed_stateindex/'
         loss_log_dir = 'loss_log.txt'
+        train_id_log_dir = 'train_id_log.txt'
+        validation_id_log_dir = 'validation_id_log.txt'
         # Validation
         validation_data_dir = 'processed_validation/inset_dev/'
         validation_pathlist_dir = 'filelist/inset_dev.lst'
@@ -141,7 +166,6 @@ class Experiment(object):
         validation_log_dir = 'validation_log.txt'
         # Test
         test_dir = 'test/'
-        test_result_dir = 'test_result/'
         test_converted_dir = 'converted/'
         test_data_dir = 'processed_validation/inset_test/'
         test_pathlist_dir = 'filelist/inset_test.lst'
@@ -162,11 +186,14 @@ class Experiment(object):
 
         # 3] Log settings
         self.dirs['log'] = os.path.join(self.dirs['exp'], log_dir)
+        self.dirs['log_all'] = os.path.join(self.dirs['exp'], log_all_dir)
 
         # 4] Train
         self.dirs['train_data'] = train_data_dir
         self.dirs['si'] = si_dir
         self.dirs['loss_log'] = os.path.join(self.dirs['exp'], loss_log_dir)
+        self.dirs['train_id_log'] = os.path.join(self.dirs['exp'], train_id_log_dir)
+        self.dirs['validation_id_log'] = os.path.join(self.dirs['exp'], validation_id_log_dir)
 
         # 6] Validation
         self.dirs['validation_data'] = validation_data_dir
@@ -176,15 +203,14 @@ class Experiment(object):
         self.dirs['validation_converted'] = os.path.join(self.dirs['validation'], validation_converted_dir)
         self.dirs['validation_log'] = os.path.join(self.dirs['validation'], validation_log_dir)
         os.makedirs(self.dirs['validation'], exist_ok=True)
+        os.makedirs(self.dirs['validation_converted'], exist_ok=True)
 
         # 7] Test
         self.dirs['test_data'] = test_data_dir
         self.dirs['test_pathlist'] = test_pathlist_dir
         self.dirs['test'] = os.path.join(self.dirs['exp'], test_dir)
-        self.dirs['test_result'] = os.path.join(self.dirs['test'], test_result_dir)
         self.dirs['test_converted'] = os.path.join(self.dirs['test'], test_converted_dir)
         os.makedirs(self.dirs['test'], exist_ok=True)
-        os.makedirs(self.dirs['test_result'], exist_ok=True)
         os.makedirs(self.dirs['test_converted'], exist_ok=True)
 
     def build_model(self, params = None):
@@ -209,9 +235,12 @@ class Experiment(object):
         # 3] lr_schedulers
         self.lr_scheduler = dict()
         # self.lr_scheduler['VAE'] = optim.lr_scheduler.MultiStepLR(self.optimizer['VAE'], milestones=[50, 100], gamma=0.1)
+        # self.lr_scheduler['VAE'] = toptim.lr_scheduler.LinearLR(self.optimizer['VAE'], delta = (1-1e-2) / self.train_p['n_epoch'])
         # self.lr_scheduler['VAE'] = optim.lr_scheduler.LambdaLR(self.optimizer['VAE'], lr_lambda=lr_schedule['VAE'])
-        # self.lr_scheduler['VAE'] = optim.lr_scheduler.ExponentialLR(self.optimizer['VAE'], gamma=(1e-2) ** (1/200))
-        self.lr_scheduler['VAE'] = toptim.lr_scheduler.AdaptiveLR(self.optimizer['VAE'], a = 0.1, b = 0.5)
+        # self.lr_scheduler['VAE'] = optim.lr_scheduler.ExponentialLR(self.optimizer['VAE'], gamma=(1e-4) ** (1/100))
+        self.lr_threshold = 1e-3
+        self.lr_scheduler['VAE'] = toptim.lr_scheduler.AdaptiveLR(self.optimizer['VAE'], a = 0.1, b = 0.5, threshold=1e-1)
+        # self.lr_scheduler['VAE'] = toptim.lr_scheduler.NoneLR(self.optimizer['VAE'])
         self.lr_scheduler['SC'] = None
         self.lr_scheduler['ASR'] = None
         self.lr_scheduler['AC'] = None
@@ -268,7 +297,7 @@ class Experiment(object):
             for speaker_num in range(self.num_speakers):
                 self.Decoder[speaker_num].load_state_dict(all_model['Decoder_'+str(speaker_num)])
             self.SC.load_state_dict(all_model['SpeakerClassifier'])
-            self.ASR.load_state_dict(['AutomaticSpeechRecognizer'])
+            self.ASR.load_state_dict(all_model['AutomaticSpeechRecognizer'])
             self.AC.load_state_dict(all_model['AuxiliaryClassifier'])
             self.optimizer['VAE'].load_state_dict(all_model['optimizer_VAE'])
             self.optimizer['SC'].load_state_dict(all_model['optimizer_SC'])
@@ -375,7 +404,7 @@ class Experiment(object):
             mu_xt, logvar_xt = self.Decoder[i](z)
             xt = self.reparameterize(mu_xt, logvar_xt)
             logits = self.AC(xt)
-            c = self.generate_label(i, self.train_p['mini_batch_size'])
+            c = self.generate_label(i, self.train_p['mini_batch_size']).to(device = self.device, dtype = torch.long)
             loss_AC = F.cross_entropy(logits, c)
             loss_AC_list.append(loss_AC)
         loss_AC = sum(loss_AC_list) / self.num_speakers # Mean loss
@@ -394,10 +423,10 @@ class Experiment(object):
             mu_xt, logvar_xt = self.Decoder[i](z)
             xt = self.reparameterize(mu_xt, logvar_xt)
             ct = self.generate_label(i, self.train_p['mini_batch_size'])
-            ct_onehot = self.label2onehot(ct)
+            ct_onehot = self.label2onehot(ct).to(device = self.device, dtype = torch.float)
             mu_zt, logvar_zt = self.Encoder(xt, ct_onehot)
             zt = self.reparameterize(mu_zt, logvar_zt)
-            loss_SC = (z - zt) ** 2
+            loss_SC = torch.mean((z - zt) ** 2)
             loss_SC_list.append(loss_SC)
         loss_SC = sum(loss_SC_list) / self.num_speakers
         return loss_SC
@@ -416,13 +445,14 @@ class Experiment(object):
             mu_xt, logvar_xt = self.Decoder[i](z)
             xt = self.reparameterize(mu_xt, logvar_xt)
             ct = self.generate_label(i, self.train_p['mini_batch_size'])
-            ct_onehot = self.label2onehot(ct)
+            ct_onehot = self.label2onehot(ct).to(device = self.device, dtype = torch.float)
             mu_zt, logvar_zt = self.Encoder(xt, ct_onehot)
             loss_C_KLD = KLD_loss(mu_zt, logvar_zt)
             loss_C_KLD_list.append(loss_C_KLD)
 
             zt = self.reparameterize(mu_zt, logvar_zt)
             mu_xtt, logvar_xtt = self.Decoder[index](zt)
+            loss_C_rec = -GaussianLogDensity(x, mu_xtt, logvar_xtt)
             loss_C_rec_list.append(loss_C_rec)
         loss_C_KLD = sum(loss_C_KLD_list) / self.num_speakers
         loss_C_rec = sum(loss_C_rec_list) / self.num_speakers
@@ -452,8 +482,9 @@ class Experiment(object):
                 si_A = sort_load(si_A_dir) # [si, si, ...], si.shape == (n,)
                 si_B = sort_load(si_B_dir)
 
-                dataset_A, dataset_B, siset_A, siset_B = sample_train_data(dataset_A=coded_sps_norm_A, dataset_B=coded_sps_norm_B, ppgset_A=si_A, ppgset_B=si_B, n_frames=self.train_p['n_train_frames'])
+                dataset_A, dataset_B, siset_A, siset_B, shuffled_id_A, shuffled_id_B = sample_train_data(dataset_A=coded_sps_norm_A, dataset_B=coded_sps_norm_B, ppgset_A=si_A, ppgset_B=si_B, n_frames=self.train_p['n_train_frames'])
                 num_data = dataset_A.shape[0]
+                # append(self.dirs['train_id_log'], str(shuffled_id_A))
 
                 dataset_A = np.expand_dims(dataset_A, axis=1)
                 dataset_B = np.expand_dims(dataset_B, axis=1)
@@ -514,8 +545,8 @@ class Experiment(object):
                         self.optimizer['AC'].step()
                         del loss_AC, loss_AC_A, loss_AC_B
                         # 2. Get loss_LI for VAE
-                        loss_AC_A = self.loss_ACforAC(x_batch_A, c_A)
-                        loss_AC_B = self.loss_ACforAC(x_batch_B, c_B)
+                        loss_AC_A = self.loss_ACforVAE(x_batch_A, c_onehot_A)
+                        loss_AC_B = self.loss_ACforVAE(x_batch_B, c_onehot_B)
                         loss_AC = loss_AC_A + loss_AC_B
                         loss_VAE += self.lambd['AC'] * loss_AC
 
@@ -528,9 +559,9 @@ class Experiment(object):
 
                     if self.lambd['C'] != 0:
                         # 1. Get Loss_C for VAE
-                        loss_C_A = self.loss_C(x_batch_A, c_onehot_A, i)
-                        loss_C_B = self.locc_C(x_batch_B, c_onehot_B, j)
-                        loss_C = loss_C_A + loss_C_B
+                        loss_C_KLD_A, loss_C_rec_A = self.loss_C(x_batch_A, c_onehot_A, i)
+                        loss_C_KLD_B, loss_C_rec_B = self.loss_C(x_batch_B, c_onehot_B, j)
+                        loss_C = loss_C_KLD_A + loss_C_rec_A + loss_C_KLD_B + loss_C_rec_B
                         loss_VAE += self.lambd['C'] * loss_C
 
                     loss_KLD_A, loss_rec_A = self.loss_MDVAE(x_batch_A, c_onehot_A)
@@ -543,7 +574,10 @@ class Experiment(object):
                     loss_VAE.backward()
                     self.optimizer['VAE'].step()
 
-                    loss_list.append([float(loss_VAE), float(loss_MDVAE), loss_SI, loss_LI, loss_AC, loss_SC, loss_C])
+                    try:
+                        loss_list.append([float(loss_VAE), float(loss_MDVAE), float(loss_SI), float(loss_LI), float(loss_AC), float(loss_SC), float(loss_C)])
+                    except:
+                        loss_list.append([loss_VAE, loss_MDVAE, loss_SI, loss_LI, loss_AC, loss_SC, loss_C])
         # 1. Loss Results
         loss_result = pd.DataFrame(loss_list, columns = self.loss_index)
         return loss_result
@@ -586,6 +620,7 @@ class Experiment(object):
         self.p.add('Start Training with the following setting:\n')
         self.p.add(stars()+'\n')
         self.p.add('torch version: %s\n'%torch.__version__)
+        self.p.add('device: %s\n'%self.device)
         self.p.add('train_data_dir: %s\n'%self.dirs['train_data'])
         self.p.add('model_dir: %s\n'%self.dirs['model'])
         self.p.add('num_speakers: %s\n'%self.num_speakers)
@@ -605,26 +640,27 @@ class Experiment(object):
         self.p.add(stars()+'\n')
         self.p.print(end='')
 
+        append(os.path.join(self.dirs['exp'], 'Encoder_'+str(0)+'.txt'), str(next(self.Encoder.parameters())) )
         np.random.seed(0)
         # 4] Start training
-        while(self.optimizer['VAE'].param_groups[0]['lr'] > 1e-6):
+        while(self.optimizer['VAE'].param_groups[0]['lr'] > self.lr_threshold):
             self.train_p['epoch'] += 1
             self.p.print('Epoch:%s'%self.train_p['epoch'])
             self.p.print('VAE lr:%s'%self.optimizer['VAE'].param_groups[0]['lr'])
 
+            # 1. Train
             time_start = time.time()
-            # 1. Update weights
             loss_result = self.step()
-            # 2. Save Results
-            loss_result_mean = loss_result.mean()
-            self.loss_summary.loc[self.train_p['epoch']] = loss_result_mean.values
-            self.save_results(self.loss_summary, loss_result, log_dir = self.dirs['loss_log'], plot_dir = self.dirs['exp'])
-            # 3. Adjust learning rate
-            self.lr_scheduler['VAE'].step(loss_result_mean['loss_VAE'])
-
             time_end = time.time()
             time_elapsed = time_end - time_start
             self.p.print('Time elapsed this epoch: {:0.1f}m {:0.5}s'.format( time_elapsed // 60, time_elapsed % 60 ))
+            # 2. Save Results
+            self.loss_summary.loc[self.train_p['epoch']] = loss_result.mean().values
+            self.save_results(self.loss_summary, loss_result, log_dir = self.dirs['loss_log'], plot_dir = self.dirs['exp'])
+            # 3. Adjust learning rate
+            # self.lr_scheduler['VAE'].step()
+            self.lr_scheduler['VAE'].step(loss_result.mean()['loss_VAE'])
+            # append(os.path.join(self.dirs['exp'], 'Encoder_'+str(ep)+'.txt'), str(next(self.Encoder.parameters())) )
 
             # Save model (Default: 2)
             if self.train_p['epoch'] % self.train_p['model_save_epoch'] == 0:
@@ -634,8 +670,7 @@ class Experiment(object):
             # Validation (Default: 2)
             if self.train_p['epoch'] % self.train_p['validation_epoch'] == 0:
                 '''validation_result : holds validation result of all samples at particular epoch
-                validation_summary: holds mean value of each validation results
-                '''
+                validation_summary: holds mean value of each validation results'''
                 self.p.print('-'*50)
                 self.p.print('Validation Start.')
                 # 1. Get performance measures
@@ -646,25 +681,24 @@ class Experiment(object):
                 self.save_results(self.validation_summary, validation_result, log_dir = self.dirs['validation_log'], plot_dir=self.dirs['validation'])
                 self.set_train()
                 self.p.print('-'*50)
-        self.p.print('*'*50)
-        self.p.print('*'*20+'Adaptive Learning Complete!!'+'*'*20)
-        self.p.print('*'*50)
-        self.optimizer['VAE'].param_groups[0]['lr'] = 1e-6
+        self.p.print('*'*30)
+        self.p.print('*'*10+'Adaptive Learning Complete!!'+'*'*10)
+        self.p.print('*'*30)
+        self.optimizer['VAE'].param_groups[0]['lr'] = self.lr_threshold
         for ep in range(self.train_p['n_epoch']):
             self.train_p['epoch'] += 1
             self.p.print('Epoch:%s'%self.train_p['epoch'])
             self.p.print('VAE lr:%s'%self.optimizer['VAE'].param_groups[0]['lr'])
 
+            # 1. Train
             time_start = time.time()
-            # 1. Update weights
             loss_result = self.step()
-            # 2. Save Results
-            self.loss_summary.loc[self.train_p['epoch']] = loss_result.mean().values
-            self.save_results(self.loss_summary, loss_result, log_dir = self.dirs['loss_log'], plot_dir = self.dirs['exp'])
-
             time_end = time.time()
             time_elapsed = time_end - time_start
             self.p.print('Time elapsed this epoch: {:0.1f}m {:0.5}s'.format( time_elapsed // 60, time_elapsed % 60 ))
+            # 2. Save Results
+            self.loss_summary.loc[self.train_p['epoch']] = loss_result.mean().values
+            self.save_results(self.loss_summary, loss_result, log_dir = self.dirs['loss_log'], plot_dir = self.dirs['exp'])
 
             # Save model (Default: 2)
             if self.train_p['epoch'] % self.train_p['model_save_epoch'] == 0:
@@ -688,8 +722,11 @@ class Experiment(object):
                 self.p.print('-'*50)
         # After training ends, convert wav with the best model
         best_ep = self.validation_summary['mcd'].idxmin()
+        self.p.print('Loading model from epoch:%s'%best_ep)
         self.load_model_vae(self.dirs['model'], best_ep)
         self.convert(test_data_dir = self.dirs['validation_data'], test_pathlist_dir = self.dirs['validation_pathlist'], test_converted_dir = self.dirs['validation_converted'])
+        self.p.print('Training Complete.')
+        self.p.print('Current Time:'+time.strftime('%Y-%m-%d %H:%M %Ss'))
 
     def performance_measure(self, test_data_dir = None, test_pathlist_dir = None, sample_per_path = 10):
         # Default to validation directories, unless there's additional information
@@ -706,8 +743,6 @@ class Experiment(object):
         target_mcep_list = list()
         tested_pathlist = list()
         start_time = time.time()
-        # np.random.seed(0)
-        # np.random.shuffle(test_pathlist)
         for speaker_A in self.speaker_list:
             for speaker_B in self.speaker_list:
                 n_sample = 0
@@ -761,11 +796,8 @@ class Experiment(object):
                     coded_sp_converted_norm = np.squeeze(coded_sp_converted_norm, axis=0)
 
                     # Additional conversions
-                    # f0_converted = pitch_conversion(f0=f0, mean_log_src=log_f0s_mean_A, std_log_src=log_f0s_std_A, mean_log_target=log_f0s_mean_B, std_log_target=log_f0s_std_B)
-                    if coded_sp_converted_norm.shape[1] > len(f0):
-                        self.p.print('shape not coherent?? file:%s'%(filename_src))
-                        self.p.print(test_path)
-                        coded_sp_converted_norm = coded_sp_converted_norm[:, :-1]
+                    # if coded_sp_converted_norm.shape[1] > len(f0):
+                        # coded_sp_converted_norm = coded_sp_converted_norm[:, :-1]
 
                     coded_sp_converted = coded_sp_converted_norm * coded_sps_std_B + coded_sps_mean_B
                     coded_sp_converted = coded_sp_converted.T
@@ -775,6 +807,9 @@ class Experiment(object):
                     target_mcep_list.append(coded_sp_trg)
                     tested_pathlist.append(test_path)
 
+        append(self.dirs['validation_id_log'], '*'*30+'\n')
+        for path in tested_pathlist:
+            append(self.dirs['validation_id_log'], path+'\n')
 
         # 2] Calculate performance_measures (MCD, MSD, GV)
         print('Calculating MCD, MSD, GV')
@@ -793,9 +828,9 @@ class Experiment(object):
         pool.close()
         pool.join()
 
-        # 3] Save Results
-        test_result = pd.DataFrame(index = tested_pathlist, columns = self.performance_measure_index, dtype = float)
+        # 3] Gather Results
         print('Calculation complete.')
+        test_result = pd.DataFrame(index = tested_pathlist, columns = self.performance_measure_index, dtype = float)
         for test_path, mcd, msd_all, msd_vector, gv in zip(tested_pathlist, mcd_list, msd_all_list, msd_vector_list, gv_list):
             test_result.loc[test_path] = mcd, msd_all, msd_vector, gv
 
@@ -817,8 +852,6 @@ class Experiment(object):
         # 1] Convert all data & Save them
         print('Loading&Converting test data...')
         start_time = time.time()
-        np.random.seed(0)
-        np.random.shuffle(test_pathlist)
         for speaker_A in self.speaker_list:
             for speaker_B in self.speaker_list:
                 n_sample = 0
@@ -881,8 +914,6 @@ class Experiment(object):
                     if coded_sp_converted_norm.shape[1] < len(f0):
                         f0_converted = f0_converted[:int(coded_sp_converted_norm.shape[1])]
                         ap = ap[:int(coded_sp_converted_norm.shape[1])]
-                        self.p.print('shape not coherent?? file:%s'%(filename_src))
-                        self.p.print(test_path)
                     wav_transformed = world_speech_synthesis(f0=f0_converted, decoded_sp=decoded_sp_converted, ap=ap, fs=self.preprocess_p['sr'], frame_period=self.preprocess_p['frame_period'])
                     wav_transformed = np.nan_to_num(wav_transformed)
                     # Save file
@@ -913,10 +944,7 @@ class Experiment(object):
         converted_mcep_list = list()
         target_mcep_list = list()
         tested_pathlist = list()
-        sample_per_path = 1
         start_time = time.time()
-        np.random.seed(0)
-        np.random.shuffle(test_pathlist)
         for speaker_A in self.speaker_list:
             for speaker_B in self.speaker_list:
                 n_sample = 0
@@ -980,12 +1008,10 @@ class Experiment(object):
                     if coded_sp_converted_norm.shape[1] < len(f0):
                         f0_converted = f0_converted[:int(coded_sp_converted_norm.shape[1])]
                         ap = ap[:int(coded_sp_converted_norm.shape[1])]
-                        self.p.print('shape not coherent?? file:%s'%(filename_src))
-                        self.p.print(test_path)
                     wav_transformed = world_speech_synthesis(f0=f0_converted, decoded_sp=decoded_sp_converted, ap=ap, fs=self.preprocess_p['sr'], frame_period=self.preprocess_p['frame_period'])
                     wav_transformed = np.nan_to_num(wav_transformed)
                     # Save file
-                    soundfile.output.write_wav(os.path.join(test_converted_dir, test_path+'.wav'), wav_transformed, self.preprocess_p['sr'])
+                    soundfile.write(os.path.join(test_converted_dir, test_path+'.wav'), data=wav_transformed, samplerate=self.preprocess_p['sr'])
 
                     converted_mcep_list.append(coded_sp_converted)
                     target_mcep_list.append(coded_sp_trg)
@@ -1022,12 +1048,17 @@ if False:
     # self = Experiment(num_speakers = 4
     # Dummy class for debugging
     print('DEBUGGING!!')
-    # class Dummy():
-    #     """ Dummy class for debugging """
-    #     def __init__(self):
-    #         pass
-    # self = Dummy()
+    # %%
     self = Experiment(num_speakers = 4)
+
+    i=0
+    j=2
+    src_speaker = self.speaker_list[i]
+    trg_speaker = self.speaker_list[j]
+    iteration=0
+
+    # %%
+
     self.dirs = dict()
     exp_dir = 'exp/'
     model_dir = 'model/'
@@ -1076,41 +1107,8 @@ if False:
     )
     test_pathlist = read(self.dirs['validation_pathlist']).splitlines()
     test_path = test_pathlist[0]
-    i=0
-    j=2
-    src_speaker = self.speaker_list[i]
-    trg_speaker = self.speaker_list[j]
-    iteration=0
-    torch.manual_seed(0)
+
 
     self.loss_index = ['VAE','MDVAE','SI','LI','AC','SC','C']
     self.loss_summary = pd.DataFrame(columns = self.loss_index)
     self.validation_summary = pd.DataFrame(columns = self.performance_measure_index)
-# x=torch.arange(2*3*4).view(2,3,1,4)
-# print(x)
-# print(torch.flip(x, [0,1]))
-# torch.flip(x,[0,1]).shape
-# x.transpose(0,1).shape
-# x.transpose(0,1)[1,0,2]
-# x.squeeze()
-# x.shape
-# x[0,1,2]
-# x=torch.ones((8,8,1,32))
-# x.shape
-# y = self.ASR(x)
-# y.shape
-# y.transpose(1,2).shape
-# F.cross_entropy(y.transpose(1,2), si_batch_A)
-# c_A.shape
-# y[0].shape
-# for s, yy in zip(si_batch_A, y):
-#     l+=F.cross_entropy(yy,s)
-#
-# l/8
-# l=torch.tensor(0).to(float)
-# si_batch_A[0].shape
-# y.transpose(1,2)[0].shape
-# F.cross_entropy(y, si_batch_A)
-# help(F.cross_entropy)
-# si_batch_A.shape
-# iteration=0
