@@ -11,6 +11,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import soundfile
 import platform
+import itertools
 
 # Custom API
 import tools.torch.optim as toptim
@@ -49,7 +50,7 @@ class Experiment(object):
         torch.backends.cudnn.benchmark = False
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        # 1] Hyperparameters setting
+        # 1] Hyperparameters setting - Default
         self.model_p = dict(
         vae_lr = 1e-3,
         vae_betas = (0.9,0.999),
@@ -69,8 +70,8 @@ class Experiment(object):
         mini_batch_size = 8,
         start_epoch = 1,
         n_epoch = 300,
-        model_save_epoch = 2,
-        validation_epoch = 2,
+        model_save_epoch = 10,
+        validation_epoch = 10,
         sample_per_path = 10,
         )
         self.train_p['iter_per_ep'] = self.train_p['batch_size'] // self.train_p['mini_batch_size']
@@ -88,6 +89,8 @@ class Experiment(object):
         self.train_p['epoch'] = self.train_p['start_epoch'] - 1
 
         self.lambd = dict(
+        KLD = 1,
+        rec = 10,
         SI = 0,
         LI = 0,
         AC = 0,
@@ -96,7 +99,7 @@ class Experiment(object):
         )
         if lambd is not None:
             self.lambd.update(lambd)
-        self.lambd['total'] = 1 + sum(self.lambd.values())
+        self.lambd_total = 1 + sum(self.lambd.values())
         self.lambda_norm = True
 
         self.preprocess_p = dict(
@@ -105,7 +108,7 @@ class Experiment(object):
         num_mcep = 36,
         )
         # self.loss_index = ['loss_VAE','loss_MDVAE','loss_SI','loss_LI','loss_AC','loss_SC','loss_C']
-        self.loss_index = ['loss_VAE','loss_KLD','loss_rec','loss_SI','loss_LI','loss_AC','loss_SC','loss_C']
+        self.loss_index = ['loss_VAE','loss_KLD','loss_rec','loss_SI','loss_LI','loss_AC','loss_SC','loss_C_KLD', 'loss_C_rec']
         self.performance_measure_index = ['mcd', 'msd_all', 'msd_vector', 'gv']
         self.lr_index = ['VAE_lr']
         self.loss_summary = pd.DataFrame(columns = self.loss_index)
@@ -133,8 +136,8 @@ class Experiment(object):
 
         # 4] If the experiment is not new, Load most recent model
         if new == False:
-            self.model_kept= sorted(os.listdir(self.dirs['model']))
-            most_trained_model = max(self.model_kept)
+            self.model_kept= sorted(os.listdir(self.dirs['model']), key = lambda x: int(x.split('.')[0].split('_')[-1]))
+            most_trained_model = self.model_kept[-1]
             epoch_trained = int(most_trained_model.split('_')[-1].split('.')[0])
             self.train_p['start_epoch'] += epoch_trained
             # Update lr_scheduler
@@ -165,7 +168,8 @@ class Experiment(object):
         validation_pathlist_dir = 'filelist/inset_dev.lst'
         validation_dir = 'validation/'
         validation_summary_dir = 'validation_summary.p'
-        validation_converted_dir = 'validation_converted/'
+        validation_converted_best_dir = 'validation_converted_best/'
+        validation_converted_final_dir = 'validation_converted_final/'
         validation_log_dir = 'validation_log.txt'
         # Test
         test_dir = 'test/'
@@ -203,10 +207,12 @@ class Experiment(object):
         self.dirs['validation_pathlist'] = validation_pathlist_dir
         self.dirs['validation'] = os.path.join(self.dirs['exp'], validation_dir)
         self.dirs['validation_summary'] = os.path.join(self.dirs['validation'], 'validation_summary.p')
-        self.dirs['validation_converted'] = os.path.join(self.dirs['validation'], validation_converted_dir)
+        self.dirs['validation_converted_best'] = os.path.join(self.dirs['validation'], validation_converted_best_dir)
+        self.dirs['validation_converted_final'] = os.path.join(self.dirs['validation'], validation_converted_final_dir)
         self.dirs['validation_log'] = os.path.join(self.dirs['validation'], validation_log_dir)
         os.makedirs(self.dirs['validation'], exist_ok=True)
-        os.makedirs(self.dirs['validation_converted'], exist_ok=True)
+        os.makedirs(self.dirs['validation_converted_best'], exist_ok=True)
+        os.makedirs(self.dirs['validation_converted_final'], exist_ok=True)
 
         # 7] Test
         self.dirs['test_data'] = test_data_dir
@@ -226,6 +232,8 @@ class Experiment(object):
         self.ASR = cc(AutomaticSpeechRecognizer())
         self.AC = cc(AuxiliaryClassifier(label_num = self.num_speakers))
         # 2] Optimizers
+        # decoder_params = itertools.chain([decoder.parameters() for decoder in self.Decoder])
+        # vae_params = itertools.chain(self.Encoder.parameters(), decoder_params)
         decoder_parameter_list = list()
         for decoder in self.Decoder:
             decoder_parameter_list += list(decoder.parameters())
@@ -238,10 +246,10 @@ class Experiment(object):
         # 3] lr_schedulers
         self.lr_scheduler = dict()
         # self.lr_scheduler['VAE'] = optim.lr_scheduler.MultiStepLR(self.optimizer['VAE'], milestones=[50, 100], gamma=0.1)
-        # self.lr_scheduler['VAE'] = toptim.lr_scheduler.LinearLR(self.optimizer['VAE'], delta = (1-1e-2) / self.train_p['n_epoch'])
+        self.lr_scheduler['VAE'] = toptim.lr_scheduler.LinearLR(self.optimizer['VAE'], delta = (1-1e-3) / self.train_p['n_epoch'])
         # self.lr_scheduler['VAE'] = optim.lr_scheduler.LambdaLR(self.optimizer['VAE'], lr_lambda=lr_schedule['VAE'])
         # self.lr_scheduler['VAE'] = optim.lr_scheduler.ExponentialLR(self.optimizer['VAE'], gamma=(1e-2) ** (1/self.train_p['n_epoch']))
-        self.lr_scheduler['VAE'] = toptim.lr_scheduler.AdaptiveLR(self.optimizer['VAE'], a = 0.1, b = 0.5, threshold=1e-2)
+        # self.lr_scheduler['VAE'] = toptim.lr_scheduler.AdaptiveLR(self.optimizer['VAE'], a = 0.01, b = 0.05, threshold=1e-2)
         # self.lr_scheduler['VAE'] = toptim.lr_scheduler.NoneLR(self.optimizer['VAE'])
         self.lr_scheduler['SC'] = None
         self.lr_scheduler['ASR'] = None
@@ -267,7 +275,7 @@ class Experiment(object):
             torch.save(all_model, f_out)
         self.model_kept.append(new_model_path)
 
-        if len(self.model_kept) >= self.max_keep:
+        if len(self.model_kept) > self.max_keep:
             os.remove(self.model_kept[0])
             self.model_kept.pop(0)
 
@@ -465,12 +473,12 @@ class Experiment(object):
         loss_VAE = None
         loss_KLD = None
         loss_rec = None
-        # loss_MDVAE = None
         loss_SI = None
         loss_LI = None
         loss_AC = None
         loss_SC = None
-        loss_C = None
+        loss_C_KLD = None
+        loss_C_rec = None
         loss_list = list()
 
         for i, src_speaker in enumerate(self.speaker_list):
@@ -489,7 +497,6 @@ class Experiment(object):
 
                 dataset_A, dataset_B, siset_A, siset_B, shuffled_id_A, shuffled_id_B = sample_train_data(dataset_A=coded_sps_norm_A, dataset_B=coded_sps_norm_B, ppgset_A=si_A, ppgset_B=si_B, n_frames=self.train_p['n_train_frames'])
                 num_data = dataset_A.shape[0]
-                # append(self.dirs['train_id_log'], str(shuffled_id_A))
 
                 dataset_A = np.expand_dims(dataset_A, axis=1)
                 dataset_B = np.expand_dims(dataset_B, axis=1)
@@ -573,20 +580,17 @@ class Experiment(object):
                     loss_KLD_B, loss_rec_B = self.loss_MDVAE(x_batch_B, c_onehot_B)
                     loss_KLD = loss_KLD_A + loss_KLD_B
                     loss_rec = loss_rec_A + loss_rec_B
-                    loss_VAE += loss_KLD + loss_rec
-                    # loss_MDVAE = loss_KLD_A + loss_rec_A + loss_KLD_B + loss_rec_B
-                    # loss_VAE += loss_MDVAE
+                    loss_VAE += self.lambd['KLD'] * loss_KLD + self.lambd['rec'] * loss_rec
                     if self.lambda_norm == True:
-                        loss_VAE /= self.lambd['total'] # Normalize so that the lambda will effect the learning rate less
+                        loss_VAE /= self.lambd_total # Normalize so that the lambda will effect the learning rate less
                     self.optimizer['VAE'].zero_grad()
                     loss_VAE.backward()
                     self.optimizer['VAE'].step()
 
                     try:
-                        loss_list.append([float(loss_VAE), float(loss_KLD), float(loss_rec), float(loss_SI), float(loss_LI), float(loss_AC), float(loss_SC), float(loss_C)])
+                        loss_list.append([float(loss_VAE), float(loss_KLD), float(loss_rec), float(loss_SI), float(loss_LI), float(loss_AC), float(loss_SC), float(loss_C_KLD), float(loss_C_rec)])
                     except:
-                        loss_list.append([loss_VAE, loss_KLD, loss_rec, loss_SI, loss_LI, loss_AC, loss_SC, loss_C])
-                        # loss_list.append([loss_VAE, loss_MDVAE, loss_SI, loss_LI, loss_AC, loss_SC, loss_C])
+                        loss_list.append([loss_VAE, loss_KLD, loss_rec, loss_SI, loss_LI, loss_AC, loss_SC, loss_C_KLD, loss_C_rec])
         # 1. Loss Results
         loss_result = pd.DataFrame(loss_list, columns = self.loss_index)
         return loss_result
@@ -601,7 +605,7 @@ class Experiment(object):
         self.p.print('Mean\n' + str(result.mean().to_frame().T))
         self.p.print('Std\n' + str(result.std().to_frame().T))
 
-    def save_plot(summary, plot_dir):
+    def save_plot(self, summary, plot_dir):
         for measure in summary.columns:
             fig_save_dir = os.path.join(plot_dir, measure+'.png')
             axes = summary.plot(y = measure, style='o-')
@@ -612,8 +616,8 @@ class Experiment(object):
     def train(self, lambd = None, lambda_norm = True, train_param = None, train_data_dir = None, model_dir = None):
         # 0] Manual Directory&Parmeter designation
         if lambd is not None:
-            self.lambd = lambd
-            self.lambd['total'] = 1 + sum(self.lambd.values())
+            self.lambd.update(lambd)
+            self.lambd_total = 1 + sum(self.lambd.values())
         self.lambda_norm = lambda_norm
         if train_data_dir is not None:
             self.dirs['train_data'] = train_data_dir
@@ -636,7 +640,7 @@ class Experiment(object):
         self.p.add('num_speakers: %s\n'%self.num_speakers)
         self.p.add('training parameters: %s\n'%self.train_p)
         self.p.add('lambd: %s\n'%self.lambd)
-        self.p.add('lambd_total: %s\n'%self.lambd['total'])
+        self.p.add('lambd_total: %s\n'%self.lambd_total)
         self.p.add('lambda normalization: %s\n'%self.lambda_norm)
         self.p.add('model optimizer configurations:\n')
         self.p.add('VAE: %s\n'%self.optimizer['VAE'].defaults)
@@ -657,7 +661,7 @@ class Experiment(object):
             self.train_p['epoch'] += 1
             self.p.print('Epoch:%s'%self.train_p['epoch'])
             self.p.print('VAE lr:%s'%self.optimizer['VAE'].param_groups[0]['lr'])
-            self.save_plot(self.lr_summary, plot_dir = self.dirs['exp'])
+            self.lr_summary.loc[self.train_p['epoch']] = self.optimizer['VAE'].param_groups[0]['lr']
 
             # 1. Train
             time_start = time.time()
@@ -668,12 +672,9 @@ class Experiment(object):
             # 2. Save Results
             self.loss_summary.loc[self.train_p['epoch']] = loss_result.mean().values
             self.save_log(result = loss_result, log_dir = self.dirs['loss_log'])
-            self.save_plot(summary = self.loss_summary, plot_dir = self.dirs['exp'])
-            # self.save_results(self.loss_summary, loss_result, log_dir = self.dirs['loss_log'], plot_dir = self.dirs['exp'])
             # 3. Adjust learning rate
-            # self.lr_scheduler['VAE'].step()
-            self.lr_scheduler['VAE'].step(loss_result.mean()['loss_VAE'])
-            # append(os.path.join(self.dirs['exp'], 'Encoder_'+str(ep)+'.txt'), str(next(self.Encoder.parameters())) )
+            self.lr_scheduler['VAE'].step()
+            # self.lr_scheduler['VAE'].step(loss_result.mean()['loss_VAE'])
 
             # Save model (Default: 2)
             if self.train_p['epoch'] % self.train_p['model_save_epoch'] == 0:
@@ -690,17 +691,20 @@ class Experiment(object):
                 validation_result = self.performance_measure(test_data_dir = self.dirs['validation_data'], test_pathlist_dir = self.dirs['validation_pathlist'], sample_per_path = self.train_p['sample_per_path'])
                 # 2. Save results
                 self.validation_summary.loc[self.train_p['epoch']] = validation_result.mean().values
-                save_pickle(self.validation_summary, self.dirs['validation_summary'])
                 self.save_log(result = validation_result, log_dir = self.dirs['validation_log'])
-                self.save_plot(summary = self.validation_summary, plot_dir = self.dirs['validation'])
-                # self.save_results(self.validation_summary, validation_result, log_dir = self.dirs['validation_log'], plot_dir=self.dirs['validation'])
                 self.set_train()
                 self.p.print('-'*50)
         # After training ends, convert wav with the best model
-        best_ep = self.validation_summary['mcd'].idxmin()
+        save_pickle(self.validation_summary, self.dirs['validation_summary'])
+        self.save_plot(summary = self.lr_summary, plot_dir = self.dirs['exp'])
+        self.save_plot(summary = self.loss_summary, plot_dir = self.dirs['exp'])
+        self.save_plot(summary = self.validation_summary, plot_dir = self.dirs['validation'])
+        self.convert(test_data_dir = self.dirs['validation_data'], test_pathlist_dir = self.dirs['validation_pathlist'], test_converted_dir = self.dirs['validation_converted_final'])
+
+        best_ep = self.validation_summary['msd_vector'].idxmin()
         self.p.print('Loading model from epoch:%s'%best_ep)
         self.load_model_vae(self.dirs['model'], best_ep)
-        self.convert(test_data_dir = self.dirs['validation_data'], test_pathlist_dir = self.dirs['validation_pathlist'], test_converted_dir = self.dirs['validation_converted'])
+        self.convert(test_data_dir = self.dirs['validation_data'], test_pathlist_dir = self.dirs['validation_pathlist'], test_converted_dir = self.dirs['validation_converted_best'])
         self.p.print('Training Complete.')
         self.p.print('Current Time:'+time.strftime('%Y-%m-%d %H:%M %Ss'))
 
@@ -783,9 +787,9 @@ class Experiment(object):
                     target_mcep_list.append(coded_sp_trg)
                     tested_pathlist.append(test_path)
 
-        append(self.dirs['validation_id_log'], '*'*30+'\n')
-        for path in tested_pathlist:
-            append(self.dirs['validation_id_log'], path+'\n')
+        # append(self.dirs['validation_id_log'], '*'*30+'\n')
+        # for path in tested_pathlist:
+        #     append(self.dirs['validation_id_log'], path+'\n')
 
         # 2] Calculate performance_measures (MCD, MSD, GV)
         print('Calculating MCD, MSD, GV')

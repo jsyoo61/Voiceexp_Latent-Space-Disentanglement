@@ -62,7 +62,7 @@ class Encoder(nn.Module):
 
 class Decoder_C(nn.Module):
     def __init__(self, label_num = 100):
-        super(Decoder, self).__init__()
+        super(Decoder_C, self).__init__()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.label_num = label_num
 

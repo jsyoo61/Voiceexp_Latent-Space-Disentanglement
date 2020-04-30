@@ -5,6 +5,7 @@ from tools.tools import str2bool
 
 if __name__ == '__main__':
     # Default Hyperparameters
+    rec = 1
     SI = 0
     LI = 0
     AC = 0
@@ -24,6 +25,7 @@ if __name__ == '__main__':
     parser.add_argument('--new', default = True, type = str2bool, help = 'if True, create new model')
     parser.add_argument('--debug', default = False, type = str2bool, help = 'if True, redirect stdout to exp/exp_name/log_all.txt')
     # Loss lambda
+    parser.add_argument('--rec', default = rec, type = float, help = 'lambda_rec')
     parser.add_argument('--SI', default = SI, type = float, help = 'lambda_SI')
     parser.add_argument('--LI', default = LI, type = float, help = 'lambda_LI')
     parser.add_argument('--AC', default = AC, type = float, help = 'lambda_AC')
@@ -48,6 +50,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     lambd = dict(
+    rec = args.rec,
     SI = args.SI,
     LI = args.LI,
     AC = args.AC,
