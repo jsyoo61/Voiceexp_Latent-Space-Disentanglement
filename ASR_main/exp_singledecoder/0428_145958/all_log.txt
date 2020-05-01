@@ -1,0 +1,87 @@
+Empty DataFrame
+Columns: [loss_VAE, loss_KLD, loss_rec, loss_SI, loss_LI, loss_AC, loss_SC, loss_C_KLD, loss_C_rec]
+Index: []
+Empty DataFrame
+Columns: [loss_VAE, loss_KLD, loss_rec, loss_SI, loss_LI, loss_AC, loss_SC, loss_C_KLD, loss_C_rec]
+Index: []
+Empty DataFrame
+Columns: [loss_VAE, loss_KLD, loss_rec, loss_SI, loss_LI, loss_AC, loss_SC, loss_C_KLD, loss_C_rec]
+Index: []
+Empty DataFrame
+Columns: [loss_VAE, loss_KLD, loss_rec, loss_SI, loss_LI, loss_AC, loss_SC, loss_C_KLD, loss_C_rec]
+Index: []
+Empty DataFrame
+Columns: [loss_VAE, loss_KLD, loss_rec, loss_SI, loss_LI, loss_AC, loss_SC, loss_C_KLD, loss_C_rec]
+Index: []
+Empty DataFrame
+Columns: [loss_VAE, loss_KLD, loss_rec, loss_SI, loss_LI, loss_AC, loss_SC, loss_C_KLD, loss_C_rec]
+Index: []
+Empty DataFrame
+Columns: [loss_VAE, loss_KLD, loss_rec, loss_SI, loss_LI, loss_AC, loss_SC, loss_C_KLD, loss_C_rec]
+Index: []
+Empty DataFrame
+Columns: [loss_VAE, loss_KLD, loss_rec, loss_SI, loss_LI, loss_AC, loss_SC, loss_C_KLD, loss_C_rec]
+Index: []
+Empty DataFrame
+Columns: [loss_VAE, loss_KLD, loss_rec, loss_SI, loss_LI, loss_AC, loss_SC, loss_C_KLD, loss_C_rec]
+Index: []
+  loss_VAE loss_KLD loss_rec loss_SI loss_LI loss_AC loss_SC loss_C_KLD  \
+0        1        2        3       4       5       6       7          8   
+
+  loss_C_rec  
+0          9  
+  loss_VAE loss_KLD loss_rec loss_SI loss_LI loss_AC loss_SC loss_C_KLD  \
+0        1        2        3       4       5       6       7          8   
+
+  loss_C_rec  
+0          9  
+  loss_VAE loss_KLD loss_rec loss_SI loss_LI loss_AC loss_SC loss_C_KLD  \
+0        1        2        3       4       5       6       7          8   
+
+  loss_C_rec  
+0          9  
+  loss_VAE loss_KLD loss_rec loss_SI loss_LI loss_AC loss_SC loss_C_KLD  \
+0        1        2        3       4       5       6       7          8   
+
+  loss_C_rec  
+0          9  
+  loss_VAE loss_KLD loss_rec loss_SI loss_LI loss_AC loss_SC loss_C_KLD  \
+0        1        2        3       4       5       6       7          8   
+
+  loss_C_rec  
+0          9  
+  loss_VAE loss_KLD loss_rec loss_SI loss_LI loss_AC loss_SC loss_C_KLD  \
+0        1        2        3       4       5       6       7          8   
+
+  loss_C_rec  
+0          9  
+  loss_VAE loss_KLD loss_rec loss_SI loss_LI loss_AC loss_SC loss_C_KLD  \
+0        1        2        3       4       5       6       7          8   
+
+  loss_C_rec  
+0          9  
+  loss_VAE loss_KLD loss_rec loss_SI loss_LI loss_AC loss_SC loss_C_KLD  \
+0        1        2        3       4       5       6       7          8   
+
+  loss_C_rec  
+0          9  
+  loss_VAE loss_KLD loss_rec loss_SI loss_LI loss_AC loss_SC loss_C_KLD  \
+0        1        2        3       4       5       6       7          8   
+
+  loss_C_rec  
+0          9  
+  loss_VAE loss_KLD loss_rec loss_SI loss_LI loss_AC loss_SC loss_C_KLD  \
+0        1        2        3       4       5       6       7          8   
+
+  loss_C_rec  
+0          9  
+  loss_VAE loss_KLD loss_rec loss_SI loss_LI loss_AC loss_SC loss_C_KLD  \
+0        1        2        3       4       5       6       7          8   
+
+  loss_C_rec  
+0          9  
+  loss_VAE loss_KLD loss_rec loss_SI loss_LI loss_AC loss_SC loss_C_KLD  \
+0        1        2        3       4       5       6       7          8   
+
+  loss_C_rec  
+0          9  

@@ -62,7 +62,7 @@ class Encoder(nn.Module):
 
 class Decoder_C(nn.Module):
     def __init__(self, label_num = 100):
-        super(Decoder, self).__init__()
+        super(Decoder_C, self).__init__()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.label_num = label_num
 
@@ -231,7 +231,7 @@ class SpeakerClassifier(nn.Module):
         return  logits
 
 class AutomaticSpeechRecognizer(nn.Module):
-    def __init__(self, label_num = 100):
+    def __init__(self):
         super(AutomaticSpeechRecognizer, self).__init__()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -253,7 +253,9 @@ class AutomaticSpeechRecognizer(nn.Module):
         self.upconv3_gated_bn = nn.BatchNorm2d(5)
         self.upconv3_sigmoid = nn.Sigmoid()
 
+        # self.upconv4_mu = nn.ConvTranspose2d(5, 1, (3,9), (1,1), padding=(1, 4))
         self.upconv4 = nn.ConvTranspose2d(5, 1, (4,9), (4,1), padding=(0, 4))
+        # self.linear = nn.Linear(36*128, 144)
 
     def id_bias_add_2d(self, inputs, id):
         # id: (batch, num_speakers)
@@ -262,7 +264,7 @@ class AutomaticSpeechRecognizer(nn.Module):
         inputs_bias_added = torch.cat([inputs, id], dim=1) # dim == 1 : Channel in Conv2d
         return inputs_bias_added
 
-    def forward(self, z, label):
+    def forward(self, z):
 
         h5_ = self.upconv1_bn(self.upconv1(z))
         h5_gated = self.upconv1_gated_bn(self.upconv1(z))
@@ -277,8 +279,9 @@ class AutomaticSpeechRecognizer(nn.Module):
         h7 = h7_ * self.upconv3_sigmoid(h7_gated)
 
         h8 = self.upconv4(h7)
+        logits = h8.squeeze(dim=1) # [N, 144, 128]
 
-        return h8_mu
+        return logits
 # class AutomaticSpeechRecognizer(nn.Module):
 #     def __init__(self):
 #         super(AutomaticSpeechRecognizer, self).__init__()
@@ -394,7 +397,7 @@ class AuxiliaryClassifier(nn.Module):
         prod_logit = torch.prod(h5, dim=-1, keepdim=False)
         logits = prod_logit.view(prod_logit.size()[0], self.label_num)
 
-        return prod_logit,logits
+        return logits
 
 class Discriminator(nn.Module):
     def __init__(self, label_num = 100):

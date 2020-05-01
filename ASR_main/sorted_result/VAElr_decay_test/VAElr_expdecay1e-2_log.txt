@@ -1,0 +1,40 @@
+Experiment start at:2020-04-20 10:25 36s
+Start Training with the following setting:
+******************************
+torch version: 1.4.0
+train_data_dir: processed/
+model_dir: exp/VAElr_expdecay1e-2/model/
+num_speakers: 4
+training parameters: {'n_train_frames': 128, 'batch_size': 32, 'mini_batch_size': 8, 'iter_per_ep': 4, 'start_epoch': 1, 'n_epoch': 200, 'model_save_epoch': 2, 'validation_epoch': 2, 'sample_per_path': 10}
+lambd: {'SI': 0, 'LI': 0, 'AC': 0, 'SC': 0, 'C': 0}
+lambd_total: 1
+lambda normalization: True
+model optimizer configurations:
+VAE: {'lr': 0.01, 'betas': (0.9, 0.999), 'eps': 1e-08, 'weight_decay': 0, 'amsgrad': False}
+SC: {'lr': 0.0002, 'betas': (0.5, 0.999), 'eps': 1e-08, 'weight_decay': 0, 'amsgrad': False}
+ASR: {'lr': 1e-05, 'betas': (0.5, 0.999), 'eps': 1e-08, 'weight_decay': 0, 'amsgrad': False}
+AC: {'lr': 5e-05, 'betas': (0.5, 0.999), 'eps': 1e-08, 'weight_decay': 0, 'amsgrad': False}
+model lr_scheduler configurations:
+VAE: {'gamma': 0.9772372209558107, 'base_lrs': [0.01], 'last_epoch': 0, '_step_count': 1, '_get_lr_called_within_step': False, '_last_lr': [0.01]}
+******************************
+Epoch:1
+VAE lr:0.01
+Time elapsed this epoch: 0.0m 7.0436s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  3.384701  3.384701 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  0.564124  0.564124 NaN NaN NaN  NaN    NaN
+Epoch:2
+VAE lr:0.009772372209558107
+Time elapsed this epoch: 0.0m 3.4562s
+Mean
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  4.907404  4.907404 NaN NaN NaN  NaN    NaN
+Std
+        VAE     MDVAE  SI  LI  AC  Sem  Cycle
+0  1.613995  1.613995 NaN NaN NaN  NaN    NaN
+Saving Model, epoch: 2
+--------------------------------------------------
+Validation Start.

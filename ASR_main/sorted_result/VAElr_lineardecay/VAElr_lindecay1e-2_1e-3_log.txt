@@ -1,0 +1,2925 @@
+Current Time:2020-04-25 15:58 03s
+Experiment run on: speech301
+Start Training with the following setting:
+******************************
+torch version: 1.4.0
+device: cuda
+train_data_dir: processed/
+model_dir: exp/VAElr_lindecay1e-2_1e-3/model/
+num_speakers: 4
+training parameters: {'n_train_frames': 128, 'batch_size': 32, 'mini_batch_size': 8, 'start_epoch': 1, 'n_epoch': 200, 'model_save_epoch': 2, 'validation_epoch': 2, 'sample_per_path': 10, 'iter_per_ep': 4, 'epoch': 0}
+lambd: {'SI': 0, 'LI': 0, 'AC': 0, 'SC': 0, 'C': 0, 'total': 1}
+lambd_total: 1
+lambda normalization: True
+model optimizer configurations:
+VAE: {'lr': 0.01, 'betas': (0.9, 0.999), 'eps': 1e-08, 'weight_decay': 0, 'amsgrad': False}
+SC: {'lr': 0.0002, 'betas': (0.5, 0.999), 'eps': 1e-08, 'weight_decay': 0, 'amsgrad': False}
+ASR: {'lr': 1e-05, 'betas': (0.5, 0.999), 'eps': 1e-08, 'weight_decay': 0, 'amsgrad': False}
+AC: {'lr': 5e-05, 'betas': (0.5, 0.999), 'eps': 1e-08, 'weight_decay': 0, 'amsgrad': False}
+model lr_scheduler configurations:
+VAE: {'deltas': [0.0045000000000000005], 'base_lrs': [0.01], 'last_epoch': 0, '_step_count': 1, '_get_lr_called_within_step': False, '_last_lr': [0.01]}
+******************************
+Epoch:1
+VAE lr:0.01
+Time elapsed this epoch: 0.0m 29.476s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.384695    3.384695      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.564114    0.564114      NaN      NaN      NaN      NaN     NaN
+Epoch:2
+VAE lr:0.009955
+Time elapsed this epoch: 0.0m 25.435s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  4.980067    4.980067      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  1.640655    1.640655      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 2
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 8.0m 15.31s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.493443  46.049557   45.874747  0.000035
+Std
+       mcd   msd_all  msd_vector        gv
+0  1.01357  3.772289    3.782887  0.000045
+--------------------------------------------------
+Epoch:3
+VAE lr:0.00991
+Time elapsed this epoch: 0.0m 34.186s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.481637    3.481637      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.576779    0.576779      NaN      NaN      NaN      NaN     NaN
+Epoch:4
+VAE lr:0.009865
+Time elapsed this epoch: 0.0m 29.804s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.030629    3.030629      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.131429    0.131429      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 4
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 8.0m 7.4628s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.471492  48.923283   48.804765  0.000013
+Std
+        mcd   msd_all  msd_vector       gv
+0  1.036528  3.282827    3.307553  0.00001
+--------------------------------------------------
+Epoch:5
+VAE lr:0.00982
+Time elapsed this epoch: 0.0m 33.151s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.006684    3.006684      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.07574     0.07574      NaN      NaN      NaN      NaN     NaN
+Epoch:6
+VAE lr:0.009775
+Time elapsed this epoch: 0.0m 32.313s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.054628    3.054628      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.140387    0.140387      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 6
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 8.0m 30.798s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.497639  47.504954   47.392588  0.000024
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.014339  3.280998    3.296918  0.000015
+--------------------------------------------------
+Epoch:7
+VAE lr:0.00973
+Time elapsed this epoch: 0.0m 40.693s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.167452    3.167452      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.237096    0.237096      NaN      NaN      NaN      NaN     NaN
+Epoch:8
+VAE lr:0.009685000000000001
+Time elapsed this epoch: 0.0m 32.971s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.268701    3.268701      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.245208    0.245208      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 8
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 8.0m 29.498s
+Mean
+        mcd   msd_all  msd_vector        gv
+0  7.491068  46.79698   46.660051  0.000027
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.018664  3.302401    3.316979  0.000031
+--------------------------------------------------
+Epoch:9
+VAE lr:0.009640000000000001
+Time elapsed this epoch: 0.0m 32.847s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.299369    3.299369      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.293109    0.293109      NaN      NaN      NaN      NaN     NaN
+Epoch:10
+VAE lr:0.009595000000000001
+Time elapsed this epoch: 0.0m 26.389s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.271083    3.271083      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.224732    0.224732      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 10
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 8.0m 50.319s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.473816  46.666592   46.529305  0.000088
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.023431  3.351047    3.346889  0.000073
+--------------------------------------------------
+Epoch:11
+VAE lr:0.009550000000000001
+Time elapsed this epoch: 0.0m 28.564s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.207673    3.207673      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.244275    0.244275      NaN      NaN      NaN      NaN     NaN
+Epoch:12
+VAE lr:0.009505000000000001
+Time elapsed this epoch: 0.0m 17.969s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.183657    3.183657      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.226017    0.226017      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 12
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 8.0m 33.4s
+Mean
+       mcd    msd_all  msd_vector        gv
+0  7.09233  44.763074   44.587825  0.051686
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.925422  4.143836    4.173926  0.019571
+--------------------------------------------------
+Epoch:13
+VAE lr:0.009460000000000001
+Time elapsed this epoch: 0.0m 28.336s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.187585    3.187585      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.207344    0.207344      NaN      NaN      NaN      NaN     NaN
+Epoch:14
+VAE lr:0.009415000000000001
+Time elapsed this epoch: 0.0m 19.541s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.291937    3.291937      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.375674    0.375674      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 14
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 8.0m 44.541s
+Mean
+        mcd   msd_all  msd_vector        gv
+0  7.225887  45.76653   45.564454  0.023792
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.070356  4.620911    4.653455  0.012555
+--------------------------------------------------
+Epoch:15
+VAE lr:0.009370000000000002
+Time elapsed this epoch: 0.0m 31.233s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   3.15878     3.15878      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.23473     0.23473      NaN      NaN      NaN      NaN     NaN
+Epoch:16
+VAE lr:0.009325000000000002
+Time elapsed this epoch: 0.0m 19.203s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.215862    3.215862      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.254298    0.254298      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 16
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 8.0m 57.288s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.067417  44.569196   44.379078  0.037757
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.047088  3.943124     3.97364  0.016548
+--------------------------------------------------
+Epoch:17
+VAE lr:0.009280000000000002
+Time elapsed this epoch: 0.0m 25.37s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.128184    3.128184      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.241304    0.241304      NaN      NaN      NaN      NaN     NaN
+Epoch:18
+VAE lr:0.009235000000000002
+Time elapsed this epoch: 0.0m 18.984s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.215769    3.215769      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.277245    0.277245      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 18
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 19.199s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.215064  44.115865   43.909475  0.047134
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.997846  3.793908    3.818534  0.026553
+--------------------------------------------------
+Epoch:19
+VAE lr:0.009190000000000002
+Time elapsed this epoch: 0.0m 16.568s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   3.15507     3.15507      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.228862    0.228862      NaN      NaN      NaN      NaN     NaN
+Epoch:20
+VAE lr:0.009145000000000002
+Time elapsed this epoch: 0.0m 14.5s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.143448    3.143448      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.203673    0.203673      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 20
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 16.172s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.325075  44.393345   44.204523  0.028638
+Std
+        mcd  msd_all  msd_vector        gv
+0  0.976638  4.11732    4.158122  0.024431
+--------------------------------------------------
+Epoch:21
+VAE lr:0.009100000000000002
+Time elapsed this epoch: 0.0m 14.683s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.125554    3.125554      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.280494    0.280494      NaN      NaN      NaN      NaN     NaN
+Epoch:22
+VAE lr:0.009055000000000002
+Time elapsed this epoch: 0.0m 13.024s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.150344    3.150344      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.203258    0.203258      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 22
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 15.782s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.137343  44.231192   44.047095  0.039732
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.037984  4.311881    4.351512  0.010286
+--------------------------------------------------
+Epoch:23
+VAE lr:0.009010000000000002
+Time elapsed this epoch: 0.0m 14.23s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.042911    3.042911      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.163686    0.163686      NaN      NaN      NaN      NaN     NaN
+Epoch:24
+VAE lr:0.008965000000000002
+Time elapsed this epoch: 0.0m 13.224s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.171392    3.171392      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.245725    0.245725      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 24
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 8.0363s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.024392  42.781055   42.544578  0.041078
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.074567  3.988597    4.019965  0.019251
+--------------------------------------------------
+Epoch:25
+VAE lr:0.008920000000000003
+Time elapsed this epoch: 0.0m 13.23s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   3.21259     3.21259      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.285412    0.285412      NaN      NaN      NaN      NaN     NaN
+Epoch:26
+VAE lr:0.008875000000000003
+Time elapsed this epoch: 0.0m 13.692s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.177545    3.177545      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.257862    0.257862      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 26
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 8.0m 44.084s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.920491  42.211118   41.979663  0.052379
+Std
+       mcd   msd_all  msd_vector        gv
+0  0.99847  3.859441    3.894513  0.012358
+--------------------------------------------------
+Epoch:27
+VAE lr:0.008830000000000003
+Time elapsed this epoch: 0.0m 20.593s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.151985    3.151985      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.236281    0.236281      NaN      NaN      NaN      NaN     NaN
+Epoch:28
+VAE lr:0.008785000000000003
+Time elapsed this epoch: 0.0m 15.979s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.173816    3.173816      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.252767    0.252767      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 28
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 7.0m 5.4019s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.008847  42.369135   42.160801  0.053466
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.008792  4.047256    4.080664  0.019938
+--------------------------------------------------
+Epoch:29
+VAE lr:0.008740000000000003
+Time elapsed this epoch: 0.0m 49.635s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.150007    3.150007      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.221916    0.221916      NaN      NaN      NaN      NaN     NaN
+Epoch:30
+VAE lr:0.008695000000000003
+Time elapsed this epoch: 0.0m 37.533s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.166945    3.166945      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.228964    0.228964      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 30
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 2.0m 42.154s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.360724  44.320265   44.165947  0.028618
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.940658  4.264648    4.294439  0.021324
+--------------------------------------------------
+Epoch:31
+VAE lr:0.008650000000000003
+Time elapsed this epoch: 0.0m 24.325s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   3.03154     3.03154      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.170688    0.170688      NaN      NaN      NaN      NaN     NaN
+Epoch:32
+VAE lr:0.008605000000000003
+Time elapsed this epoch: 0.0m 44.493s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.049321    3.049321      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.167109    0.167109      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 32
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 8.0m 11.361s
+Mean
+       mcd    msd_all  msd_vector        gv
+0  7.07485  43.056315   42.869903  0.050781
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.968958  4.246798    4.287348  0.019275
+--------------------------------------------------
+Epoch:33
+VAE lr:0.008560000000000003
+Time elapsed this epoch: 0.0m 19.912s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.996423    2.996423      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.14512     0.14512      NaN      NaN      NaN      NaN     NaN
+Epoch:34
+VAE lr:0.008515000000000003
+Time elapsed this epoch: 0.0m 12.121s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.034925    3.034925      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.17947     0.17947      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 34
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 37.306s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.070842  41.381408   41.190699  0.049229
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.984876  4.045357    4.071031  0.016268
+--------------------------------------------------
+Epoch:35
+VAE lr:0.008470000000000004
+Time elapsed this epoch: 0.0m 19.877s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.064473    3.064473      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.172503    0.172503      NaN      NaN      NaN      NaN     NaN
+Epoch:36
+VAE lr:0.008425000000000004
+Time elapsed this epoch: 0.0m 15.643s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.187305    3.187305      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.285649    0.285649      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 36
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 39.127s
+Mean
+       mcd    msd_all  msd_vector        gv
+0  7.08615  40.235344   39.963504  0.056865
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.036221  3.872587    3.906386  0.030653
+--------------------------------------------------
+Epoch:37
+VAE lr:0.008380000000000004
+Time elapsed this epoch: 0.0m 19.946s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.139675    3.139675      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.256419    0.256419      NaN      NaN      NaN      NaN     NaN
+Epoch:38
+VAE lr:0.008335000000000004
+Time elapsed this epoch: 0.0m 16.471s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.172246    3.172246      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.250275    0.250275      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 38
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 39.188s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.886892  40.831492   40.605358  0.069657
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.959828  3.971772     4.00605  0.010233
+--------------------------------------------------
+Epoch:39
+VAE lr:0.008290000000000004
+Time elapsed this epoch: 0.0m 18.758s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.155047    3.155047      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.214384    0.214384      NaN      NaN      NaN      NaN     NaN
+Epoch:40
+VAE lr:0.008245000000000004
+Time elapsed this epoch: 0.0m 15.47s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.026514    3.026514      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.156274    0.156274      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 40
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 22.723s
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.892866  40.22478   40.004323  0.061094
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.933884  3.836724    3.865666  0.010296
+--------------------------------------------------
+Epoch:41
+VAE lr:0.008200000000000004
+Time elapsed this epoch: 0.0m 16.408s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.025805    3.025805      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.172382    0.172382      NaN      NaN      NaN      NaN     NaN
+Epoch:42
+VAE lr:0.008155000000000004
+Time elapsed this epoch: 0.0m 17.601s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.098589    3.098589      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.209744    0.209744      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 42
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 33.594s
+Mean
+       mcd    msd_all  msd_vector        gv
+0  7.13083  40.679452     40.4534  0.031627
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.105399  3.937553    3.957569  0.018555
+--------------------------------------------------
+Epoch:43
+VAE lr:0.008110000000000004
+Time elapsed this epoch: 0.0m 16.775s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.110939    3.110939      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.248912    0.248912      NaN      NaN      NaN      NaN     NaN
+Epoch:44
+VAE lr:0.008065000000000004
+Time elapsed this epoch: 0.0m 17.266s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.066215    3.066215      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.227085    0.227085      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 44
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 36.535s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.043514  40.415979   40.212416  0.048043
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.953326  3.895895    3.920626  0.022554
+--------------------------------------------------
+Epoch:45
+VAE lr:0.008020000000000005
+Time elapsed this epoch: 0.0m 18.814s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.026079    3.026079      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.187569    0.187569      NaN      NaN      NaN      NaN     NaN
+Epoch:46
+VAE lr:0.007975000000000005
+Time elapsed this epoch: 0.0m 16.135s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.068382    3.068382      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.18054     0.18054      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 46
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 22.676s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.028568  40.246346   40.021281  0.047836
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.957629  3.881138    3.897686  0.024097
+--------------------------------------------------
+Epoch:47
+VAE lr:0.007930000000000005
+Time elapsed this epoch: 0.0m 15.596s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.082395    3.082395      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.213778    0.213778      NaN      NaN      NaN      NaN     NaN
+Epoch:48
+VAE lr:0.007885000000000005
+Time elapsed this epoch: 0.0m 18.254s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.086238    3.086238      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.19701     0.19701      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 48
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 28.451s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.084811  40.186019   39.968796  0.051229
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.968734  3.905032    3.923154  0.030261
+--------------------------------------------------
+Epoch:49
+VAE lr:0.007840000000000005
+Time elapsed this epoch: 0.0m 17.846s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.001779    3.001779      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.172772    0.172772      NaN      NaN      NaN      NaN     NaN
+Epoch:50
+VAE lr:0.007795000000000005
+Time elapsed this epoch: 0.0m 16.86s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.060734    3.060734      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.204629    0.204629      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 50
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 28.857s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.222138  40.951674   40.739331  0.037156
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.999684  3.836016    3.860335  0.023331
+--------------------------------------------------
+Epoch:51
+VAE lr:0.007750000000000005
+Time elapsed this epoch: 0.0m 15.066s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.016106    3.016106      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.171779    0.171779      NaN      NaN      NaN      NaN     NaN
+Epoch:52
+VAE lr:0.007705000000000005
+Time elapsed this epoch: 0.0m 19.412s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.021926    3.021926      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.161539    0.161539      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 52
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 37.224s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.006941  40.772752   40.541856  0.058789
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.925585  3.929827    3.954621  0.031867
+--------------------------------------------------
+Epoch:53
+VAE lr:0.007660000000000005
+Time elapsed this epoch: 0.0m 16.421s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.051087    3.051087      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.193196    0.193196      NaN      NaN      NaN      NaN     NaN
+Epoch:54
+VAE lr:0.0076150000000000054
+Time elapsed this epoch: 0.0m 19.631s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.067247    3.067247      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.186489    0.186489      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 54
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 36.914s
+Mean
+      mcd    msd_all  msd_vector        gv
+0  7.1927  40.239801   40.020814  0.049032
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.050866  3.926291    3.950437  0.033232
+--------------------------------------------------
+Epoch:55
+VAE lr:0.0075700000000000055
+Time elapsed this epoch: 0.0m 13.982s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.092907    3.092907      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.190248    0.190248      NaN      NaN      NaN      NaN     NaN
+Epoch:56
+VAE lr:0.007525000000000006
+Time elapsed this epoch: 0.0m 19.437s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.106081    3.106081      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.218327    0.218327      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 56
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 43.189s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.060992  40.095019   39.868211  0.056195
+Std
+        mcd   msd_all  msd_vector       gv
+0  1.011416  3.937496    3.959028  0.03513
+--------------------------------------------------
+Epoch:57
+VAE lr:0.007480000000000006
+Time elapsed this epoch: 0.0m 15.123s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.095658    3.095658      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.199552    0.199552      NaN      NaN      NaN      NaN     NaN
+Epoch:58
+VAE lr:0.007435000000000006
+Time elapsed this epoch: 0.0m 18.056s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.098865    3.098865      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.264829    0.264829      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 58
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 40.131s
+Mean
+        mcd   msd_all  msd_vector        gv
+0  7.191527  40.56223   40.332711  0.034975
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.994333  3.946088    3.962151  0.027192
+--------------------------------------------------
+Epoch:59
+VAE lr:0.007390000000000006
+Time elapsed this epoch: 0.0m 20.039s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.966746    2.966746      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.158746    0.158746      NaN      NaN      NaN      NaN     NaN
+Epoch:60
+VAE lr:0.007345000000000006
+Time elapsed this epoch: 0.0m 15.789s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.930518    2.930518      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.115495    0.115495      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 60
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 34.767s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.170978  40.535976   40.327951  0.030645
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.905334  4.094122    4.107464  0.020595
+--------------------------------------------------
+Epoch:61
+VAE lr:0.007300000000000006
+Time elapsed this epoch: 0.0m 19.314s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.955339    2.955339      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.118176    0.118176      NaN      NaN      NaN      NaN     NaN
+Epoch:62
+VAE lr:0.007255000000000006
+Time elapsed this epoch: 0.0m 16.488s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0    2.9817      2.9817      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.141094    0.141094      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 62
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 34.291s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.870645  39.684795   39.455628  0.050565
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.946912  4.049765    4.075478  0.022711
+--------------------------------------------------
+Epoch:63
+VAE lr:0.007210000000000006
+Time elapsed this epoch: 0.0m 19.466s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.993525    2.993525      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.165234    0.165234      NaN      NaN      NaN      NaN     NaN
+Epoch:64
+VAE lr:0.007165000000000006
+Time elapsed this epoch: 0.0m 17.28s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.012225    3.012225      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.178772    0.178772      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 64
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 35.766s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.834027  40.489236   40.259862  0.061916
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.860917  4.122481    4.149016  0.023128
+--------------------------------------------------
+Epoch:65
+VAE lr:0.0071200000000000065
+Time elapsed this epoch: 0.0m 19.192s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.979756    2.979756      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.123941    0.123941      NaN      NaN      NaN      NaN     NaN
+Epoch:66
+VAE lr:0.007075000000000007
+Time elapsed this epoch: 0.0m 18.393s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.979331    2.979331      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.136363    0.136363      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 66
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 38.012s
+Mean
+        mcd    msd_all  msd_vector       gv
+0  7.136466  40.333996   40.096501  0.03923
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.917759  3.945046    3.966534  0.032453
+--------------------------------------------------
+Epoch:67
+VAE lr:0.007030000000000007
+Time elapsed this epoch: 0.0m 18.389s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.001372    3.001372      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.140044    0.140044      NaN      NaN      NaN      NaN     NaN
+Epoch:68
+VAE lr:0.006985000000000007
+Time elapsed this epoch: 0.0m 17.812s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   3.07634     3.07634      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.211051    0.211051      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 68
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 39.063s
+Mean
+        mcd   msd_all  msd_vector       gv
+0  6.949403  40.58811   40.350159  0.04605
+Std
+       mcd   msd_all  msd_vector        gv
+0  0.89935  3.937534    3.962899  0.025395
+--------------------------------------------------
+Epoch:69
+VAE lr:0.006940000000000007
+Time elapsed this epoch: 0.0m 16.045s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.031399    3.031399      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.190994    0.190994      NaN      NaN      NaN      NaN     NaN
+Epoch:70
+VAE lr:0.006895000000000007
+Time elapsed this epoch: 0.0m 18.533s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.020966    3.020966      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.172116    0.172116      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 70
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 41.092s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.872006  39.687561   39.442898  0.052428
+Std
+       mcd   msd_all  msd_vector        gv
+0  0.85465  3.884125     3.90514  0.026088
+--------------------------------------------------
+Epoch:71
+VAE lr:0.006850000000000007
+Time elapsed this epoch: 0.0m 16.903s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.000333    3.000333      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.148724    0.148724      NaN      NaN      NaN      NaN     NaN
+Epoch:72
+VAE lr:0.006805000000000007
+Time elapsed this epoch: 0.0m 17.535s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  3.003128    3.003128      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.180817    0.180817      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 72
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 29.817s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.832946  40.038222   39.785575  0.054956
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.885246  3.989504    4.013826  0.019241
+--------------------------------------------------
+Epoch:73
+VAE lr:0.006760000000000007
+Time elapsed this epoch: 0.0m 13.859s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.975588    2.975588      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.121117    0.121117      NaN      NaN      NaN      NaN     NaN
+Epoch:74
+VAE lr:0.006715000000000007
+Time elapsed this epoch: 0.0m 19.758s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.968753    2.968753      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.128221    0.128221      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 74
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 38.0s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.904875  39.898391   39.638527  0.052418
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.907239  4.005292    4.031505  0.025865
+--------------------------------------------------
+Epoch:75
+VAE lr:0.0066700000000000075
+Time elapsed this epoch: 0.0m 11.768s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   2.95522     2.95522      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.130487    0.130487      NaN      NaN      NaN      NaN     NaN
+Epoch:76
+VAE lr:0.006625000000000008
+Time elapsed this epoch: 0.0m 19.525s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.976652    2.976652      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.137802    0.137802      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 76
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 42.109s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  7.131718  39.653552   39.411092  0.055839
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.110483  3.844635    3.865983  0.032462
+--------------------------------------------------
+Epoch:77
+VAE lr:0.006580000000000008
+Time elapsed this epoch: 0.0m 13.978s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.958062    2.958062      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.139059    0.139059      NaN      NaN      NaN      NaN     NaN
+Epoch:78
+VAE lr:0.006535000000000008
+Time elapsed this epoch: 0.0m 19.344s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.911237    2.911237      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.094949    0.094949      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 78
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 43.504s
+Mean
+        mcd   msd_all  msd_vector        gv
+0  7.038395  40.23597    39.96805  0.052704
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.053074  4.077155    4.098688  0.032467
+--------------------------------------------------
+Epoch:79
+VAE lr:0.006490000000000008
+Time elapsed this epoch: 0.0m 17.94s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.924515    2.924515      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.114004    0.114004      NaN      NaN      NaN      NaN     NaN
+Epoch:80
+VAE lr:0.006445000000000008
+Time elapsed this epoch: 0.0m 18.814s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.945615    2.945615      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.127651    0.127651      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 80
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 36.01s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.667896  39.697611   39.430728  0.065914
+Std
+       mcd  msd_all  msd_vector        gv
+0  0.89434  4.00673    4.034493  0.011511
+--------------------------------------------------
+Epoch:81
+VAE lr:0.006400000000000008
+Time elapsed this epoch: 0.0m 15.488s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.945476    2.945476      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.131154    0.131154      NaN      NaN      NaN      NaN     NaN
+Epoch:82
+VAE lr:0.006355000000000008
+Time elapsed this epoch: 0.0m 19.069s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.962348    2.962348      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.147979    0.147979      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 82
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 46.596s
+Mean
+       mcd    msd_all  msd_vector       gv
+0  6.68537  39.524489   39.250941  0.08137
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.867668  4.020902    4.052698  0.019054
+--------------------------------------------------
+Epoch:83
+VAE lr:0.006310000000000008
+Time elapsed this epoch: 0.0m 19.681s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.988217    2.988217      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.167142    0.167142      NaN      NaN      NaN      NaN     NaN
+Epoch:84
+VAE lr:0.006265000000000008
+Time elapsed this epoch: 0.0m 13.573s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.996186    2.996186      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.148857    0.148857      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 84
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 30.709s
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.926054  39.76986   39.504121  0.058066
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.890728  4.014296    4.035985  0.034494
+--------------------------------------------------
+Epoch:85
+VAE lr:0.0062200000000000085
+Time elapsed this epoch: 0.0m 14.128s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.984421    2.984421      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0    0.1321      0.1321      NaN      NaN      NaN      NaN     NaN
+Epoch:86
+VAE lr:0.006175000000000009
+Time elapsed this epoch: 0.0m 19.566s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.991455    2.991455      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.145001    0.145001      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 86
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 45.583s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.908262  39.749508    39.47989  0.051767
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.928539  4.106236    4.126827  0.018812
+--------------------------------------------------
+Epoch:87
+VAE lr:0.006130000000000009
+Time elapsed this epoch: 0.0m 10.579s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.941366    2.941366      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.108236    0.108236      NaN      NaN      NaN      NaN     NaN
+Epoch:88
+VAE lr:0.006085000000000009
+Time elapsed this epoch: 0.0m 19.192s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.935502    2.935502      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.118383    0.118383      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 88
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 41.967s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.901124  39.756728   39.480027  0.051103
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.925822  4.109299    4.133231  0.023459
+--------------------------------------------------
+Epoch:89
+VAE lr:0.006040000000000009
+Time elapsed this epoch: 0.0m 11.549s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   2.91619     2.91619      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.104352    0.104352      NaN      NaN      NaN      NaN     NaN
+Epoch:90
+VAE lr:0.005995000000000009
+Time elapsed this epoch: 0.0m 19.375s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.930102    2.930102      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.113357    0.113357      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 90
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 41.828s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.924545  40.108033   39.844872  0.041331
+Std
+        mcd  msd_all  msd_vector        gv
+0  0.947451  4.08915    4.116227  0.023623
+--------------------------------------------------
+Epoch:91
+VAE lr:0.005950000000000009
+Time elapsed this epoch: 0.0m 17.317s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   2.91664     2.91664      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.108475    0.108475      NaN      NaN      NaN      NaN     NaN
+Epoch:92
+VAE lr:0.005905000000000009
+Time elapsed this epoch: 0.0m 18.785s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.935113    2.935113      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.137439    0.137439      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 92
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 40.698s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.818418  39.235737   38.965043  0.067878
+Std
+        mcd   msd_all  msd_vector      gv
+0  0.915615  4.058355    4.081645  0.0381
+--------------------------------------------------
+Epoch:93
+VAE lr:0.005860000000000009
+Time elapsed this epoch: 0.0m 18.646s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.939965    2.939965      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.12631     0.12631      NaN      NaN      NaN      NaN     NaN
+Epoch:94
+VAE lr:0.005815000000000009
+Time elapsed this epoch: 0.0m 16.262s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.946953    2.946953      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.124995    0.124995      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 94
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 32.045s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.722122  39.123684   38.847257  0.073974
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.904625  4.138812    4.165132  0.037529
+--------------------------------------------------
+Epoch:95
+VAE lr:0.0057700000000000095
+Time elapsed this epoch: 0.0m 16.599s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.938025    2.938025      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.110893    0.110893      NaN      NaN      NaN      NaN     NaN
+Epoch:96
+VAE lr:0.00572500000000001
+Time elapsed this epoch: 0.0m 16.864s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.976994    2.976994      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.121655    0.121655      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 96
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 28.907s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.746504  38.780766   38.498185  0.071126
+Std
+        mcd  msd_all  msd_vector        gv
+0  0.950277  3.94679    3.978728  0.039227
+--------------------------------------------------
+Epoch:97
+VAE lr:0.00568000000000001
+Time elapsed this epoch: 0.0m 13.571s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.958338    2.958338      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.132149    0.132149      NaN      NaN      NaN      NaN     NaN
+Epoch:98
+VAE lr:0.00563500000000001
+Time elapsed this epoch: 0.0m 19.155s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   2.96821     2.96821      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.137977    0.137977      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 98
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 41.538s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.582359  39.190451   38.920124  0.075915
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.875377  4.068219    4.097278  0.022562
+--------------------------------------------------
+Epoch:99
+VAE lr:0.00559000000000001
+Time elapsed this epoch: 0.0m 17.655s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.920377    2.920377      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.10819     0.10819      NaN      NaN      NaN      NaN     NaN
+Epoch:100
+VAE lr:0.00554500000000001
+Time elapsed this epoch: 0.0m 17.412s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   2.89424     2.89424      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.113591    0.113591      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 100
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 27.164s
+Mean
+       mcd    msd_all  msd_vector        gv
+0  6.73752  38.813495   38.532977  0.083066
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.910057  4.158098    4.183552  0.043745
+--------------------------------------------------
+Epoch:101
+VAE lr:0.00550000000000001
+Time elapsed this epoch: 0.0m 15.39s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.912702    2.912702      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.115348    0.115348      NaN      NaN      NaN      NaN     NaN
+Epoch:102
+VAE lr:0.00545500000000001
+Time elapsed this epoch: 0.0m 18.659s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.899936    2.899936      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.105039    0.105039      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 102
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 36.054s
+Mean
+       mcd   msd_all  msd_vector        gv
+0  6.84186  39.41667   39.134412  0.060549
+Std
+        mcd   msd_all  msd_vector        gv
+0  1.063439  4.053697    4.084604  0.024246
+--------------------------------------------------
+Epoch:103
+VAE lr:0.00541000000000001
+Time elapsed this epoch: 0.0m 17.277s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.918148    2.918148      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.116499    0.116499      NaN      NaN      NaN      NaN     NaN
+Epoch:104
+VAE lr:0.00536500000000001
+Time elapsed this epoch: 0.0m 16.957s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.892257    2.892257      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.104289    0.104289      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 104
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 27.303s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.640824  39.783806   39.522005  0.062733
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.928444  3.998897    4.035424  0.027327
+--------------------------------------------------
+Epoch:105
+VAE lr:0.0053200000000000105
+Time elapsed this epoch: 0.0m 14.939s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.898148    2.898148      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.116323    0.116323      NaN      NaN      NaN      NaN     NaN
+Epoch:106
+VAE lr:0.005275000000000011
+Time elapsed this epoch: 0.0m 18.043s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.910472    2.910472      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.10972     0.10972      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 106
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 32.668s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.620103  39.127198   38.865742  0.078732
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.804842  4.116818    4.146562  0.017032
+--------------------------------------------------
+Epoch:107
+VAE lr:0.005230000000000011
+Time elapsed this epoch: 0.0m 17.591s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.922229    2.922229      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.113423    0.113423      NaN      NaN      NaN      NaN     NaN
+Epoch:108
+VAE lr:0.005185000000000011
+Time elapsed this epoch: 0.0m 18.413s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.922614    2.922614      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.106914    0.106914      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 108
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 34.31s
+Mean
+        mcd    msd_all  msd_vector       gv
+0  6.805101  39.350162   39.081078  0.05656
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.915809  4.169527    4.194332  0.020065
+--------------------------------------------------
+Epoch:109
+VAE lr:0.005140000000000011
+Time elapsed this epoch: 0.0m 11.51s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.893444    2.893444      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.110065    0.110065      NaN      NaN      NaN      NaN     NaN
+Epoch:110
+VAE lr:0.005095000000000011
+Time elapsed this epoch: 0.0m 16.739s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.902628    2.902628      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.125343    0.125343      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 110
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 33.988s
+Mean
+       mcd    msd_all  msd_vector        gv
+0  6.62308  38.709329   38.441565  0.073213
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.844435  4.087925    4.115127  0.017879
+--------------------------------------------------
+Epoch:111
+VAE lr:0.005050000000000011
+Time elapsed this epoch: 0.0m 14.215s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.898525    2.898525      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.123729    0.123729      NaN      NaN      NaN      NaN     NaN
+Epoch:112
+VAE lr:0.005005000000000011
+Time elapsed this epoch: 0.0m 16.264s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.884794    2.884794      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.089518    0.089518      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 112
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 29.452s
+Mean
+        mcd    msd_all  msd_vector       gv
+0  6.642566  38.736031   38.457681  0.07852
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.928314  4.099865    4.133447  0.029144
+--------------------------------------------------
+Epoch:113
+VAE lr:0.004960000000000011
+Time elapsed this epoch: 0.0m 13.777s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.872422    2.872422      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.109135    0.109135      NaN      NaN      NaN      NaN     NaN
+Epoch:114
+VAE lr:0.004915000000000011
+Time elapsed this epoch: 0.0m 18.174s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.880276    2.880276      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.102791    0.102791      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 114
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 29.348s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.594072  39.033155   38.752645  0.081504
+Std
+        mcd   msd_all  msd_vector       gv
+0  0.908581  3.884068    3.916148  0.02985
+--------------------------------------------------
+Epoch:115
+VAE lr:0.0048700000000000115
+Time elapsed this epoch: 0.0m 14.305s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   2.87935     2.87935      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.094943    0.094943      NaN      NaN      NaN      NaN     NaN
+Epoch:116
+VAE lr:0.004825000000000012
+Time elapsed this epoch: 0.0m 17.777s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.908434    2.908434      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.113874    0.113874      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 116
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 35.191s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.790555  38.683337   38.425201  0.074176
+Std
+        mcd  msd_all  msd_vector        gv
+0  0.844976  4.15352     4.18262  0.042589
+--------------------------------------------------
+Epoch:117
+VAE lr:0.004780000000000012
+Time elapsed this epoch: 0.0m 16.135s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.886573    2.886573      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.097382    0.097382      NaN      NaN      NaN      NaN     NaN
+Epoch:118
+VAE lr:0.004735000000000012
+Time elapsed this epoch: 0.0m 17.963s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.894222    2.894222      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.08272     0.08272      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 118
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 36.252s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.811915  38.271678   37.986502  0.081754
+Std
+       mcd   msd_all  msd_vector        gv
+0  0.99363  4.101231    4.131061  0.038051
+--------------------------------------------------
+Epoch:119
+VAE lr:0.004690000000000012
+Time elapsed this epoch: 0.0m 12.607s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.882497    2.882497      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.080966    0.080966      NaN      NaN      NaN      NaN     NaN
+Epoch:120
+VAE lr:0.004645000000000012
+Time elapsed this epoch: 0.0m 18.513s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.880964    2.880964      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.091542    0.091542      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 120
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 39.819s
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.832624  39.01104    38.73582  0.064224
+Std
+       mcd   msd_all  msd_vector        gv
+0  0.92659  4.012722     4.03637  0.035457
+--------------------------------------------------
+Epoch:121
+VAE lr:0.004600000000000012
+Time elapsed this epoch: 0.0m 19.153s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   2.87791     2.87791      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.08657     0.08657      NaN      NaN      NaN      NaN     NaN
+Epoch:122
+VAE lr:0.004555000000000012
+Time elapsed this epoch: 0.0m 17.434s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.888886    2.888886      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.103608    0.103608      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 122
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 19.196s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.770687  38.672931   38.405795  0.061378
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.925566  4.161278    4.189639  0.020997
+--------------------------------------------------
+Epoch:123
+VAE lr:0.004510000000000012
+Time elapsed this epoch: 0.0m 15.645s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.894568    2.894568      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.099952    0.099952      NaN      NaN      NaN      NaN     NaN
+Epoch:124
+VAE lr:0.004465000000000012
+Time elapsed this epoch: 0.0m 18.008s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.881538    2.881538      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.105877    0.105877      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 124
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 23.798s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.640542  38.661468   38.382345  0.073675
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.846272  4.104055    4.130829  0.024178
+--------------------------------------------------
+Epoch:125
+VAE lr:0.0044200000000000125
+Time elapsed this epoch: 0.0m 11.493s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.883111    2.883111      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.079596    0.079596      NaN      NaN      NaN      NaN     NaN
+Epoch:126
+VAE lr:0.0043750000000000126
+Time elapsed this epoch: 0.0m 18.138s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.861118    2.861118      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.110024    0.110024      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 126
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 31.402s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.743257  38.430022   38.150623  0.070914
+Std
+        mcd  msd_all  msd_vector        gv
+0  0.946061  4.09812    4.132644  0.035359
+--------------------------------------------------
+Epoch:127
+VAE lr:0.004330000000000013
+Time elapsed this epoch: 0.0m 14.447s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.871363    2.871363      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.097387    0.097387      NaN      NaN      NaN      NaN     NaN
+Epoch:128
+VAE lr:0.004285000000000013
+Time elapsed this epoch: 0.0m 16.703s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.873107    2.873107      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.096275    0.096275      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 128
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 17.163s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.596996  38.293735   38.019628  0.085784
+Std
+        mcd   msd_all  msd_vector       gv
+0  0.856121  4.024045    4.056306  0.02848
+--------------------------------------------------
+Epoch:129
+VAE lr:0.004240000000000013
+Time elapsed this epoch: 0.0m 13.798s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.876389    2.876389      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.091135    0.091135      NaN      NaN      NaN      NaN     NaN
+Epoch:130
+VAE lr:0.004195000000000013
+Time elapsed this epoch: 0.0m 18.048s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   2.88626     2.88626      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.094228    0.094228      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 130
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 35.512s
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.594122  38.11566   37.854991  0.088473
+Std
+        mcd  msd_all  msd_vector        gv
+0  0.828941  4.08648    4.118303  0.028777
+--------------------------------------------------
+Epoch:131
+VAE lr:0.004150000000000013
+Time elapsed this epoch: 0.0m 16.061s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.861893    2.861893      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.08993     0.08993      NaN      NaN      NaN      NaN     NaN
+Epoch:132
+VAE lr:0.004105000000000013
+Time elapsed this epoch: 0.0m 16.354s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.854921    2.854921      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.081189    0.081189      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 132
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 37.401s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.581935  38.392777   38.130778  0.088569
+Std
+       mcd   msd_all  msd_vector        gv
+0  0.84073  4.026533    4.058805  0.025126
+--------------------------------------------------
+Epoch:133
+VAE lr:0.004060000000000013
+Time elapsed this epoch: 0.0m 17.703s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.850105    2.850105      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.092413    0.092413      NaN      NaN      NaN      NaN     NaN
+Epoch:134
+VAE lr:0.004015000000000013
+Time elapsed this epoch: 0.0m 17.663s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.860841    2.860841      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.093178    0.093178      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 134
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 36.096s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.782287  39.102145   38.830392  0.069036
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.886014  3.992161    4.023292  0.036887
+--------------------------------------------------
+Epoch:135
+VAE lr:0.0039700000000000134
+Time elapsed this epoch: 0.0m 17.442s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.863949    2.863949      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.095103    0.095103      NaN      NaN      NaN      NaN     NaN
+Epoch:136
+VAE lr:0.0039250000000000135
+Time elapsed this epoch: 0.0m 19.129s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.872663    2.872663      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.08029     0.08029      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 136
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 36.138s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.584955  38.127915   37.856814  0.081206
+Std
+       mcd   msd_all  msd_vector        gv
+0  0.90155  4.011919    4.044977  0.018656
+--------------------------------------------------
+Epoch:137
+VAE lr:0.0038800000000000136
+Time elapsed this epoch: 0.0m 14.452s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.851553    2.851553      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.10639     0.10639      NaN      NaN      NaN      NaN     NaN
+Epoch:138
+VAE lr:0.0038350000000000137
+Time elapsed this epoch: 0.0m 19.399s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.875154    2.875154      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.095451    0.095451      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 138
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 46.541s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.616341  39.083248   38.811826  0.074474
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.847457  4.121623    4.146066  0.016964
+--------------------------------------------------
+Epoch:139
+VAE lr:0.003790000000000014
+Time elapsed this epoch: 0.0m 19.597s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.850648    2.850648      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.099473    0.099473      NaN      NaN      NaN      NaN     NaN
+Epoch:140
+VAE lr:0.003745000000000014
+Time elapsed this epoch: 0.0m 17.076s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.855451    2.855451      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.084064    0.084064      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 140
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 34.01s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.640247  38.409726   38.138087  0.087163
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.880511  4.149156    4.177306  0.036334
+--------------------------------------------------
+Epoch:141
+VAE lr:0.003700000000000014
+Time elapsed this epoch: 0.0m 19.271s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.820625    2.820625      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.097678    0.097678      NaN      NaN      NaN      NaN     NaN
+Epoch:142
+VAE lr:0.003655000000000014
+Time elapsed this epoch: 0.0m 18.256s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.831498    2.831498      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.083871    0.083871      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 142
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 36.036s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.745071  38.410198   38.132164  0.076028
+Std
+       mcd   msd_all  msd_vector        gv
+0  0.88154  4.088507    4.119758  0.033008
+--------------------------------------------------
+Epoch:143
+VAE lr:0.0036100000000000142
+Time elapsed this epoch: 0.0m 18.639s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   2.86364     2.86364      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.094273    0.094273      NaN      NaN      NaN      NaN     NaN
+Epoch:144
+VAE lr:0.0035650000000000143
+Time elapsed this epoch: 0.0m 16.437s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.847134    2.847134      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.090293    0.090293      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 144
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 40.224s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.598765  38.186026   37.903788  0.091438
+Std
+       mcd   msd_all  msd_vector        gv
+0  0.85832  4.100873    4.129512  0.034837
+--------------------------------------------------
+Epoch:145
+VAE lr:0.0035200000000000144
+Time elapsed this epoch: 0.0m 19.026s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.839174    2.839174      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.092338    0.092338      NaN      NaN      NaN      NaN     NaN
+Epoch:146
+VAE lr:0.0034750000000000145
+Time elapsed this epoch: 0.0m 16.3s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.845137    2.845137      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.095992    0.095992      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 146
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 35.46s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.761834  38.301529   38.023523  0.083309
+Std
+       mcd   msd_all  msd_vector        gv
+0  0.95487  4.054177    4.090361  0.049541
+--------------------------------------------------
+Epoch:147
+VAE lr:0.0034300000000000146
+Time elapsed this epoch: 0.0m 19.758s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.835875    2.835875      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.092858    0.092858      NaN      NaN      NaN      NaN     NaN
+Epoch:148
+VAE lr:0.0033850000000000147
+Time elapsed this epoch: 0.0m 14.177s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.845618    2.845618      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.085895    0.085895      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 148
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 36.812s
+Mean
+       mcd   msd_all  msd_vector        gv
+0  6.58858  38.09188   37.819631  0.085119
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.905981  4.076536    4.109982  0.034594
+--------------------------------------------------
+Epoch:149
+VAE lr:0.003340000000000015
+Time elapsed this epoch: 0.0m 19.562s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.843415    2.843415      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.084653    0.084653      NaN      NaN      NaN      NaN     NaN
+Epoch:150
+VAE lr:0.003295000000000015
+Time elapsed this epoch: 0.0m 16.549s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.839589    2.839589      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.104653    0.104653      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 150
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 28.58s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.617731  38.443407    38.17595  0.077348
+Std
+       mcd   msd_all  msd_vector        gv
+0  0.91181  4.056632    4.090894  0.029585
+--------------------------------------------------
+Epoch:151
+VAE lr:0.003250000000000015
+Time elapsed this epoch: 0.0m 15.685s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.844628    2.844628      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.092302    0.092302      NaN      NaN      NaN      NaN     NaN
+Epoch:152
+VAE lr:0.003205000000000015
+Time elapsed this epoch: 0.0m 18.006s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.834716    2.834716      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.087698    0.087698      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 152
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 36.463s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.695916  38.731136   38.462796  0.079584
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.862404  4.149228    4.178901  0.036446
+--------------------------------------------------
+Epoch:153
+VAE lr:0.0031600000000000152
+Time elapsed this epoch: 0.0m 18.708s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.841609    2.841609      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.085861    0.085861      NaN      NaN      NaN      NaN     NaN
+Epoch:154
+VAE lr:0.0031150000000000153
+Time elapsed this epoch: 0.0m 16.794s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.803513    2.803513      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.096285    0.096285      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 154
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 36.784s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.717106  38.545631   38.267822  0.078783
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.975963  4.090864    4.125972  0.040643
+--------------------------------------------------
+Epoch:155
+VAE lr:0.0030700000000000154
+Time elapsed this epoch: 0.0m 17.566s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.846037    2.846037      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.09186     0.09186      NaN      NaN      NaN      NaN     NaN
+Epoch:156
+VAE lr:0.0030250000000000155
+Time elapsed this epoch: 0.0m 13.357s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.816598    2.816598      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.079229    0.079229      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 156
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 8.0m 44.821s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.817251  38.668041   38.396442  0.078064
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.901737  4.115757     4.14826  0.046083
+--------------------------------------------------
+Epoch:157
+VAE lr:0.0029800000000000156
+Time elapsed this epoch: 0.0m 17.505s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.826463    2.826463      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.078797    0.078797      NaN      NaN      NaN      NaN     NaN
+Epoch:158
+VAE lr:0.0029350000000000157
+Time elapsed this epoch: 0.0m 15.039s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.824879    2.824879      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.093189    0.093189      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 158
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 34.465s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.627666  38.320984   38.050169  0.071439
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.879319  4.126553    4.153076  0.025223
+--------------------------------------------------
+Epoch:159
+VAE lr:0.002890000000000016
+Time elapsed this epoch: 0.0m 18.766s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.829914    2.829914      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.08217     0.08217      NaN      NaN      NaN      NaN     NaN
+Epoch:160
+VAE lr:0.002845000000000016
+Time elapsed this epoch: 0.0m 15.927s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.846789    2.846789      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.096551    0.096551      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 160
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 28.507s
+Mean
+        mcd   msd_all  msd_vector       gv
+0  6.576287  38.45082   38.182213  0.08028
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.839567  4.116312    4.145807  0.021048
+--------------------------------------------------
+Epoch:161
+VAE lr:0.002800000000000016
+Time elapsed this epoch: 0.0m 16.281s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.817836    2.817836      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.092774    0.092774      NaN      NaN      NaN      NaN     NaN
+Epoch:162
+VAE lr:0.002755000000000016
+Time elapsed this epoch: 0.0m 18.213s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.824607    2.824607      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.083355    0.083355      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 162
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 31.701s
+Mean
+       mcd    msd_all  msd_vector        gv
+0  6.54198  38.497118   38.236116  0.085009
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.833415  4.106764    4.139551  0.021045
+--------------------------------------------------
+Epoch:163
+VAE lr:0.002710000000000016
+Time elapsed this epoch: 0.0m 17.924s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.813676    2.813676      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.096178    0.096178      NaN      NaN      NaN      NaN     NaN
+Epoch:164
+VAE lr:0.0026650000000000163
+Time elapsed this epoch: 0.0m 15.894s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.823124    2.823124      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.092177    0.092177      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 164
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 29.098s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.595981  38.339417   38.069004  0.088223
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.866892  4.138851    4.169688  0.029456
+--------------------------------------------------
+Epoch:165
+VAE lr:0.0026200000000000164
+Time elapsed this epoch: 0.0m 15.911s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.827104    2.827104      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.087166    0.087166      NaN      NaN      NaN      NaN     NaN
+Epoch:166
+VAE lr:0.0025750000000000165
+Time elapsed this epoch: 0.0m 15.011s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.819905    2.819905      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.086181    0.086181      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 166
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 6.5402s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.574297  38.216732   37.942787  0.080852
+Std
+        mcd   msd_all  msd_vector       gv
+0  0.867249  4.096688    4.125559  0.02721
+--------------------------------------------------
+Epoch:167
+VAE lr:0.0025300000000000166
+Time elapsed this epoch: 0.0m 14.607s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.829729    2.829729      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.085249    0.085249      NaN      NaN      NaN      NaN     NaN
+Epoch:168
+VAE lr:0.0024850000000000167
+Time elapsed this epoch: 0.0m 16.117s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.832612    2.832612      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.084939    0.084939      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 168
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 7.1184s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.560049  38.270405   37.998097  0.092939
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.869446  4.074399    4.106862  0.028081
+--------------------------------------------------
+Epoch:169
+VAE lr:0.002440000000000017
+Time elapsed this epoch: 0.0m 14.564s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.832066    2.832066      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.08962     0.08962      NaN      NaN      NaN      NaN     NaN
+Epoch:170
+VAE lr:0.002395000000000017
+Time elapsed this epoch: 0.0m 16.648s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.832343    2.832343      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.082246    0.082246      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 170
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 27.522s
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.629481  38.21136   37.927353  0.100689
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.892798  4.130745    4.164876  0.046613
+--------------------------------------------------
+Epoch:171
+VAE lr:0.002350000000000017
+Time elapsed this epoch: 0.0m 14.782s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.840287    2.840287      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.083933    0.083933      NaN      NaN      NaN      NaN     NaN
+Epoch:172
+VAE lr:0.002305000000000017
+Time elapsed this epoch: 0.0m 16.047s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.823001    2.823001      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.093007    0.093007      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 172
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 35.941s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.796493  38.234514    37.95763  0.089096
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.986605  4.088838    4.122421  0.053707
+--------------------------------------------------
+Epoch:173
+VAE lr:0.002260000000000017
+Time elapsed this epoch: 0.0m 12.556s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   2.81697     2.81697      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.089762    0.089762      NaN      NaN      NaN      NaN     NaN
+Epoch:174
+VAE lr:0.0022150000000000173
+Time elapsed this epoch: 0.0m 17.791s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.807585    2.807585      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.088426    0.088426      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 174
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 46.069s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.598352  37.932015   37.655467  0.099261
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.855994  4.077232    4.110262  0.043851
+--------------------------------------------------
+Epoch:175
+VAE lr:0.0021700000000000174
+Time elapsed this epoch: 0.0m 13.836s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.808609    2.808609      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.098727    0.098727      NaN      NaN      NaN      NaN     NaN
+Epoch:176
+VAE lr:0.0021250000000000175
+Time elapsed this epoch: 0.0m 19.913s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.811455    2.811455      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.093448    0.093448      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 176
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 39.984s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.552501  38.002232   37.731228  0.088844
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.841435  4.119256    4.149852  0.031329
+--------------------------------------------------
+Epoch:177
+VAE lr:0.0020800000000000176
+Time elapsed this epoch: 0.0m 13.406s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.803528    2.803528      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.079016    0.079016      NaN      NaN      NaN      NaN     NaN
+Epoch:178
+VAE lr:0.0020350000000000177
+Time elapsed this epoch: 0.0m 19.288s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.822311    2.822311      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.07938     0.07938      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 178
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 46.716s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.602003  37.955092   37.680728  0.100438
+Std
+        mcd   msd_all  msd_vector       gv
+0  0.911368  4.035746    4.074391  0.05294
+--------------------------------------------------
+Epoch:179
+VAE lr:0.001990000000000018
+Time elapsed this epoch: 0.0m 19.116s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.838759    2.838759      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.07705     0.07705      NaN      NaN      NaN      NaN     NaN
+Epoch:180
+VAE lr:0.001945000000000018
+Time elapsed this epoch: 0.0m 17.724s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.811164    2.811164      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.07728     0.07728      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 180
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 38.111s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.599551  37.881192   37.612805  0.096544
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.891466  4.159598    4.190967  0.043598
+--------------------------------------------------
+Epoch:181
+VAE lr:0.001900000000000018
+Time elapsed this epoch: 0.0m 19.491s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   2.80657     2.80657      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.088671    0.088671      NaN      NaN      NaN      NaN     NaN
+Epoch:182
+VAE lr:0.001855000000000018
+Time elapsed this epoch: 0.0m 16.541s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.788082    2.788082      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.098719    0.098719      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 182
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 35.899s
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.575331  38.42056   38.149642  0.087858
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.882263  4.173327    4.205563  0.034171
+--------------------------------------------------
+Epoch:183
+VAE lr:0.0018100000000000182
+Time elapsed this epoch: 0.0m 19.471s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.811916    2.811916      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.084008    0.084008      NaN      NaN      NaN      NaN     NaN
+Epoch:184
+VAE lr:0.0017650000000000183
+Time elapsed this epoch: 0.0m 17.07s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.824526    2.824526      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.096184    0.096184      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 184
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 39.869s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.655713  38.186802   37.909202  0.091883
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.972194  4.067869    4.104414  0.042487
+--------------------------------------------------
+Epoch:185
+VAE lr:0.0017200000000000184
+Time elapsed this epoch: 0.0m 18.274s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.824596    2.824596      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.088686    0.088686      NaN      NaN      NaN      NaN     NaN
+Epoch:186
+VAE lr:0.0016750000000000185
+Time elapsed this epoch: 0.0m 17.3s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.824528    2.824528      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.083598    0.083598      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 186
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 9.0m 39.613s
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.608055  38.35135   38.071768  0.090083
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.918353  4.091172    4.126619  0.035081
+--------------------------------------------------
+Epoch:187
+VAE lr:0.0016300000000000186
+Time elapsed this epoch: 0.0m 17.432s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.815799    2.815799      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.088141    0.088141      NaN      NaN      NaN      NaN     NaN
+Epoch:188
+VAE lr:0.0015850000000000187
+Time elapsed this epoch: 0.0m 14.936s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.813803    2.813803      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.087028    0.087028      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 188
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 8.0m 38.82s
+Mean
+       mcd   msd_all  msd_vector        gv
+0  6.60696  38.47637   38.203529  0.085249
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.873039  4.147317    4.180851  0.030686
+--------------------------------------------------
+Epoch:189
+VAE lr:0.0015400000000000188
+Time elapsed this epoch: 0.0m 16.057s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.813101    2.813101      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.091255    0.091255      NaN      NaN      NaN      NaN     NaN
+Epoch:190
+VAE lr:0.0014950000000000189
+Time elapsed this epoch: 0.0m 12.696s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.798862    2.798862      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.08836     0.08836      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 190
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 7.0m 44.43s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.567474  38.555819   38.284878  0.088563
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.837732  4.107277    4.141574  0.031025
+--------------------------------------------------
+Epoch:191
+VAE lr:0.001450000000000019
+Time elapsed this epoch: 0.0m 10.15s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.801767    2.801767      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.082765    0.082765      NaN      NaN      NaN      NaN     NaN
+Epoch:192
+VAE lr:0.001405000000000019
+Time elapsed this epoch: 0.0m 8.1128s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.796833    2.796833      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.09523     0.09523      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 192
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 4.0m 56.554s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.512767  38.568264   38.289181  0.093685
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.851616  4.103599    4.139532  0.029454
+--------------------------------------------------
+Epoch:193
+VAE lr:0.0013600000000000192
+Time elapsed this epoch: 0.0m 8.2368s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   2.81319     2.81319      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.099371    0.099371      NaN      NaN      NaN      NaN     NaN
+Epoch:194
+VAE lr:0.0013150000000000193
+Time elapsed this epoch: 0.0m 8.9764s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.791134    2.791134      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.093051    0.093051      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 194
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 4.0m 51.151s
+Mean
+        mcd   msd_all  msd_vector        gv
+0  6.572603  39.01868   38.742661  0.083164
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.879777  4.076465    4.112748  0.025289
+--------------------------------------------------
+Epoch:195
+VAE lr:0.0012700000000000194
+Time elapsed this epoch: 0.0m 9.4236s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.805614    2.805614      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.070631    0.070631      NaN      NaN      NaN      NaN     NaN
+Epoch:196
+VAE lr:0.0012250000000000195
+Time elapsed this epoch: 0.0m 8.6531s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   2.81221     2.81221      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.093871    0.093871      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 196
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 4.0m 50.356s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.550597  38.632545   38.354966  0.090352
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.860842  4.099408    4.133804  0.030956
+--------------------------------------------------
+Epoch:197
+VAE lr:0.0011800000000000196
+Time elapsed this epoch: 0.0m 8.5313s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.807148    2.807148      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0   0.07768     0.07768      NaN      NaN      NaN      NaN     NaN
+Epoch:198
+VAE lr:0.0011350000000000197
+Time elapsed this epoch: 0.0m 9.5937s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.792267    2.792267      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.104753    0.104753      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 198
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 4.0m 57.38s
+Mean
+       mcd    msd_all  msd_vector        gv
+0  6.58218  38.753174    38.47357  0.082192
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.857552  4.102004    4.134954  0.027797
+--------------------------------------------------
+Epoch:199
+VAE lr:0.0010900000000000198
+Time elapsed this epoch: 0.0m 9.1472s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.800402    2.800402      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.095699    0.095699      NaN      NaN      NaN      NaN     NaN
+Epoch:200
+VAE lr:0.0010450000000000199
+Time elapsed this epoch: 0.0m 7.7488s
+Mean
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  2.826545    2.826545      NaN      NaN      NaN      NaN     NaN
+Std
+   loss_VAE  loss_MDVAE  loss_SI  loss_LI  loss_AC  loss_SC  loss_C
+0  0.092394    0.092394      NaN      NaN      NaN      NaN     NaN
+Saving Model, epoch: 200
+--------------------------------------------------
+Validation Start.
+Time elapsed for testing: 4.0m 47.552s
+Mean
+        mcd    msd_all  msd_vector        gv
+0  6.555292  38.740633   38.460027  0.089609
+Std
+        mcd   msd_all  msd_vector        gv
+0  0.874306  4.075029    4.111422  0.032836
+--------------------------------------------------
+Loading model from epoch:192
+Time elapsed for converting: 4.0m 17.659s
+Training Complete.
+Current Time:2020-04-26 08:18 35s
