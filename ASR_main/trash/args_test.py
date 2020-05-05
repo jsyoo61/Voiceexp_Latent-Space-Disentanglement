@@ -4,6 +4,17 @@ from experiment import Experiment
 from tools.tools import str2bool
 
 if __name__ == '__main__':
+    # Default Hyperparameters
+    rec = 1
+    SI = 0
+    LI = 0
+    AC = 0
+    SC = 0
+    C = 0
+    vae_lr = 1e-3
+    sc_lr = 0.0002
+    asr_lr = 0.00001
+    ac_lr = 0.00005
 
     parser = argparse.ArgumentParser(description = 'Proceed experiment with specified exp_name')
     parser.add_argument('--exp_name', type = str, help = 'Experiment name. All files will be stored in exp/exp_name')
@@ -17,7 +28,6 @@ if __name__ == '__main__':
     parser.add_argument('--AC', type = float, help = 'lambda_AC')
     parser.add_argument('--SC', type = float, help = 'lambda_SC')
     parser.add_argument('--C', type = float, help = 'lambda_C')
-    parser.add_argument('--CC', type = float, help = 'lambda_CC')
     parser.add_argument('--lambda_norm', default = True, type = str2bool, help = 'if True, normalize loss with sum(lambda)')
     # Learning Rate
     parser.add_argument('--vae_lr',type = float, help = 'vae_lr')
@@ -30,14 +40,26 @@ if __name__ == '__main__':
     # parser.add_argument('--model_save_epoch', type = int, help = 'model save interval')
     # parser.add_argument('--validation_epoch', type = int, help = 'validation interval')
     args = parser.parse_args()
-
+    print(args.__dict__)
     lambd_list = ['KLD', 'rec', 'SI', 'LI', 'AC', 'SC', 'C']
-    model_p_list = ['vae_lr', 'sc_lr', 'asr_lr', 'ac_lr']
     lambd = {lambd_ : args.__dict__[lambd_] for lambd_ in lambd_list if args.__dict__[lambd_] is not None}
-    model_p = {model_p_ : args.__dict__[model_p_] for model_p_ in model_p_list if args.__dict__[model_p_] is not None}
+    print(lambd)
 
-    # Default Parameter present inside Experiment
-    solver = Experiment(num_speakers = 4, new = args.new, exp_name = args.exp_name, model_p = model_p, lambd = lambd, debug = args.debug)
-    # solver = Experiment(num_speakers = 100, exp_name = args.exp_name, model_p = model_p, new = args.new)
-    solver.train(lambda_norm = args.lambda_norm)
-    # solver.train(lambd = lambd, train_param = train_p, train_data_dir = args.train_data_dir)
+    # a= {1:None, 2:30}
+    # b={l : a[l] for l in a.keys() if a}
+    model_p = dict(
+    vae_lr = args.vae_lr,
+    sc_lr = args.sc_lr,
+    asr_lr = args.asr_lr,
+    ac_lr = args.ac_lr,
+    )
+    # train_p_ = dict(
+    # n_epoch = args.n_epoch,
+    # batch_size = args.batch_size,
+    # model_save_epoch = args.model_save_epoch,
+    # validation_epoch = args.validation_epoch,
+    # )
+    # train_p = dict()
+    # for p in train_p_:
+    #     if train_p_[p] is not None:
+    #         train_p[p] = train_p_[p]

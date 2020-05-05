@@ -52,7 +52,7 @@ class Experiment(object):
 
         # 1] Hyperparameters setting - Default
         self.model_p = dict(
-        vae_lr = 1e-3,
+        vae_lr = 1e-2,
         vae_betas = (0.9,0.999),
         sc_lr = 0.0002,
         sc_betas = (0.5,0.999),
@@ -70,8 +70,8 @@ class Experiment(object):
         mini_batch_size = 8,
         start_epoch = 1,
         n_epoch = 300,
-        model_save_epoch = 10,
-        validation_epoch = 10,
+        model_save_epoch = 3,
+        validation_epoch = 3,
         sample_per_path = 10,
         )
         self.train_p['iter_per_ep'] = self.train_p['batch_size'] // self.train_p['mini_batch_size']
@@ -90,16 +90,20 @@ class Experiment(object):
 
         self.lambd = dict(
         KLD = 1,
-        rec = 10,
+        rec = 20,
         SI = 0,
         LI = 0,
         AC = 0,
         SC = 0,
-        C = 0,
+        C = 1,
+        CC = 0,
         )
         if lambd is not None:
             self.lambd.update(lambd)
-        self.lambd_total = 1 + sum(self.lambd.values())
+        self.lambd_total = sum(self.lambd.values())
+        if self.lambd['C'] is not 0:
+            self.lambd_total -= self.lambd['C']
+            self.lambd_total += self.lambd['C'] * (self.lambd['KLD'] + self.lambd['rec'])
         self.lambda_norm = True
 
         self.preprocess_p = dict(
@@ -109,7 +113,8 @@ class Experiment(object):
         )
         # self.loss_index = ['loss_VAE','loss_MDVAE','loss_SI','loss_LI','loss_AC','loss_SC','loss_C']
         self.loss_index = ['loss_VAE','loss_KLD','loss_rec','loss_SI','loss_LI','loss_AC','loss_SC','loss_C_KLD', 'loss_C_rec']
-        self.performance_measure_index = ['mcd', 'msd_all', 'msd_vector', 'gv']
+        # self.performance_measure_index = ['mcd', 'msd_all', 'msd_vector', 'gv']
+        self.performance_measure_index = ['mcd', 'msd_vector', 'gv']
         self.lr_index = ['VAE_lr']
         self.loss_summary = pd.DataFrame(columns = self.loss_index)
         self.validation_summary = pd.DataFrame(columns = self.performance_measure_index)
@@ -246,7 +251,7 @@ class Experiment(object):
         # 3] lr_schedulers
         self.lr_scheduler = dict()
         # self.lr_scheduler['VAE'] = optim.lr_scheduler.MultiStepLR(self.optimizer['VAE'], milestones=[50, 100], gamma=0.1)
-        self.lr_scheduler['VAE'] = toptim.lr_scheduler.LinearLR(self.optimizer['VAE'], delta = (1-1e-3) / self.train_p['n_epoch'])
+        self.lr_scheduler['VAE'] = toptim.lr_scheduler.LinearLR(self.optimizer['VAE'], delta = (1-1e-2) / self.train_p['n_epoch'])
         # self.lr_scheduler['VAE'] = optim.lr_scheduler.LambdaLR(self.optimizer['VAE'], lr_lambda=lr_schedule['VAE'])
         # self.lr_scheduler['VAE'] = optim.lr_scheduler.ExponentialLR(self.optimizer['VAE'], gamma=(1e-2) ** (1/self.train_p['n_epoch']))
         # self.lr_scheduler['VAE'] = toptim.lr_scheduler.AdaptiveLR(self.optimizer['VAE'], a = 0.01, b = 0.05, threshold=1e-2)
@@ -468,6 +473,44 @@ class Experiment(object):
         loss_C_rec = sum(loss_C_rec_list) / self.num_speakers
         return loss_C_KLD, loss_C_rec
 
+    def loss_CC(self, x, c_onehot, index):
+        '''Get Cycle loss
+        x - [Encoder] - z - [Decoder(All)] - xt - [Encoder] - zt (- KLD loss) - [Decoder(? original?)] - xtt (- Rec loss)
+        For: VAE
+        '''
+        mu_z, logvar_z = self.Encoder(x, c_onehot)
+        z = self.reparameterize(mu_z, logvar_z)
+        # Decoder - All
+        loss_C_KLD_list = list()
+        loss_C_rec_list = list()
+        loss_CC_list = list()
+        for i in range(self.num_speakers):
+            mu_xt, logvar_xt = self.Decoder[i](z)
+            xt = self.reparameterize(mu_xt, logvar_xt)
+            ct = self.generate_label(i, self.train_p['mini_batch_size'])
+            ct_onehot = self.label2onehot(ct).to(device = self.device, dtype = torch.float)
+            mu_zt, logvar_zt = self.Encoder(xt, ct_onehot)
+            loss_C_KLD = KLD_loss(mu_zt, logvar_zt)
+            loss_C_KLD_list.append(loss_C_KLD)
+
+            zt = self.reparameterize(mu_zt, logvar_zt)
+            mu_xtt, logvar_xtt = self.Decoder[index](zt)
+            loss_C_rec = -GaussianLogDensity(x, mu_xtt, logvar_xtt)
+            loss_C_rec_list.append(loss_C_rec)
+        loss_C_KLD = sum(loss_C_KLD_list) / self.num_speakers
+        loss_C_rec = sum(loss_C_rec_list) / self.num_speakers
+        loss_CC = sum(loss_CC_list) / self.num_speakers
+        return loss_C_KLD, loss_C_rec, loss_CC
+
+    def loss_VAE(self, x, c_onehot, index):
+        '''Get all loss for VAE
+        More efficient than calling: loss_MDVAE, loss_SC, loss_C
+        since this function computes once.
+        For: VAE
+        '''
+
+        return loss_KLD, loss_rec, loss_SC, loss_C_KLD, loss_C_rec
+
     def step(self):
         # Keep track of loss results for monitoring
         loss_VAE = None
@@ -573,8 +616,14 @@ class Experiment(object):
                         # 1. Get Loss_C for VAE
                         loss_C_KLD_A, loss_C_rec_A = self.loss_C(x_batch_A, c_onehot_A, i)
                         loss_C_KLD_B, loss_C_rec_B = self.loss_C(x_batch_B, c_onehot_B, j)
-                        loss_C = loss_C_KLD_A + loss_C_rec_A + loss_C_KLD_B + loss_C_rec_B
-                        loss_VAE += self.lambd['C'] * loss_C
+                        loss_C_KLD = loss_C_KLD_A + loss_C_KLD_B
+                        loss_C_rec = loss_C_rec_A + loss_C_rec_B
+                        loss_VAE += self.lambd['C'] * (self.lambd['KLD'] * loss_C_KLD + self.lambd['rec'] * loss_C_rec)
+
+                    if self.lambd['CC'] != 0:
+                        # 1. Get Loss_C for VAE
+                        loss_CC_A = self.loss_CC(x_batch_A, c_onehot_A, i)
+
 
                     loss_KLD_A, loss_rec_A = self.loss_MDVAE(x_batch_A, c_onehot_A)
                     loss_KLD_B, loss_rec_B = self.loss_MDVAE(x_batch_B, c_onehot_B)
@@ -617,7 +666,10 @@ class Experiment(object):
         # 0] Manual Directory&Parmeter designation
         if lambd is not None:
             self.lambd.update(lambd)
-            self.lambd_total = 1 + sum(self.lambd.values())
+            self.lambd_total = sum(self.lambd.values())
+            if self.lambd['C'] is not 0:
+                self.lambd_total -= self.lambd['C']
+                self.lambd_total += self.lambd['C'] * (self.lambd['KLD'] + self.lambd['rec'])
         self.lambda_norm = lambda_norm
         if train_data_dir is not None:
             self.dirs['train_data'] = train_data_dir
@@ -802,8 +854,8 @@ class Experiment(object):
 
         pool = Pool(30)
         mcd_list = pool.starmap(mcd_cal, zip(converted_mcep_list, target_mcep_list))
-        msd_all_list = pool.starmap(msd_cal, zip(converted_ms_list, target_ms_list, ['all']*n_sample))
-        msd_vector_list = pool.starmap(msd_cal, zip(converted_ms_list, target_ms_list, ['vector']*n_sample))
+        # msd_all_list = pool.starmap(msd_cal, zip(converted_ms_list, target_ms_list, itertools.repeat('all') ))
+        msd_vector_list = pool.starmap(msd_cal, zip(converted_ms_list, target_ms_list, itertools.repeat('vector') ))
         gv_list = pool.starmap(gv_cal, zip(converted_mcep_list))
         pool.close()
         pool.join()
@@ -811,8 +863,10 @@ class Experiment(object):
         # 3] Gather Results
         print('Calculation complete.')
         test_result = pd.DataFrame(index = tested_pathlist, columns = self.performance_measure_index, dtype = float)
-        for test_path, mcd, msd_all, msd_vector, gv in zip(tested_pathlist, mcd_list, msd_all_list, msd_vector_list, gv_list):
-            test_result.loc[test_path] = mcd, msd_all, msd_vector, gv
+        for test_path, mcd, msd_vector, gv in zip(tested_pathlist, mcd_list, msd_vector_list, gv_list):
+        # for test_path, mcd, msd_all, msd_vector, gv in zip(tested_pathlist, mcd_list, msd_all_list, msd_vector_list, gv_list):
+            test_result.loc[test_path] = mcd, msd_vector, gv
+            # test_result.loc[test_path] = mcd, msd_all, msd_vector, gv
 
         end_time = time.time()
         time_elapsed = end_time - start_time
@@ -953,8 +1007,8 @@ class Experiment(object):
                     train_data_B_dir = os.path.join(self.dirs['train_data'], trg_speaker, 'cache{}.p'.format(self.preprocess_p['num_mcep']))
 
                     # Load data
-                    _, _, coded_sps_mean_A, coded_sps_std_A, _, _ = load_pickle(train_data_A_dir)
-                    _, _, coded_sps_mean_B, coded_sps_std_B, _, _ = load_pickle(train_data_B_dir)
+                    _, _, coded_sps_mean_A, coded_sps_std_A, log_f0s_mean_A, log_f0s_std_A = load_pickle(train_data_A_dir)
+                    _, _, coded_sps_mean_B, coded_sps_std_B, log_f0s_mean_B, log_f0s_std_B = load_pickle(train_data_B_dir)
                     coded_sp, ap, f0 = load_pickle(data_A_dir) # coded_sp.shape: (T, 36)
                     coded_sp_trg, _, _ = load_pickle(data_B_dir)
 
@@ -991,7 +1045,7 @@ class Experiment(object):
                     wav_transformed = world_speech_synthesis(f0=f0_converted, decoded_sp=decoded_sp_converted, ap=ap, fs=self.preprocess_p['sr'], frame_period=self.preprocess_p['frame_period'])
                     wav_transformed = np.nan_to_num(wav_transformed)
                     # Save file
-                    soundfile.output.write_wav(os.path.join(test_converted_dir, test_path+'.wav'), wav_transformed, self.preprocess_p['sr'])
+                    soundfile.write(os.path.join(test_converted_dir, test_path+'.wav'), data = wav_transformed, samplerate = self.preprocess_p['sr'])
 
                     converted_mcep_list.append(coded_sp_converted)
                     target_mcep_list.append(coded_sp_trg)
@@ -1000,21 +1054,21 @@ class Experiment(object):
 
         # 2] Calculate performance_measures (MCD, MSD, GV)
         print('Calculating MCD, MSD, GV')
-        pool = Pool(30)
+        pool = Pool()
         converted_ms_list = pool.map(extract_ms, converted_mcep_list)
         target_ms_list = pool.map(extract_ms, target_mcep_list)
         pool.close()
         pool.join()
 
-        pool = Pool(30)
+        pool = Pool()
         mcd_list = pool.starmap(mcd_cal, zip(converted_mcep_list, target_mcep_list))
-        msd_list = pool.starmap(msd_cal, zip(converted_ms_list, target_ms_list))
+        msd_list = pool.starmap(msd_cal, zip(converted_ms_list, target_ms_list, itertools.repeat('vector')))
         gv_list = pool.starmap(gv_cal, zip(converted_mcep_list))
         pool.close()
         pool.join()
 
         # 3] Save Results
-        test_result = pd.DataFrame(index = tested_pathlist, columns = ['mcd', 'msd', 'gv'], dtype = float)
+        test_result = pd.DataFrame(index = tested_pathlist, columns = self.performance_measure_index, dtype = float)
         print('Calculation complete.')
         for test_path, mcd, msd, gv in zip(tested_pathlist, mcd_list, msd_list, gv_list):
             test_result.loc[test_path] = mcd, msd, gv
