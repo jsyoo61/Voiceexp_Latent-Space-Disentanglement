@@ -262,8 +262,11 @@ def mcd_cal_torch(converted_mcep, target_mcep):
     mcd = distance / T
     return mcd
 
-def msd_cal(converted_ms, target_ms, method = 'all'):
+def msd_cal(converted_mcep, target_mcep, method = 'vector'):
     # Mean Distance between two vectors from each feature
+    converted_ms = logpowerspec3(converted_mcep)
+    target_ms = logpowerspec3(target_mcep)
+
     T = min(len(converted_ms), len(target_ms))
     diff = converted_ms[:T] - target_ms[:T]
     if method == 'all':

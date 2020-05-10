@@ -27,6 +27,7 @@ class AdaptiveLR(_LRScheduler):
         >>>     validate(...)
         >>>     scheduler.step(loss)
     """
+    requires_loss = True
     def __init__(self, optimizer, a, b, last_epoch = -1, threshold = -float('inf'), fix = False, last_loss = float('inf')):
         self.last_loss = last_loss
         self.loss = self.last_loss

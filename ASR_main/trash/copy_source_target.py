@@ -4,7 +4,7 @@ from tools.tools import read
 
 test_pathlist_dir = 'filelist/inset_test.lst'
 test_pathlist = read(test_pathlist_dir).splitlines()
-save_dir = 'reference'
+save_dir = 'validation_reference'
 os.makedirs(save_dir, exist_ok=True)
 
 data_dir = '../../corpus/inset/inset_test'

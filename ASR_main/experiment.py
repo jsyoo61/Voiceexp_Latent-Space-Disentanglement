@@ -42,7 +42,7 @@ class Experiment(object):
     speaker_list
         Hold all name of speakers
     '''
-    def __init__(self, num_speakers = 4, exp_name = None, new = True, model_p = None, train_p = None, lambd = None, debug = False):
+    def __init__(self, num_speakers = 4, exp_name = None, exp_dir='exp', new = True, model_p = None, train_p = None, lambd = None, debug = False):
         # 0] Random seed
         np.random.seed(0)
         torch.manual_seed(0)
@@ -90,12 +90,12 @@ class Experiment(object):
 
         self.lambd = dict(
         KLD = 1,
-        rec = 20,
+        rec = 10,
         SI = 0,
         LI = 0,
         AC = 0,
         SC = 0,
-        C = 1,
+        C = 0,
         CC = 0,
         )
         if lambd is not None:
@@ -124,7 +124,7 @@ class Experiment(object):
         self.max_keep=100
 
         # 2] Initialize environment and variables
-        self.create_env(exp_name, new)
+        self.create_env(exp_dir = exp_dir, exp_name = exp_name, new = new)
         # self.speaker_list = sorted(os.listdir(self.dirs['train_data']))
         self.speaker_list = ['p225','p226','p227','p228']
         self.num_speakers = len(self.speaker_list)
@@ -136,10 +136,7 @@ class Experiment(object):
         append(self.dirs['loss_log'], 'epoch '+' '.join(self.loss_index)+'\n')
         append(self.dirs['validation_log'], 'epoch '+' '.join(self.performance_measure_index)+'\n')
 
-        # 3] Hyperparameters for saving model
-
-
-        # 4] If the experiment is not new, Load most recent model
+        # 3] If the experiment is not new, Load most recent model
         if new == False:
             self.model_kept= sorted(os.listdir(self.dirs['model']), key = lambda x: int(x.split('.')[0].split('_')[-1]))
             most_trained_model = self.model_kept[-1]
@@ -149,7 +146,7 @@ class Experiment(object):
             print('Loading model from %s'%most_trained_model)
             self.load_model_all(self.dirs['model'], epoch_trained)
 
-    def create_env(self, exp_name = None, new = True):
+    def create_env(self, exp_dir = 'exp', exp_name = None, new = True):
         '''Create experiment environment
         Store all "static directories" required for experiment in "self.dirs"(dict)
 
@@ -158,7 +155,7 @@ class Experiment(object):
         '''
         # 0] exp_dir == master directory
         self.dirs = dict()
-        exp_dir = 'exp/'
+        # exp_dir = 'exp/'
         model_dir = 'model/'
         log_dir = 'log.txt'
         log_all_dir = 'all_log.txt'
@@ -232,28 +229,29 @@ class Experiment(object):
         '''
         # 1] Models
         self.Encoder = cc(Encoder(label_num = self.num_speakers))
-        self.Decoder = [cc(Decoder()) for i in range(self.num_speakers)]
+        # self.Decoder = [cc(Decoder()) for i in range(self.num_speakers)]
+        self.Decoder = cc(nn.ModuleList([Decoder() for i in range(self.num_speakers)]))
         self.SC = cc(SpeakerClassifier(label_num = self.num_speakers))
         self.ASR = cc(AutomaticSpeechRecognizer())
         self.AC = cc(AuxiliaryClassifier(label_num = self.num_speakers))
         # 2] Optimizers
         # decoder_params = itertools.chain([decoder.parameters() for decoder in self.Decoder])
         # vae_params = itertools.chain(self.Encoder.parameters(), decoder_params)
-        decoder_parameter_list = list()
+        decoder_parameter_list = []
         for decoder in self.Decoder:
             decoder_parameter_list += list(decoder.parameters())
         vae_params = list(self.Encoder.parameters()) + decoder_parameter_list
-        self.optimizer = dict()
+        self.optimizer = {}
         self.optimizer['VAE'] = optim.Adam(vae_params, lr=params['vae_lr'], betas=params['vae_betas'])
         self.optimizer['SC'] = optim.Adam(self.SC.parameters(), lr=params['sc_lr'], betas=params['sc_betas'])
         self.optimizer['ASR'] = optim.Adam(self.ASR.parameters(), lr=params['asr_lr'], betas=params['asr_betas'])
         self.optimizer['AC'] = optim.Adam(self.AC.parameters(), lr=params['ac_lr'], betas=params['ac_betas'])
         # 3] lr_schedulers
-        self.lr_scheduler = dict()
+        self.lr_scheduler = {}
         # self.lr_scheduler['VAE'] = optim.lr_scheduler.MultiStepLR(self.optimizer['VAE'], milestones=[50, 100], gamma=0.1)
-        self.lr_scheduler['VAE'] = toptim.lr_scheduler.LinearLR(self.optimizer['VAE'], delta = (1-1e-2) / self.train_p['n_epoch'])
+        # self.lr_scheduler['VAE'] = toptim.lr_scheduler.LinearLR(self.optimizer['VAE'], delta = (1-1e-2) / self.train_p['n_epoch'])
         # self.lr_scheduler['VAE'] = optim.lr_scheduler.LambdaLR(self.optimizer['VAE'], lr_lambda=lr_schedule['VAE'])
-        # self.lr_scheduler['VAE'] = optim.lr_scheduler.ExponentialLR(self.optimizer['VAE'], gamma=(1e-2) ** (1/self.train_p['n_epoch']))
+        self.lr_scheduler['VAE'] = optim.lr_scheduler.ExponentialLR(self.optimizer['VAE'], gamma=(1e-2) ** (1/self.train_p['n_epoch']))
         # self.lr_scheduler['VAE'] = toptim.lr_scheduler.AdaptiveLR(self.optimizer['VAE'], a = 0.01, b = 0.05, threshold=1e-2)
         # self.lr_scheduler['VAE'] = toptim.lr_scheduler.NoneLR(self.optimizer['VAE'])
         self.lr_scheduler['SC'] = None
@@ -261,7 +259,7 @@ class Experiment(object):
         self.lr_scheduler['AC'] = None
 
     def save_model(self, model_path, epoch):
-        all_model=dict()
+        all_model = dict()
         all_model['Encoder'] = self.Encoder.state_dict()
         for i, decoder in enumerate(self.Decoder):
             module_name = 'Decoder_' + str(i)
@@ -662,6 +660,15 @@ class Experiment(object):
             fig.savefig(fig_save_dir)
         plt.close('all')
 
+    def save_svd(self, module, log_dir):
+        with torch.no_grad():
+            for name, param in module.named_parameters():
+                if 'weight' in name and 'bn' not in name:
+                    append(log_dir, name+'\n')
+                    append(log_dir, str(param.shape)+'\n')
+                    u, s, v = param.svd(compute_uv = False)
+                    append(log_dir, str(s)+'\n')
+
     def train(self, lambd = None, lambda_norm = True, train_param = None, train_data_dir = None, model_dir = None):
         # 0] Manual Directory&Parmeter designation
         if lambd is not None:
@@ -707,6 +714,8 @@ class Experiment(object):
         self.p.print(end='')
 
         append(os.path.join(self.dirs['exp'], 'Encoder_'+str(0)+'.txt'), str(next(self.Encoder.parameters())) )
+        self.save_svd(self.Encoder, os.path.join(self.dirs['exp'], 'Encoder_'+str(self.train_p['epoch'])+'_svd.txt'))
+        self.save_svd(self.Decoder, os.path.join(self.dirs['exp'], 'Decoder_'+str(self.train_p['epoch'])+'_svd.txt'))
         np.random.seed(0)
         # 4] Start training
         for ep in range(self.train_p['start_epoch'], self.train_p['start_epoch'] + self.train_p['n_epoch']):
@@ -725,8 +734,10 @@ class Experiment(object):
             self.loss_summary.loc[self.train_p['epoch']] = loss_result.mean().values
             self.save_log(result = loss_result, log_dir = self.dirs['loss_log'])
             # 3. Adjust learning rate
-            self.lr_scheduler['VAE'].step()
-            # self.lr_scheduler['VAE'].step(loss_result.mean()['loss_VAE'])
+            if hasattr(self.lr_scheduler['VAE'], 'requires_loss'):
+                self.lr_scheduler['VAE'].step(loss_result.mean()['loss_VAE'])
+            else:
+                self.lr_scheduler['VAE'].step()
 
             # Save model (Default: 2)
             if self.train_p['epoch'] % self.train_p['model_save_epoch'] == 0:
@@ -747,6 +758,8 @@ class Experiment(object):
                 self.set_train()
                 self.p.print('-'*50)
         # After training ends, convert wav with the best model
+        self.save_svd(self.Encoder, os.path.join(self.dirs['exp'], 'Encoder_'+str(self.train_p['epoch'])+'_svd.txt'))
+        self.save_svd(self.Decoder, os.path.join(self.dirs['exp'], 'Decoder_'+str(self.train_p['epoch'])+'_svd.txt'))
         save_pickle(self.validation_summary, self.dirs['validation_summary'])
         self.save_plot(summary = self.lr_summary, plot_dir = self.dirs['exp'])
         self.save_plot(summary = self.loss_summary, plot_dir = self.dirs['exp'])
@@ -839,23 +852,18 @@ class Experiment(object):
                     target_mcep_list.append(coded_sp_trg)
                     tested_pathlist.append(test_path)
 
-        # append(self.dirs['validation_id_log'], '*'*30+'\n')
-        # for path in tested_pathlist:
-        #     append(self.dirs['validation_id_log'], path+'\n')
-
         # 2] Calculate performance_measures (MCD, MSD, GV)
         print('Calculating MCD, MSD, GV')
-        n_sample = len(tested_pathlist)
-        pool = Pool(30)
-        converted_ms_list = pool.map(extract_ms, converted_mcep_list)
-        target_ms_list = pool.map(extract_ms, target_mcep_list)
-        pool.close()
-        pool.join()
+        # n_sample = len(tested_pathlist)
+        # pool = Pool()
+        # converted_ms_list = pool.map(extract_ms, converted_mcep_list)
+        # target_ms_list = pool.map(extract_ms, target_mcep_list)
+        # pool.close()
+        # pool.join()
 
-        pool = Pool(30)
+        pool = Pool()
         mcd_list = pool.starmap(mcd_cal, zip(converted_mcep_list, target_mcep_list))
-        # msd_all_list = pool.starmap(msd_cal, zip(converted_ms_list, target_ms_list, itertools.repeat('all') ))
-        msd_vector_list = pool.starmap(msd_cal, zip(converted_ms_list, target_ms_list, itertools.repeat('vector') ))
+        msd_vector_list = pool.starmap(msd_cal, zip(converted_mcep_list, target_mcep_list, itertools.repeat('vector') ))
         gv_list = pool.starmap(gv_cal, zip(converted_mcep_list))
         pool.close()
         pool.join()
@@ -864,9 +872,7 @@ class Experiment(object):
         print('Calculation complete.')
         test_result = pd.DataFrame(index = tested_pathlist, columns = self.performance_measure_index, dtype = float)
         for test_path, mcd, msd_vector, gv in zip(tested_pathlist, mcd_list, msd_vector_list, gv_list):
-        # for test_path, mcd, msd_all, msd_vector, gv in zip(tested_pathlist, mcd_list, msd_all_list, msd_vector_list, gv_list):
             test_result.loc[test_path] = mcd, msd_vector, gv
-            # test_result.loc[test_path] = mcd, msd_all, msd_vector, gv
 
         end_time = time.time()
         time_elapsed = end_time - start_time
@@ -1055,14 +1061,8 @@ class Experiment(object):
         # 2] Calculate performance_measures (MCD, MSD, GV)
         print('Calculating MCD, MSD, GV')
         pool = Pool()
-        converted_ms_list = pool.map(extract_ms, converted_mcep_list)
-        target_ms_list = pool.map(extract_ms, target_mcep_list)
-        pool.close()
-        pool.join()
-
-        pool = Pool()
         mcd_list = pool.starmap(mcd_cal, zip(converted_mcep_list, target_mcep_list))
-        msd_list = pool.starmap(msd_cal, zip(converted_ms_list, target_ms_list, itertools.repeat('vector')))
+        msd_list = pool.starmap(msd_cal, zip(converted_mcep_list, target_mcep_list, itertools.repeat('vector') ))
         gv_list = pool.starmap(gv_cal, zip(converted_mcep_list))
         pool.close()
         pool.join()
@@ -1088,8 +1088,51 @@ if False:
     #         pass
     # self = Dummy()
     # %%
-    self = Experiment(num_speakers = 4)
+    self = Experiment(num_speakers = 4, debug=True)
+    x=list(self.Encoder.named_parameters())
+    with torch.no_grad():
+        for name, param in self.Encoder.named_parameters():
+            if 'weight' in name and 'bn' not in name:
+                append(log_dir, name+'\n')
+                append(log_dir, param.shape+'\n')
+                u, s, v = param.svd(compute_uv = False)
+                append(log_dir, s+'\n')
+        for name, param in self.Decoder.named_parameters():
+            if 'weight' in name and 'bn' not in name:
+                print(name)
+                print(param.shape)
+                u, s, v = param.svd(compute_uv = False)
+                print(s)
 
+    for name, param in self.Decoder.named_parameters():
+        print(name)
+
+
+
+    for name in self.Encoder.state_dict():
+        print(name)
+
+    x = torch.arange(5)
+    x.unsqueeze(0)
+    x[:,torch.newaxis]
+    x
+    x=next(self.Encoder.parameters())
+    x.shape
+    u,s,v = x.svd()
+    u.shape
+    s
+    v.shape
+    x=list(self.Encoder.parameters())
+    y=list(self.Encoder.state_dict())
+    len(x)
+    x[0]
+    y
+    self.Encoder.state_dict()[y[5]]
+    y[4]
+    x[12]
+    for p in x:
+        print(p.shape)
+    a
     i=0
     j=2
     src_speaker = self.speaker_list[i]

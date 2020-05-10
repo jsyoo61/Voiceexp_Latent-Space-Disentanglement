@@ -1,3 +1,9 @@
+# %%
+from performance_measure import msd_cal, mcd_cal, extract_ms
+from tools.tools import load_pickle
+from speech_tools import *
+import librosa
+
 
 
 # %%
@@ -6,33 +12,62 @@ for file in sorted(os.listdir('processed_validation/inset_dev/p225/')):
     print(file)
     file_dir = os.path.join('processed_validation/inset_dev/p225/', file)
     coded_sp, ap, f0 = load_pickle(file_dir)
-    decoded_sp = world_decode_mc(mc=coded_sp, fs= self.preprocess_p['sr'])
-    wav = world_speech_synthesis(f0=f0, decoded_sp=decoded_sp, ap=ap, fs=self.preprocess_p['sr'], frame_period=self.preprocess_p['frame_period'] )
-    soundfile.write('p225_001.wav', wav, self.preprocess_p['sr'])
+    decoded_sp = world_decode_mc(mc=coded_sp, fs= 16000)
+    wav = world_speech_synthesis(f0=f0, decoded_sp=decoded_sp, ap=ap, fs=16000, frame_period=5.0 )
+    soundfile.write('p225_001.wav', wav, 16000)
 
-    wav, _ = librosa.load('p225_001.wav', sr=self.preprocess_p['sr'], mono=True)
+    wav, _ = librosa.load('p225_001.wav', sr=16000, mono=True)
     wav = librosa.util.normalize(wav, norm=np.inf, axis=None)
-    f0, timeaxis, sp, ap, mc = world_decompose(wav=wav, fs=self.preprocess_p['sr'], frame_period=self.preprocess_p['frame_period'])
+    f0, timeaxis, sp, ap, mc = world_decompose(wav=wav, fs=16000, frame_period=5.0)
 
     mcd = mcd_cal(coded_sp, mc)
     mcd_list.append(mcd)
 mcd_list
 sum(mcd_list)/len(mcd_list)
 # %%
+os.listdir('trash')
+wav, _ = librosa.load('trash/FM p225_008 p226_008.wav', sr=16000, mono=True)
+wav = librosa.util.normalize(wav, norm=np.inf, axis=None)
+f0, timeaxis, sp, ap, mc1 = world_decompose(wav=wav, fs=16000, frame_period=5.0)
+
+wav, _ = librosa.load('trash/p226_008.wav', sr=16000, mono=True)
+wav = librosa.util.normalize(wav, norm=np.inf, axis=None)
+f0, timeaxis, sp, ap, mc2 = world_decompose(wav=wav, fs=16000, frame_period=5.0)
+
+mcd = mcd_cal(mc1, mc2)
+msd = msd_cal(mc1, mc2, 'vector')
+print(mcd, msd)
+
+wav, _ = librosa.load('trash/FF p228_006 p225_006.wav', sr=16000, mono=True)
+wav = librosa.util.normalize(wav, norm=np.inf, axis=None)
+f0, timeaxis, sp, ap, mc1 = world_decompose(wav=wav, fs=16000, frame_period=5.0)
+
+wav, _ = librosa.load('trash/p225_006.wav', sr=16000, mono=True)
+wav = librosa.util.normalize(wav, norm=np.inf, axis=None)
+f0, timeaxis, sp, ap, mc2 = world_decompose(wav=wav, fs=16000, frame_period=5.0)
+
+# mcd = mcd_cal(mc1, mc2)
+msd = msd_cal(mc1, mc2, 'vector')
+print(mcd, msd)
+
+# %%
 mcd = mcd_cal(coded_sp, coded_sp)
 mcd = mcd_cal(mc, mc)
 
-
+# %%
 coded_sp, ap, f0 = load_pickle('processed_validation/inset_dev/p225/p225_001.p')
 coded_sp.shape
-decoded_sp = world_decode_mc(mc=coded_sp, fs= self.preprocess_p['sr'])
-wav = world_speech_synthesis(f0=f0, decoded_sp=decoded_sp, ap=ap, fs=self.preprocess_p['sr'], frame_period=self.preprocess_p['frame_period'] )
-soundfile.write('p225_001.wav', wav, self.preprocess_p['sr'])
-import librosa
-wav, _ = librosa.load('p225_001_selfconverted.wav', sr=self.preprocess_p['sr'], mono=True)
+decoded_sp = world_decode_mc(mc=coded_sp, fs= 16000)
+wav = world_speech_synthesis(f0=f0, decoded_sp=decoded_sp, ap=ap, fs=16000, frame_period=5.0 )
+soundfile.write('p225_001_selfconverted.wav', wav, 16000)
+
+wav, _ = librosa.load('trash/p225_001_selfconverted.wav', sr=16000, mono=True)
 wav = librosa.util.normalize(wav, norm=np.inf, axis=None)
-f0, timeaxis, sp, ap, mc = world_decompose(wav=wav, fs=self.preprocess_p['sr'], frame_period=self.preprocess_p['frame_period'])
+f0, timeaxis, sp, ap, mc = world_decompose(wav=wav, fs=16000, frame_period=5.0)
 mcd = mcd_cal(coded_sp, mc)
+msd = msd_cal(coded_sp, mc)
+msd
+mcd
 from dtw import dtw
 from performance_measure import dtw as dtw2
 d1, p1 =dtw2(coded_sp[:,1:], mc[:,1:], dist = lambda x,y: 10.0 / np.log(10) * np.sqrt(2.0) * np.sqrt(np.sum((x-y)**2, axis=1)))
@@ -89,16 +124,16 @@ mc.shape
 # et = time.time()
 # print(et-st)
 # coded_sp = np.ascontiguousarray(coded_sp)
-# decoded_sp = world_decode_mc(mc = coded_sp, fs = self.preprocess_p['sr'])
-# wav = world_speech_synthesis(f0=f0, decoded_sp=decoded_sp, ap=ap, fs=self.preprocess_p['sr'], frame_period=self.preprocess_p['frame_period'])
+# decoded_sp = world_decode_mc(mc = coded_sp, fs = 16000)
+# wav = world_speech_synthesis(f0=f0, decoded_sp=decoded_sp, ap=ap, fs=16000, frame_period=5.0)
 # coded_sp.shape
 # f0.shape
 # ap.shape
 # plt.plot(wav)
 # wav1 = np.nan_to_num(wav)
-# librosa.output.write_wav(os.path.join(test_converted_dir, 'test.wav'), wav, sr=self.preprocess_p['sr'])
+# librosa.output.write_wav(os.path.join(test_converted_dir, 'test.wav'), wav, sr=16000)
 # import soundfile
-# soundfile.write(os.path.join(test_converted_dir, 'test.wav'), data=wav, samplerate=self.preprocess_p['sr'])
+# soundfile.write(os.path.join(test_converted_dir, 'test.wav'), data=wav, samplerate=16000)
 # help(soundfile.write)
 # help(librosa.output.write_wav)
 # test_converted_dir
