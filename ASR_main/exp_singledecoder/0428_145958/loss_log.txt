@@ -1,1 +1,0 @@
-epoch loss_VAE loss_KLD loss_rec loss_SI loss_LI loss_AC loss_SC loss_C_KLD loss_C_rec

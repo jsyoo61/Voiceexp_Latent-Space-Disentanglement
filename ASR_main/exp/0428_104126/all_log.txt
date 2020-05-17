@@ -1,2 +1,0 @@
-Epoch:1
-VAE lr:0.001
